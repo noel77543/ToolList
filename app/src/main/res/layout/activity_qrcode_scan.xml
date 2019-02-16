@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <tw.noel.sung.com.toollist.tool.qr_code_scan.util.views.QRCodeScanSurfaceView
+        android:layout_width="match_parent"
+        android:id="@+id/q_r_code_scan_surface_view"
+        android:layout_height="match_parent" />
+
+
+</RelativeLayout>

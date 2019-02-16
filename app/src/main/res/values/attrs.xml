@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="LinkView">
+        <attr name="linkViewPointOuterColor" format="reference|color" />
+        <attr name="linkViewLineColor" format="reference|color" />
+        <attr name="linkViewPointCount" format="reference|integer"/>
+        <attr name="linkViewPointInnerColor" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="BlockPieView">
+        <attr name="blockPieViewProgressWidth" format="reference|dimension" />
+    </declare-styleable>
+
+
+    <declare-styleable name="SimplePieView">
+        <attr name="simplePieViewStartColor" format="reference|color" />
+        <attr name="simplePieViewEndColor" format="reference|color" />
+        <attr name="simplePieViewEmptyColor" format="reference|color" />
+        <attr name="simplePieViewStartAndEndTextSize" format="reference|dimension" />
+        <attr name="simplePieViewStartAndEndTextColor" format="color|dimension" />
+        <attr name="simplePieViewProgressWidth" format="reference|dimension" />
+        <attr name="simplePieViewCurrentProgressTextSize" format="reference|dimension" />
+        <attr name="simplePieViewCurrentProgressTextColor" format="color|dimension" />
+    </declare-styleable>
+
+</resources>

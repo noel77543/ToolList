@@ -6,7 +6,7 @@
     <string name="close">關</string>
 
     <string name="header_ui">UI</string>
-    <string name="header_tool">功能</string>
+    <string name="header_tool">Tool</string>
 
     <string name="toast_permission_refuse">拒絕權限要求,將無法使用此功能。</string>
     <string name="dialog_message_goto_setting">是否前往開啟權限？</string>

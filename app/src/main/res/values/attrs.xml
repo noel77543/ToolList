@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="FlowerButton">
+        <attr name="flowerButtonChildCount" format="reference|integer" />
+
+    </declare-styleable>
+
     <declare-styleable name="LinkView">
         <attr name="linkViewPointOuterColor" format="reference|color" />
         <attr name="linkViewLineColor" format="reference|color" />

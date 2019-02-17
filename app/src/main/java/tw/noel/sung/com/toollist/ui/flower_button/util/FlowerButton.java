@@ -6,6 +6,7 @@ import android.content.Context;
 /**
  * Created by noel on 2018/8/4.
  */
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,10 +19,17 @@ import android.widget.FrameLayout;
 import java.util.HashMap;
 import java.util.Map;
 
+import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.ui.flower_button.util.views.BasicButton;
 
 public class FlowerButton extends FrameLayout implements Runnable, View.OnClickListener {
-    private final int _ANIMATION_DURENT = 100;
+
+    //每顆子button動畫時間
+    private final int ANIMATION_DURATION = 100;
+    //子button數量
+    private final int DEFAULT_CHILD_COUNT = 1;
+    private final int MAIN_BUTTON_ID = 100;
+
     private int layoutWidth;
     private int layoutHeight;
 
@@ -34,29 +42,39 @@ public class FlowerButton extends FrameLayout implements Runnable, View.OnClickL
     private OnChildButtonClickListener onChildButtonClickListener;
     private int childButtonSize;
     private FrameLayout.LayoutParams childButtonParams;
-    private int childCount = 1;
+    private int childCount;
     private Context context;
+    //是否完全展開
     private boolean isShow;
+    //是否執行完畢所有子button動畫
     private boolean isDisplay;
-
-    private final int MAIN_BUTTON_ID = 100;
     //動畫中的項目索引
     private int index = -1;
+
+    public FlowerButton(@NonNull Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
     //----------
 
-    public FlowerButton(@NonNull Context context) {
-        super(context);
+    public FlowerButton(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         this.context = context;
+        initAttr(attrs, defStyleAttr);
+        mainButton = new BasicButton(context);
         post(this);
     }
     //----------
 
-    public FlowerButton(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        this.context = context;
-        mainButton = new BasicButton(context);
-        post(this);
-
+    /***
+     *
+     * @param attrs
+     * @param defStyleAttr
+     */
+    private void initAttr(AttributeSet attrs, int defStyleAttr) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.FlowerButton, defStyleAttr, 0);
+        childCount = typedArray.getInteger(R.styleable.FlowerButton_flowerButtonChildCount, DEFAULT_CHILD_COUNT);
+        childCount = childCount > 8 ? 8 : childCount < 0 ? 1 : childCount;
     }
     //----------
 
@@ -115,7 +133,7 @@ public class FlowerButton extends FrameLayout implements Runnable, View.OnClickL
     public void onClick(View v) {
         //點選主按鈕
         if (mainButton.getId() == v.getId()) {
-            if(!isDisplay){
+            if (!isDisplay) {
                 if (!isShow) {
                     index++;
                     showChildButtons();
@@ -153,7 +171,7 @@ public class FlowerButton extends FrameLayout implements Runnable, View.OnClickL
                     .animate()
                     .translationX(transX)
                     .translationY(transY)
-                    .setDuration(_ANIMATION_DURENT)
+                    .setDuration(ANIMATION_DURATION)
                     .setListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
@@ -195,7 +213,7 @@ public class FlowerButton extends FrameLayout implements Runnable, View.OnClickL
                     .animate()
                     .translationX(0)
                     .translationY(0)
-                    .setDuration(_ANIMATION_DURENT)
+                    .setDuration(ANIMATION_DURATION)
                     .setListener(new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
@@ -226,14 +244,14 @@ public class FlowerButton extends FrameLayout implements Runnable, View.OnClickL
     }
 
 
-    //----------
-
-    /***
-     * 設置子按鈕數
-     */
-    public void setChildCount(int childCount) {
-        this.childCount = childCount > 8 ? 8 : childCount < 0 ? 1 : childCount;
-    }
+//    //----------
+//
+//    /***
+//     * 設置子按鈕數
+//     */
+//    public void setChildCount(int childCount) {
+//        this.childCount = childCount > 8 ? 8 : childCount < 0 ? 1 : childCount;
+//    }
 
     //--------
 
@@ -247,7 +265,7 @@ public class FlowerButton extends FrameLayout implements Runnable, View.OnClickL
     /***
      * 主紐設置文字  子紐設置文字
      */
-    public void setText(String text, String[] textArray) {
+    public void setMainButtonText(String text) {
         mainButton.setText(text);
     }
     //-----

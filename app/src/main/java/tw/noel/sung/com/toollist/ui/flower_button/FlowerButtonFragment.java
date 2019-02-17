@@ -23,7 +23,6 @@ public class FlowerButtonFragment extends BasePageFragment implements FlowerButt
 
     @Override
     protected void init() {
-        flowerButton.setChildCount(8);
         flowerButton.setOnMainButtonClickListener(this);
         flowerButton.setOnChildButtonClickListener(this);
     }

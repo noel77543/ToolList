@@ -36,7 +36,7 @@ public class UIActivity extends FragmentActivity {
     public static final int PAGE_SIMPLE_PIE_VIEW = 103;
     public static final int PAGE_BLOCK_PIE_VIEW = 104;
 
-    @IntDef({})
+    @IntDef({PAGE_FLOWER_BUTTON, PAGE_LINK_VIEW, PAGE_SIMPLE_PIE_VIEW, PAGE_BLOCK_PIE_VIEW})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Page {
     }

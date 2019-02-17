@@ -6,7 +6,7 @@ import tw.noel.sung.com.toollist.R;
 /**
  * Created by noel on 2019/2/16.
  */
-import tw.noel.sung.com.toollist.base.BasePageFragment;
+import tw.noel.sung.com.toollist.BasePageFragment;
 import tw.noel.sung.com.toollist.ui.flower_button.util.FlowerButton;
 
 

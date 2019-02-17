@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/button_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_back"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:id="@+id/text_view_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center|start"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/button_back"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="22sp" />
+
+
+        <ImageView
+            android:id="@+id/image_view_tool"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="0dp"
+            android:contentDescription="@string/app_name" />
+    </RelativeLayout>
+
+    <tw.noel.sung.com.toollist.tool.web.util.CustomWebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

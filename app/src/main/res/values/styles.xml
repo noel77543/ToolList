@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="style_main_tool_box_animation">
+        <item name="android:windowEnterAnimation">@anim/a_anim_main_tool_box_show</item>
+        <item name="android:windowExitAnimation">@anim/a_anim_main_tool_box_hide</item>
+    </style>
+
 </resources>

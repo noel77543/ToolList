@@ -1,7 +1,7 @@
 package tw.noel.sung.com.toollist.ui.link_view;
 
 import butterknife.BindView;
-import tw.noel.sung.com.toollist.base.BasePageFragment;
+import tw.noel.sung.com.toollist.BasePageFragment;
 /**
  * Created by noel on 2019/2/16.
  */

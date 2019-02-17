@@ -1,14 +1,34 @@
 <resources>
     <string name="app_name">Noel工具箱</string>
 
-
+    <!--掃描器 閃光燈開關-->
     <string name="open">開</string>
     <string name="close">關</string>
 
     <string name="header_ui">UI</string>
     <string name="header_tool">Tool</string>
 
+    <!--權限請求-->
     <string name="toast_permission_refuse">拒絕權限要求,將無法使用此功能。</string>
     <string name="dialog_message_goto_setting">是否前往開啟權限？</string>
     <string name="dialog_go">前往</string>
+
+
+
+    <!--web view-->
+    <string name="web_view_loading_message">現正前往%s,請稍後..</string>
+    <string name="web_view_ssl_title">SSL 憑證錯誤</string>
+    <string name="web_view_ssl_message">無法驗證伺服器SSL憑證。\n仍要繼續嗎?</string>
+    <string name="web_view_ssl_toast">請同意憑證,方可使用此功能</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+
+    <!--web activity-->
+    <string name="web_tool_box_refresh">重新整理</string>
+    <string name="web_tool_box_copy">複製連結</string>
+    <string name="web_tool_box_share">分享連結</string>
+    <string name="web_tool_box_open_to">以其他應用開啟</string>
+    <string name="web_tool_box_close">關閉網頁</string>
+    <string name="web_tool_toast_copy">連結已複製</string>
+
 </resources>

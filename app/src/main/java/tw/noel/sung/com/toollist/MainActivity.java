@@ -38,6 +38,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 import tw.noel.sung.com.toollist.adapter.MainExpandableListViewAdapter;
 import tw.noel.sung.com.toollist.tool.qr_code_scan.QRCodeScanActivity;
+import tw.noel.sung.com.toollist.tool.web.WebActivity;
 import tw.noel.sung.com.toollist.ui.UIActivity;
 
 
@@ -127,6 +128,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
 
         ArrayList<String> childrenTool = new ArrayList<>();
         childrenTool.add("1. QRCode Scanner");
+        childrenTool.add("2. CustomWebViewActivity");
 
         allChildren.add(childrenUI);
         allChildren.add(childrenTool);
@@ -219,6 +221,10 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
                 case 0:
                     permissionActionType = PERMISSION_OPEN_QRCODE_SCANNER;
                     MainActivityPermissionsDispatcher.onPermissionAllowedWithPermissionCheck(this);
+                    break;
+                //custom web view activity
+                case 1:
+                    startActivity(new Intent(this, WebActivity.class));
                     break;
             }
         }

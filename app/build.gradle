@@ -27,12 +27,15 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     //ButterKnife
-    implementation 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //Zxing
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
     //permission dispatcher
     implementation 'com.github.hotchemi:permissionsdispatcher:3.1.0'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.1.0'
+    //recycler view
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+
 }

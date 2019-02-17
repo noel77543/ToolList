@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="web_tool_box_items">
+        <item>@string/web_tool_box_refresh</item>
+        <item>@string/web_tool_box_copy</item>
+        <item>@string/web_tool_box_share</item>
+        <item>@string/web_tool_box_open_to</item>
+        <item>@string/web_tool_box_close</item>
+    </string-array>
+</resources>

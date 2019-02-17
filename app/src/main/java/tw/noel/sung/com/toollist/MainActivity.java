@@ -128,7 +128,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
 
         ArrayList<String> childrenTool = new ArrayList<>();
         childrenTool.add("1. QRCode Scanner");
-        childrenTool.add("2. CustomWebViewActivity");
+        childrenTool.add("2. CustomWebView");
 
         allChildren.add(childrenUI);
         allChildren.add(childrenTool);

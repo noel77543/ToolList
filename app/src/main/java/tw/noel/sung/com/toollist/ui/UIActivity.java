@@ -22,6 +22,7 @@ import tw.noel.sung.com.toollist.ui.block_pie_view.BlockPieFragment;
 import tw.noel.sung.com.toollist.ui.flower_button.FlowerButtonFragment;
 import tw.noel.sung.com.toollist.ui.link_view.LinkViewFragment;
 import tw.noel.sung.com.toollist.ui.simple_pie_view.SimplePieViewFragment;
+import tw.noel.sung.com.toollist.ui.wave_progress_view.RoundProgressViewFragment;
 
 public class UIActivity extends FragmentActivity {
 
@@ -35,8 +36,9 @@ public class UIActivity extends FragmentActivity {
     public static final int PAGE_LINK_VIEW = 102;
     public static final int PAGE_SIMPLE_PIE_VIEW = 103;
     public static final int PAGE_BLOCK_PIE_VIEW = 104;
+    public static final int PAGE_ROUND_PRPGRESS_VIEW = 105;
 
-    @IntDef({PAGE_FLOWER_BUTTON, PAGE_LINK_VIEW, PAGE_SIMPLE_PIE_VIEW, PAGE_BLOCK_PIE_VIEW})
+    @IntDef({PAGE_FLOWER_BUTTON, PAGE_LINK_VIEW, PAGE_SIMPLE_PIE_VIEW, PAGE_BLOCK_PIE_VIEW, PAGE_ROUND_PRPGRESS_VIEW})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Page {
     }
@@ -73,6 +75,9 @@ public class UIActivity extends FragmentActivity {
                 break;
             case PAGE_BLOCK_PIE_VIEW:
                 fragment = new BlockPieFragment();
+                break;
+            case PAGE_ROUND_PRPGRESS_VIEW:
+                fragment = new RoundProgressViewFragment();
                 break;
         }
         if (fragment != null) {

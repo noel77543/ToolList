@@ -248,7 +248,7 @@ public class SimplePieView extends android.support.v7.widget.AppCompatImageView 
     private void startAnimation() {
         ValueAnimator animator = ValueAnimator.ofFloat(0, progressTarget / 100f * 180);
         //設置時長
-        animator.setDuration(ANIMATION_TIME_MILLIS).start();
+        animator.setDuration(ANIMATION_TIME_MILLIS);
         //設置加速器
         animator.setInterpolator(new AccelerateInterpolator());
         animator.addUpdateListener(this);

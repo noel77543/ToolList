@@ -124,7 +124,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         childrenUI.add("2. LinkView");
         childrenUI.add("3. SimplePieView");
         childrenUI.add("4. BlockPieView");
-
+        childrenUI.add("5. RoundProgressView");
 
         ArrayList<String> childrenTool = new ArrayList<>();
         childrenTool.add("1. QRCode Scanner");
@@ -209,6 +209,10 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
                 //BlockPieView
                 case 3:
                     intent.putExtra(KEY_PAGE, UIActivity.PAGE_BLOCK_PIE_VIEW);
+                    break;
+                //WaveProgressVIew
+                case 4:
+                    intent.putExtra(KEY_PAGE, UIActivity.PAGE_ROUND_PRPGRESS_VIEW);
                     break;
             }
             intent.putExtra(KEY_TITLE, (String) parent.getExpandableListAdapter().getChild(groupPosition, childPosition));

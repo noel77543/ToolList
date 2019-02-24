@@ -9,7 +9,7 @@
     <declare-styleable name="LinkView">
         <attr name="linkViewPointOuterColor" format="reference|color" />
         <attr name="linkViewLineColor" format="reference|color" />
-        <attr name="linkViewPointCount" format="reference|integer"/>
+        <attr name="linkViewPointCount" format="reference|integer" />
         <attr name="linkViewPointInnerColor" format="reference|color" />
     </declare-styleable>
 
@@ -23,10 +23,22 @@
         <attr name="simplePieViewEndColor" format="reference|color" />
         <attr name="simplePieViewEmptyColor" format="reference|color" />
         <attr name="simplePieViewStartAndEndTextSize" format="reference|dimension" />
-        <attr name="simplePieViewStartAndEndTextColor" format="color|dimension" />
+        <attr name="simplePieViewStartAndEndTextColor" format="reference|color" />
         <attr name="simplePieViewProgressWidth" format="reference|dimension" />
         <attr name="simplePieViewCurrentProgressTextSize" format="reference|dimension" />
-        <attr name="simplePieViewCurrentProgressTextColor" format="color|dimension" />
+        <attr name="simplePieViewCurrentProgressTextColor" format="reference|color" />
     </declare-styleable>
+
+
+    <declare-styleable name="RoundProgressView">
+        <attr name="roundProgressViewOutsideLineColor" format="reference|color" />
+        <attr name="roundProgressViewAnimationTime" format="reference|dimension" />
+        <attr name="roundProgressViewOutsideLineWidth" format="reference|dimension" />
+        <attr name="roundProgressViewInnerCircleColor" format="reference|color" />
+        <attr name="roundProgressViewInnerCircleProgressTextColor" format="reference|color" />
+        <attr name="roundProgressViewInnerCircleProgressTextSize" format="reference|dimension" />
+        <attr name="roundProgressViewProgressCircleColor" format="reference|color" />
+    </declare-styleable>
+
 
 </resources>

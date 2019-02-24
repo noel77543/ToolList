@@ -1,4 +1,4 @@
-package tw.noel.sung.com.toollist.ui.wave_progress_view;
+package tw.noel.sung.com.toollist.ui.round_progress_view;
 
 import butterknife.BindView;
 import tw.noel.sung.com.toollist.BasePageFragment;
@@ -6,7 +6,7 @@ import tw.noel.sung.com.toollist.BasePageFragment;
  * Created by noel on 2019/2/24.
  */
 import tw.noel.sung.com.toollist.R;
-import tw.noel.sung.com.toollist.ui.wave_progress_view.util.RoundProgressView;
+import tw.noel.sung.com.toollist.ui.round_progress_view.util.RoundProgressView;
 
 public class RoundProgressViewFragment extends BasePageFragment{
 

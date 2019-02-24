@@ -22,7 +22,7 @@ import tw.noel.sung.com.toollist.ui.block_pie_view.BlockPieFragment;
 import tw.noel.sung.com.toollist.ui.flower_button.FlowerButtonFragment;
 import tw.noel.sung.com.toollist.ui.link_view.LinkViewFragment;
 import tw.noel.sung.com.toollist.ui.simple_pie_view.SimplePieViewFragment;
-import tw.noel.sung.com.toollist.ui.wave_progress_view.RoundProgressViewFragment;
+import tw.noel.sung.com.toollist.ui.round_progress_view.RoundProgressViewFragment;
 
 public class UIActivity extends FragmentActivity {
 

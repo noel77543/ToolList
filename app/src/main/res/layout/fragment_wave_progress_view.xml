@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center">
 
-    <tw.noel.sung.com.toollist.ui.wave_progress_view.util.RoundProgressView
+    <tw.noel.sung.com.toollist.ui.round_progress_view.util.RoundProgressView
         android:id="@+id/wave_progress_view"
         android:layout_width="300dp"
         android:layout_height="300dp" />

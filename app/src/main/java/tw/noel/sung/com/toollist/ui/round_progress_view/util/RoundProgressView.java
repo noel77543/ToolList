@@ -251,9 +251,9 @@ public class RoundProgressView extends android.support.v7.widget.AppCompatImageV
     //-----------------
 
     /***
-     * 設置進度
+     * 動態 設置進度
      */
-    public void setProgress(float target, float total) {
+    public void setProgressDynamically(float target, float total) {
         if (target <= total) {
             this.total = total;
             ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, target);
@@ -267,4 +267,17 @@ public class RoundProgressView extends android.support.v7.widget.AppCompatImageV
             Log.e(RoundProgressView.class.getSimpleName(), "total不得小於target");
         }
     }
+
+    //-----------------
+
+    /***
+     * 靜態 設置進度
+     */
+    public void setProgress(float target, float total){
+        this.total = total;
+        this.current = target;
+        invalidate();
+    }
+
+
 }

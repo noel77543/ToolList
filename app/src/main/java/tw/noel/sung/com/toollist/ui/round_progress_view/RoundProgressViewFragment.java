@@ -20,7 +20,7 @@ public class RoundProgressViewFragment extends BasePageFragment{
 
     @Override
     protected void init() {
-
-        roundProgressView.setProgress(833.61f,1000);
+        roundProgressView.setProgressDynamically(833.61f,1000);
+//        roundProgressView.setProgress(833.61f,1000);
     }
 }

@@ -25,6 +25,8 @@ import android.widget.Toast;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -37,6 +39,8 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 import tw.noel.sung.com.toollist.adapter.MainExpandableListViewAdapter;
+import tw.noel.sung.com.toollist.tool.connect.ZConnect;
+import tw.noel.sung.com.toollist.tool.connect.util.implement.ConnectCallback;
 import tw.noel.sung.com.toollist.tool.qr_code_scan.QRCodeScanActivity;
 import tw.noel.sung.com.toollist.tool.web.WebActivity;
 import tw.noel.sung.com.toollist.ui.UIActivity;
@@ -49,6 +53,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     TextView textViewTitle;
     @BindView(R.id.expandable_list_view)
     ExpandableListView expandableListView;
+
 
     //計時器
     private Timer timer;
@@ -78,6 +83,8 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     private @PermissionActionType
     int permissionActionType;
 
+//    private String url = "http://data.ntpc.gov.tw/od/data/api/18621BF3-6B00-4A07-B49C-0C5CCABFE026";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +92,19 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         ButterKnife.bind(this);
         initTitleAnimation();
         initExpandableListView();
+
+//        ZConnect zConnect = new ZConnect(this);
+//        zConnect.get(url, new ConnectCallback() {
+//            @Override
+//            public void onSuccess(String jsonString, int code) {
+//                Toast.makeText(MainActivity.this, jsonString, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailed() {
+//                Toast.makeText(MainActivity.this, "FAILED", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
 

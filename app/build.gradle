@@ -11,8 +11,21 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        //正式版
         release {
+            //補充app id
+            applicationIdSuffix ".PROD"
+            //程式碼混淆
+            minifyEnabled true
+            //刪除無效的Resource，依賴於minifyEnabled，必須和minifyEnabled一起用
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        //測試版
+        debug {
+            applicationIdSuffix ".STA"
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -32,6 +45,10 @@ dependencies {
     //Zxing
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
+    //Gson
+    implementation 'com.google.code.gson:gson:2.+'
+    //okHttp
+    implementation 'com.squareup.okhttp3:okhttp:3.11.+'
     //permission dispatcher
     implementation 'com.github.hotchemi:permissionsdispatcher:3.1.0'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.1.0'

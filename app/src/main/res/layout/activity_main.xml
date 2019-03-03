@@ -16,11 +16,11 @@
 
     <ExpandableListView
         android:id="@+id/expandable_list_view"
-        android:groupIndicator="@null"
-        android:childDivider="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:childDivider="@android:color/transparent"
+        android:groupIndicator="@null" />
 
 
 </LinearLayout>

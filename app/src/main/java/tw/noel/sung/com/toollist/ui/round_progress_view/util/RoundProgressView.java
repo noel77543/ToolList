@@ -81,13 +81,6 @@ public class RoundProgressView extends android.support.v7.widget.AppCompatImageV
     private float current;
 
 
-    //波浪路徑
-    private Path wavePath;
-    //波浪長度
-    private int waveWidth;
-    //波浪數量
-    private int mWaveCount;
-
     //-------------
     public RoundProgressView(Context context) {
         this(context, null);
@@ -129,7 +122,6 @@ public class RoundProgressView extends android.support.v7.widget.AppCompatImageV
         pointF = new PointF();
         rectF = new RectF();
         path = new Path();
-        wavePath = new Path();
     }
 
     //------------

@@ -26,6 +26,11 @@
 ![5.RoundProgressView](https://github.com/noel77543/Images-Gifs/blob/master/RoundProgressView.gif)
 
 
+- LotteryView
+
+![6.LotteryView](https://github.com/noel77543/Images-Gifs/blob/master/LotteryView.gif)
+
+
 ### Tool:
 
 - QRCodeScanner

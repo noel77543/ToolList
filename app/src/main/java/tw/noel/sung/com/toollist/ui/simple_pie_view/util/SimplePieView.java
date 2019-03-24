@@ -1,6 +1,9 @@
 package tw.noel.sung.com.toollist.ui.simple_pie_view.util;
 
 import android.animation.ValueAnimator;
+/**
+ * Created by noel on 2018/12/15.
+ */
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -13,14 +16,9 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
 import tw.noel.sung.com.toollist.R;
-
-/**
- * Created by noel on 2018/12/15.
- */
 
 public class SimplePieView extends android.support.v7.widget.AppCompatImageView implements ValueAnimator.AnimatorUpdateListener {
 

@@ -21,6 +21,7 @@ import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.ui.block_pie_view.BlockPieFragment;
 import tw.noel.sung.com.toollist.ui.flower_button.FlowerButtonFragment;
 import tw.noel.sung.com.toollist.ui.link_view.LinkViewFragment;
+import tw.noel.sung.com.toollist.ui.loterry_view.LotteryViewFragment;
 import tw.noel.sung.com.toollist.ui.simple_pie_view.SimplePieViewFragment;
 import tw.noel.sung.com.toollist.ui.round_progress_view.RoundProgressViewFragment;
 
@@ -36,9 +37,10 @@ public class UIActivity extends FragmentActivity {
     public static final int PAGE_LINK_VIEW = 102;
     public static final int PAGE_SIMPLE_PIE_VIEW = 103;
     public static final int PAGE_BLOCK_PIE_VIEW = 104;
-    public static final int PAGE_ROUND_PRPGRESS_VIEW = 105;
+    public static final int PAGE_ROUND_PROGRESS_VIEW = 105;
+    public static final int PAGE_LOTTERY_VIEW = 106;
 
-    @IntDef({PAGE_FLOWER_BUTTON, PAGE_LINK_VIEW, PAGE_SIMPLE_PIE_VIEW, PAGE_BLOCK_PIE_VIEW, PAGE_ROUND_PRPGRESS_VIEW})
+    @IntDef({PAGE_FLOWER_BUTTON, PAGE_LINK_VIEW, PAGE_SIMPLE_PIE_VIEW, PAGE_BLOCK_PIE_VIEW, PAGE_ROUND_PROGRESS_VIEW, PAGE_LOTTERY_VIEW})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Page {
     }
@@ -76,8 +78,11 @@ public class UIActivity extends FragmentActivity {
             case PAGE_BLOCK_PIE_VIEW:
                 fragment = new BlockPieFragment();
                 break;
-            case PAGE_ROUND_PRPGRESS_VIEW:
+            case PAGE_ROUND_PROGRESS_VIEW:
                 fragment = new RoundProgressViewFragment();
+                break;
+            case PAGE_LOTTERY_VIEW:
+                fragment = new LotteryViewFragment();
                 break;
         }
         if (fragment != null) {

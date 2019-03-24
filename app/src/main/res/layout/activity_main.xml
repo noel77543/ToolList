@@ -22,5 +22,4 @@
         android:childDivider="@android:color/transparent"
         android:groupIndicator="@null" />
 
-
 </LinearLayout>

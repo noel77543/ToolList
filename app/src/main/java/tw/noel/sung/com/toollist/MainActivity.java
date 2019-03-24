@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+
 import android.net.Uri;
 import android.os.Bundle;
 /**
@@ -16,8 +17,11 @@ import android.support.v4.app.FragmentActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
+
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,7 +91,6 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         initExpandableListView();
     }
 
-
     //-------------
 
     /***
@@ -125,6 +128,8 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         childrenUI.add("3. SimplePieView");
         childrenUI.add("4. BlockPieView");
         childrenUI.add("5. RoundProgressView");
+        childrenUI.add("6. LotteryView");
+
 
         ArrayList<String> childrenTool = new ArrayList<>();
         childrenTool.add("1. QRCode Scanner");
@@ -210,9 +215,12 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
                 case 3:
                     intent.putExtra(KEY_PAGE, UIActivity.PAGE_BLOCK_PIE_VIEW);
                     break;
-                //WaveProgressVIew
+                //RoundProgressVIew
                 case 4:
-                    intent.putExtra(KEY_PAGE, UIActivity.PAGE_ROUND_PRPGRESS_VIEW);
+                    intent.putExtra(KEY_PAGE, UIActivity.PAGE_ROUND_PROGRESS_VIEW);
+                    break;
+                case 5:
+                    intent.putExtra(KEY_PAGE, UIActivity.PAGE_LOTTERY_VIEW);
                     break;
             }
             intent.putExtra(KEY_TITLE, (String) parent.getExpandableListAdapter().getChild(groupPosition, childPosition));

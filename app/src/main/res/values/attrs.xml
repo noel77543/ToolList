@@ -40,5 +40,11 @@
         <attr name="roundProgressViewProgressCircleColor" format="reference|color" />
     </declare-styleable>
 
+    <declare-styleable name="LotteryView">
+        <attr name="lotteryViewScratchSize" format="reference|dimension"/>
+
+    </declare-styleable>
+
+
 
 </resources>

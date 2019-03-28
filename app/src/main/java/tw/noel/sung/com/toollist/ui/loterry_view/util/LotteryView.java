@@ -15,7 +15,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import tw.noel.sung.com.toollist.R;
@@ -181,7 +180,6 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
                 }
             }
         }
-        Log.e("AA", ((int) (drawArea * 100 / totalArea)) + "");
         return (int) (drawArea * 100 / totalArea);
     }
 

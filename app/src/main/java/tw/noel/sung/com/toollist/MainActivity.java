@@ -17,11 +17,9 @@ import android.support.v4.app.FragmentActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +41,7 @@ import tw.noel.sung.com.toollist.adapter.MainExpandableListViewAdapter;
 import tw.noel.sung.com.toollist.tool.qr_code_scan.QRCodeScanActivity;
 import tw.noel.sung.com.toollist.tool.web.WebActivity;
 import tw.noel.sung.com.toollist.ui.UIActivity;
+import tw.noel.sung.com.toollist.ui.dice_view.DiceView;
 
 
 @RuntimePermissions
@@ -52,7 +51,8 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     TextView textViewTitle;
     @BindView(R.id.expandable_list_view)
     ExpandableListView expandableListView;
-
+    @BindView(R.id.flip_view)
+    DiceView diceView;
 
     //計時器
     private Timer timer;
@@ -89,6 +89,8 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         ButterKnife.bind(this);
         initTitleAnimation();
         initExpandableListView();
+
+
     }
 
     //-------------

@@ -1,15 +1,13 @@
 package tw.noel.sung.com.toollist.ui.loterry_view.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 /**
  * Created by noel on 2019/3/24.
  */
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -17,9 +15,11 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import tw.noel.sung.com.toollist.R;
+import tw.noel.sung.com.toollist.ui.loterry_view.util.implement.OnScratchListener;
 
 public class LotteryView extends android.support.v7.widget.AppCompatImageView {
 
@@ -36,6 +36,19 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
     private Context context;
     private boolean isSetCoverFinish = false;
     private Bitmap bitmap;
+
+    private int[] pixels;
+    //目前刮除的pixel
+    private float drawArea = 0;
+    //整個LotteryView的的Pixel
+    private float totalArea = 0;
+    private int viewHeight;
+    private int viewWidth;
+    private OnScratchListener onScratchListener;
+    //預設完全刮除才觸發完成刮刮樂接口
+    private int scratchedPercent = 100;
+    //當finish時不允許繼續刮刮樂
+    private boolean isScratch = true;
 
     public LotteryView(Context context) {
         this(context, null);
@@ -93,13 +106,23 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
         }
         canvas.drawBitmap(foregroundBitmap, 0, 0, null);
         foregroundCanvas.drawPath(path, paint);
+
+
+        viewWidth = getWidth();
+        viewHeight = getHeight();
+        if (onScratchListener != null) {
+            if (scratchedPercent == getDrawAreaPercent()) {
+                isScratch = false;
+                onScratchListener.OnScratchFinish();
+            }
+        }
     }
 
     //--------------
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (foregroundCanvas != null) {
+        if (foregroundCanvas != null && isScratch) {
             float x = event.getX();
             float y = event.getY();
             switch (event.getAction()) {
@@ -111,6 +134,9 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
 
                 case MotionEvent.ACTION_MOVE:
                     path.lineTo(x, y);
+                    if (onScratchListener != null) {
+                        onScratchListener.OnScratching();
+                    }
                     invalidate();
                     break;
                 case MotionEvent.ACTION_UP:
@@ -120,6 +146,43 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
             }
         }
         return true;
+    }
+
+    //--------------
+
+    /***
+     *  清空上層圖片
+     *  自行決定是否當finish時使用
+     */
+    public void clear() {
+        foregroundCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+    }
+
+
+    //--------------
+
+    /***
+     *  取得繪製的百分比
+     */
+    private int getDrawAreaPercent() {
+        drawArea = 0;
+        totalArea = viewWidth * viewHeight;
+
+        pixels = new int[viewWidth * viewHeight];
+
+        // 獲取所有像素的資訊
+        foregroundBitmap.getPixels(pixels, 0, viewWidth, 0, 0, viewWidth, viewHeight);
+        // 統計所有刮開的區域
+        for (int i = 0; i < viewWidth; i++) {
+            for (int j = 0; j < viewHeight; j++) {
+                int index = i + j * viewWidth;
+                if (pixels[index] == 0) {
+                    drawArea++;
+                }
+            }
+        }
+        Log.e("AA", ((int) (drawArea * 100 / totalArea)) + "");
+        return (int) (drawArea * 100 / totalArea);
     }
 
     //------------
@@ -140,4 +203,15 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
         setBackground(new BitmapDrawable(getResources(), bitmap));
     }
 
+    //-----------
+
+    /***
+     *  對外接口
+     *  @param onScratchListener
+     *  @param scratchedPercent  刮除的百分比
+     */
+    public void setOnScratchListener(int scratchedPercent, OnScratchListener onScratchListener) {
+        this.scratchedPercent = scratchedPercent;
+        this.onScratchListener = onScratchListener;
+    }
 }

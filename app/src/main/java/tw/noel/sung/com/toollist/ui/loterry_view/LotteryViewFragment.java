@@ -3,6 +3,7 @@ package tw.noel.sung.com.toollist.ui.loterry_view;
 
 
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import butterknife.BindView;
 /**
@@ -11,6 +12,7 @@ import butterknife.BindView;
 import tw.noel.sung.com.toollist.BasePageFragment;
 import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.ui.loterry_view.util.LotteryView;
+import tw.noel.sung.com.toollist.ui.loterry_view.util.implement.OnScratchListener;
 
 
 public class LotteryViewFragment extends BasePageFragment {
@@ -27,6 +29,18 @@ public class LotteryViewFragment extends BasePageFragment {
     protected void init() {
         lotteryView.setScratchImage(BitmapFactory.decodeResource(getResources(), R.drawable.img_scratch));
         lotteryView.setRewardImage(BitmapFactory.decodeResource(getResources(), R.drawable.img_reward));
+        lotteryView.setOnScratchListener(50, new OnScratchListener() {
+            @Override
+            public void OnScratching() {
+                Log.e("OnScratching","OnScratching");
+            }
+
+            @Override
+            public void OnScratchFinish() {
+                Log.e("OnScratchFinish","OnScratchFinish");
+
+            }
+        });
     }
 
 

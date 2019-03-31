@@ -185,16 +185,16 @@ public class DiceView extends ViewGroup {
                 velocityTracker.computeCurrentVelocity(1000);
 
                 float yVelocity = velocityTracker.getYVelocity();
-                //滑动的速度大于规定的速度，或者向上滑动时，上一页页面展现出的高度超过1/2。则设定状态为STATE_PRE
+                //滑動的速度大於規定的速度，或者向上滑動時，上一頁頁面展杏初的高度超過1/2，則設定狀態為STATE_PRE
                 if (yVelocity > MAX_SPEED || ((getScrollY() + viewHeight / 2) / viewHeight < startIndex)) {
                     currentState = STATE_PRE;
                 } else if (yVelocity < -MAX_SPEED || ((getScrollY() + viewHeight / 2) / viewHeight > startIndex)) {
-                    //滑动的速度大于规定的速度，或者向下滑动时，下一页页面展现出的高度超过1/2。则设定状态为STATE_NEXT
+                    // 滑動的速度大於規定的速度，或者向下滑動時，下一頁頁面展現出的高度超過1/2，則設定狀態為STATE_NEXT
                     currentState = STATE_NEXT;
                 } else {
                     currentState = STATE_NORMAL;
                 }
-                //根据STATE进行相应的变化
+                // 根據STATE進行對應的變化
                 changeByState(currentState);
                 if (velocityTracker != null) {
                     velocityTracker.recycle();
@@ -202,7 +202,6 @@ public class DiceView extends ViewGroup {
                 }
                 break;
         }
-        //返回true,消耗点击事件
         return true;
     }
 
@@ -260,7 +259,7 @@ public class DiceView extends ViewGroup {
     }
 
     /**
-     * 当前页
+     *  當前頁
      */
     private void toNormalAction() {
         int startY;
@@ -273,18 +272,18 @@ public class DiceView extends ViewGroup {
     }
 
     /**
-     * 上一页
+     * 上一頁
      */
     private void toPrePager() {
         int startY;
         int delta;
         int duration;
-        //增加新的页面
+        //增加新的頁面
         setPrevious();
-        //mScroller开始的坐标
+        //scroller起始座標
         startY = getScrollY() + viewHeight;
         setScrollY(startY);
-        //mScroller移动的距离
+        //scroller移動的距離
         delta = -(startY - startIndex * viewHeight);
         duration = (Math.abs(delta)) * 2;
         scroller.startScroll(0, startY, 0, delta, duration);
@@ -334,18 +333,17 @@ public class DiceView extends ViewGroup {
     }
 
     /**
-     * 画单个页面
-     *
+     *繪製單個頁面
      * @param canvas
      * @param screen
      * @param drawingTime
      */
     private void drawScreen(Canvas canvas, int screen, long drawingTime) {
-        // 得到当前子View的高度
+        // 得到當前子View的高度
         final int height = getHeight();
         final int scrollHeight = screen * height;
         final int scrollY = this.getScrollY();
-        // 偏移量不足的时
+        // 如果偏移量不足
         if (scrollHeight > scrollY + height || scrollHeight + height < scrollY) {
             return;
         }

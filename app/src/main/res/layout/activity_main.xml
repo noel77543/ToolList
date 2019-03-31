@@ -22,32 +22,32 @@
         android:childDivider="@android:color/transparent"
         android:groupIndicator="@null" />
 
-    <tw.noel.sung.com.toollist.ui.dice_view.DiceView
-        android:id="@+id/flip_view"
-        android:layout_height="100dp"
-        android:layout_width="100dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_gravity="center">
+    <!--<tw.noel.sung.com.toollist.ui.dice_view.DiceView-->
+        <!--android:id="@+id/dice_view"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:layout_gravity="center">-->
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/img_bear" />
+        <!--<ImageView-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:background="@drawable/img_bear" />-->
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/img_cat" />
+        <!--<ImageView-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:background="@drawable/img_cat" />-->
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/img_dog" />
+        <!--<ImageView-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:background="@drawable/img_dog" />-->
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/img_fox" />
-    </tw.noel.sung.com.toollist.ui.dice_view.DiceView>
+        <!--<ImageView-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:background="@drawable/img_fox" />-->
+    <!--</tw.noel.sung.com.toollist.ui.dice_view.DiceView>-->
 </LinearLayout>

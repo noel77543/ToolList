@@ -52,8 +52,8 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     TextView textViewTitle;
     @BindView(R.id.expandable_list_view)
     ExpandableListView expandableListView;
-    @BindView(R.id.flip_view)
-    DiceView diceView;
+//    @BindView(R.id.dice_view)
+//    DiceView diceView;
 
     //計時器
     private Timer timer;

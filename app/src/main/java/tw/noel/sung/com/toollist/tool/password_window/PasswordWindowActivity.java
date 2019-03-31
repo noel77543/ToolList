@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +41,6 @@ public class PasswordWindowActivity extends FragmentActivity implements Password
 
     @Override
     public void onInputFinished(String password) {
-        Log.e("TTT", password);
+        Toast.makeText(this, "password = "+password, Toast.LENGTH_SHORT).show();
     }
 }

@@ -45,4 +45,4 @@
 
 - PasswordWindow
 
-![2.PasswordWindow](https://github.com/noel77543/Images-Gifs/blob/master/PasswordWindow.gif)
+![3.PasswordWindow](https://github.com/noel77543/Images-Gifs/blob/master/PasswordWindow.gif)

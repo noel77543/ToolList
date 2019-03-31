@@ -80,7 +80,7 @@ public class ToolBoxPopupWindow extends BasicPopupWindow implements ToolBoxAdapt
 
     @Override
     protected int getContentLayoutId() {
-        return R.layout.popup_window_tool_box;
+        return R.layout.window_tool_box;
     }
     //-----------
 

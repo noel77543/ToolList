@@ -10,8 +10,13 @@
 
 
     <style name="style_main_tool_box_animation">
-        <item name="android:windowEnterAnimation">@anim/a_anim_main_tool_box_show</item>
-        <item name="android:windowExitAnimation">@anim/a_anim_main_tool_box_hide</item>
+        <item name="android:windowEnterAnimation">@anim/anim_main_tool_box_show</item>
+        <item name="android:windowExitAnimation">@anim/anim_main_tool_box_hide</item>
     </style>
 
+    <!--從下而上的動畫-->
+    <style name="animation_window" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_window_enter</item>
+        <item name="android:windowExitAnimation">@anim/anim_window_exit</item>
+    </style>
 </resources>

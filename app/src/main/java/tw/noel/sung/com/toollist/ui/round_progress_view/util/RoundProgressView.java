@@ -12,9 +12,11 @@ import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 
 import java.math.BigDecimal;
@@ -22,7 +24,7 @@ import java.math.RoundingMode;
 
 import tw.noel.sung.com.toollist.R;
 
-public class RoundProgressView extends android.support.v7.widget.AppCompatImageView implements ValueAnimator.AnimatorUpdateListener {
+public class RoundProgressView extends android.support.v7.widget.AppCompatImageView implements ValueAnimator.AnimatorUpdateListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     //預設- 動畫時間
     private final int DEFAULT_ANIMATION_TIME = 3000;
@@ -80,6 +82,7 @@ public class RoundProgressView extends android.support.v7.widget.AppCompatImageV
     //當前
     private float current;
 
+    private boolean isFinish=false;
 
     //-------------
     public RoundProgressView(Context context) {
@@ -122,15 +125,24 @@ public class RoundProgressView extends android.support.v7.widget.AppCompatImageV
         pointF = new PointF();
         rectF = new RectF();
         path = new Path();
+        getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
 
-    //------------
 
-    @SuppressLint("DrawAllocation")
+    //---------
+
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        viewWidth = MeasureSpec.getSize(widthMeasureSpec);
-        viewHeight = MeasureSpec.getSize(heightMeasureSpec);
+    public void onGlobalLayout() {
+        if (Build.VERSION.SDK_INT >= 16) {
+            getViewTreeObserver()
+                    .removeOnGlobalLayoutListener(this);
+        } else {
+            getViewTreeObserver()
+                    .removeGlobalOnLayoutListener(this);
+        }
+
+        viewWidth =getWidth();
+        viewHeight = getHeight();
 
         //使維持正方形
         if (viewWidth > viewHeight) {
@@ -138,7 +150,6 @@ public class RoundProgressView extends android.support.v7.widget.AppCompatImageV
         } else {
             viewHeight = viewWidth;
         }
-        setMeasuredDimension(viewWidth, viewHeight);
 
         outsideCircleRadius = (viewWidth - outsideLineWidth / 2) / 2;
         radius = outsideCircleRadius - outsideLineWidth / 2;
@@ -151,7 +162,9 @@ public class RoundProgressView extends android.support.v7.widget.AppCompatImageV
         setImageBitmap(bitmap);
 
         drawOutsideCircle();
+
     }
+
 
     //----------------
 
@@ -211,7 +224,6 @@ public class RoundProgressView extends android.support.v7.widget.AppCompatImageV
         path.addArc(rectF, startAngle, sweepAngle);
         path.close();
 
-
         backgroundPaint.setStyle(Paint.Style.FILL);
         backgroundPaint.setColor(progressCircleColor);
         backgroundCanvas.drawPath(path, backgroundPaint);
@@ -226,12 +238,13 @@ public class RoundProgressView extends android.support.v7.widget.AppCompatImageV
         //取小數第二位
         String percent = new BigDecimal((double) (current / total * 100)).setScale(2, RoundingMode.HALF_UP).toString() + "%";
 
-        textPaint.setTextSize(innerRadius / 2);
+        textPaint.setTextSize(innerRadius / 3);
         textPaint.setStyle(Paint.Style.FILL);
         textPaint.setColor(innerCircleProgressTextColor);
         textPaint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(percent, canvas.getWidth() / 2, (int) ((canvas.getHeight() / 2) - ((textPaint.descent() + textPaint.ascent()) / 2)), textPaint);
     }
+
     //-----------------
 
     @Override

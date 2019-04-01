@@ -8,11 +8,13 @@ import android.content.Context;
  */
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
@@ -22,7 +24,7 @@ import java.util.Map;
 import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.ui.flower_button.util.views.BasicButton;
 
-public class FlowerButton extends FrameLayout implements Runnable, View.OnClickListener {
+public class FlowerButton extends FrameLayout implements View.OnClickListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     //每顆子button動畫時間
     private final int ANIMATION_DURATION = 100;
@@ -60,9 +62,23 @@ public class FlowerButton extends FrameLayout implements Runnable, View.OnClickL
     public FlowerButton(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        initAttr(attrs, defStyleAttr);
         mainButton = new BasicButton(context);
-        post(this);
+
+        initAttr(attrs, defStyleAttr);
+        getViewTreeObserver().addOnGlobalLayoutListener(this);
+    }
+    //----------
+
+    @Override
+    public void onGlobalLayout() {
+        if (Build.VERSION.SDK_INT >= 16) {
+            getViewTreeObserver()
+                    .removeOnGlobalLayoutListener(this);
+        } else {
+            getViewTreeObserver()
+                    .removeGlobalOnLayoutListener(this);
+        }
+        addMainButton();
     }
     //----------
 
@@ -76,17 +92,7 @@ public class FlowerButton extends FrameLayout implements Runnable, View.OnClickL
         childCount = typedArray.getInteger(R.styleable.FlowerButton_flowerButtonChildCount, DEFAULT_CHILD_COUNT);
         childCount = childCount > 8 ? 8 : childCount < 0 ? 1 : childCount;
     }
-    //----------
 
-    @Override
-    public void run() {
-        init();
-    }
-
-    //----------
-    private void init() {
-        addMainButton();
-    }
 
     //-------
 
@@ -302,6 +308,7 @@ public class FlowerButton extends FrameLayout implements Runnable, View.OnClickL
     public void setBackgroundResource(int imgRes) {
         mainButton.setBackgroundResource(imgRes);
     }
+
 
     //-------
     public interface OnMainButtonClickListener {

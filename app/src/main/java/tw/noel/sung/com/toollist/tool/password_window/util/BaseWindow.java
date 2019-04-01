@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 
 public abstract class BaseWindow extends PopupWindow implements View.OnTouchListener {
 
+    private final int MIN_OFFSET = 8;
     private LayoutInflater inflater;
     private View contentView;
     protected Context context;
@@ -106,12 +107,12 @@ public abstract class BaseWindow extends PopupWindow implements View.OnTouchList
             //手指抬起
             case MotionEvent.ACTION_UP:
                 //滿足偏移10以上  消失且解除Action down所做的boolean限定
-                if (Math.abs(offsetY) > 10) {
+                if (Math.abs(offsetY) > MIN_OFFSET) {
                     dismiss();
                 }
                 //其他情況則回歸出現時的位置
                 else {
-                    contentView.layout(contentView.getLeft(), contentView.getTop(), contentView.getRight(), contentView.getBottom());
+                    contentView.layout(oldLeft, oldTop, oldRight, oldBottom);
                 }
                 break;
         }

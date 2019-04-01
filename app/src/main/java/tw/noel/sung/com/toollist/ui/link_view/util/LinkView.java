@@ -9,10 +9,12 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import java.util.ArrayList;
 
@@ -25,7 +27,7 @@ import tw.noel.sung.com.toollist.ui.link_view.util.model.LinkPoint;
  * Created by noel on 2018/4/24.
  */
 
-public class LinkView extends android.support.v7.widget.AppCompatImageView implements Runnable, View.OnTouchListener {
+public class LinkView extends android.support.v7.widget.AppCompatImageView implements  View.OnTouchListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     private int lineColor;
     private int pointOuterColor;
@@ -116,14 +118,21 @@ public class LinkView extends android.support.v7.widget.AppCompatImageView imple
         paint = new Paint();
         paint.setAntiAlias(true);
 
-        post(this);
+        getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
 
-
-    //----------------
+    //----------
 
     @Override
-    public void run() {
+    public void onGlobalLayout() {
+        if (Build.VERSION.SDK_INT >= 16) {
+            getViewTreeObserver()
+                    .removeOnGlobalLayoutListener(this);
+        } else {
+            getViewTreeObserver()
+                    .removeGlobalOnLayoutListener(this);
+        }
+
         viewWidth = getWidth();
         viewHeight = getHeight();
         bitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
@@ -139,6 +148,7 @@ public class LinkView extends android.support.v7.widget.AppCompatImageView imple
 
         setOnTouchListener(this);
     }
+
     //----------------
 
     /***

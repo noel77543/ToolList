@@ -9,12 +9,13 @@ import android.graphics.Path;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.tool.qr_code_scan.util.views.surfaceview.CustomSurfaceView;
 
 
-public class CoverLayout extends RelativeLayout implements Runnable {
+public class CoverLayout extends RelativeLayout implements  ViewTreeObserver.OnGlobalLayoutListener {
 
 
     private final String BACKGROUND_COLOR = "#D9040E15";
@@ -40,7 +41,7 @@ public class CoverLayout extends RelativeLayout implements Runnable {
         super(context);
         this.context = context;
         init();
-        post(this);
+        getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
 
 
@@ -71,6 +72,18 @@ public class CoverLayout extends RelativeLayout implements Runnable {
         addView(coverScanBarView);
     }
 
+    //------------
+
+    @Override
+    public void onGlobalLayout() {
+        viewWidth = getWidth();
+        viewHeight = getHeight();
+
+
+        initTransparentView();
+        initCoverButton(CustomSurfaceView.RANGE / 5);
+        coverScanBarView.start(0, 0, 0, CustomSurfaceView.RANGE);
+    }
 
     //------------
 
@@ -120,18 +133,6 @@ public class CoverLayout extends RelativeLayout implements Runnable {
         coverButton.setLayoutParams(params);
         coverButton.setText(context.getString(R.string.close));
     }
-    //------------
-
-    @Override
-    public void run() {
-        viewWidth = getWidth();
-        viewHeight = getHeight();
-
-
-        initTransparentView();
-        initCoverButton(CustomSurfaceView.RANGE / 5);
-        coverScanBarView.start(0, 0, 0, CustomSurfaceView.RANGE);
-    }
 
 
     //------------
@@ -180,5 +181,6 @@ public class CoverLayout extends RelativeLayout implements Runnable {
     public void setCoverButtonText(String text){
         coverButton.setText(text);
     }
+
 
 }

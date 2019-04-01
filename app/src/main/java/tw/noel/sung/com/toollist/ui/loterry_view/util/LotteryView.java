@@ -13,14 +13,16 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewTreeObserver;
 
 import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.ui.loterry_view.util.implement.OnScratchListener;
 
-public class LotteryView extends android.support.v7.widget.AppCompatImageView {
+public class LotteryView extends android.support.v7.widget.AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener {
 
     //預設刮刮樂線條寬度
     private final int DEFAULT_SCRATCH_SIZE = 3;
@@ -46,8 +48,6 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
     private OnScratchListener onScratchListener;
     //預設完全刮除才觸發完成刮刮樂接口
     private int scratchedPercent = 100;
-    //當finish時不允許繼續刮刮樂
-    private boolean isScratch = true;
 
     public LotteryView(Context context) {
         this(context, null);
@@ -62,6 +62,8 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
         this.context = context;
         initAttr(attrs, defStyleAttr);
         init();
+
+        getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
 
     //-----------
@@ -83,12 +85,17 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
     }
 
-
-    //------------
+    //-------------
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+    public void onGlobalLayout() {
+        if (Build.VERSION.SDK_INT >= 16) {
+            getViewTreeObserver()
+                    .removeOnGlobalLayoutListener(this);
+        } else {
+            getViewTreeObserver()
+                    .removeGlobalOnLayoutListener(this);
+        }
         foregroundBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         foregroundCanvas = new Canvas(foregroundBitmap);
     }
@@ -111,7 +118,6 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
         viewHeight = getHeight();
         if (onScratchListener != null) {
             if (scratchedPercent == getDrawAreaPercent()) {
-                isScratch = false;
                 onScratchListener.OnScratchFinish();
             }
         }
@@ -121,14 +127,13 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (foregroundCanvas != null && isScratch) {
+        if (foregroundCanvas != null) {
             float x = event.getX();
             float y = event.getY();
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     path.reset();
                     path.moveTo(x, y);
-                    invalidate();
                     break;
 
                 case MotionEvent.ACTION_MOVE:
@@ -136,10 +141,6 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
                     if (onScratchListener != null) {
                         onScratchListener.OnScratching();
                     }
-                    invalidate();
-                    break;
-                case MotionEvent.ACTION_UP:
-                    foregroundCanvas.drawPath(path, paint);
                     invalidate();
                     break;
             }
@@ -212,4 +213,6 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView {
         this.scratchedPercent = scratchedPercent;
         this.onScratchListener = onScratchListener;
     }
+
+
 }

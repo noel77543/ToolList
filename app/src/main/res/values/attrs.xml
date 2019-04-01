@@ -42,6 +42,7 @@
 
     <declare-styleable name="LotteryView">
         <attr name="lotteryViewScratchSize" format="reference|dimension"/>
+        <attr name="lotteryViewScratchPercent" format="reference|integer"/>
 
     </declare-styleable>
 

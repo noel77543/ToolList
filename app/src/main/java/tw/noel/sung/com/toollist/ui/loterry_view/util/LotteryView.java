@@ -27,8 +27,11 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView im
     //預設刮刮樂線條寬度
     private final int DEFAULT_SCRATCH_SIZE = 3;
     private int scratchSize = DEFAULT_SCRATCH_SIZE;
+    //預設0%刮除
+    private final int DEFAULT_SCRATCH_PERCENT = 70;
+    private int scratchedPercent = DEFAULT_SCRATCH_PERCENT;
 
-    //前景畫布
+    //前景畫布%
     private Canvas foregroundCanvas;
     private Bitmap foregroundBitmap;
 
@@ -46,8 +49,7 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView im
     private int viewHeight;
     private int viewWidth;
     private OnScratchListener onScratchListener;
-    //預設完全刮除才觸發完成刮刮樂接口
-    private int scratchedPercent = 100;
+
 
     public LotteryView(Context context) {
         this(context, null);
@@ -71,6 +73,7 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView im
     private void initAttr(AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.LotteryView, defStyleAttr, 0);
         scratchSize = typedArray.getDimensionPixelSize(R.styleable.LotteryView_lotteryViewScratchSize, DEFAULT_SCRATCH_SIZE);
+        scratchedPercent = typedArray.getInteger(R.styleable.LotteryView_lotteryViewScratchPercent, DEFAULT_SCRATCH_PERCENT);
     }
 
     //-----------
@@ -90,11 +93,9 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView im
     @Override
     public void onGlobalLayout() {
         if (Build.VERSION.SDK_INT >= 16) {
-            getViewTreeObserver()
-                    .removeOnGlobalLayoutListener(this);
+            getViewTreeObserver().removeOnGlobalLayoutListener(this);
         } else {
-            getViewTreeObserver()
-                    .removeGlobalOnLayoutListener(this);
+            getViewTreeObserver().removeGlobalOnLayoutListener(this);
         }
         foregroundBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         foregroundCanvas = new Canvas(foregroundBitmap);
@@ -207,12 +208,28 @@ public class LotteryView extends android.support.v7.widget.AppCompatImageView im
     /***
      *  對外接口
      *  @param onScratchListener
-     *  @param scratchedPercent  刮除的百分比
      */
-    public void setOnScratchListener(int scratchedPercent, OnScratchListener onScratchListener) {
-        this.scratchedPercent = scratchedPercent;
+    public void setOnScratchListener(OnScratchListener onScratchListener) {
         this.onScratchListener = onScratchListener;
     }
 
+    //---------------
 
+    /***
+     *  設置刮除百分比
+     * @param scratchedPercent
+     */
+    public void setScratchPercent(int scratchedPercent) {
+        this.scratchedPercent = scratchedPercent;
+    }
+
+    //----------------
+
+    /***
+     *  設置刮除的筆畫尺寸( 單位 px)
+     * @param scratchSize
+     */
+    public void setScratchSize(int scratchSize) {
+        this.scratchSize = scratchSize;
+    }
 }

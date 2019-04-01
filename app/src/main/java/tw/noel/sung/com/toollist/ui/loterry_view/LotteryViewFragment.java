@@ -29,7 +29,9 @@ public class LotteryViewFragment extends BasePageFragment {
     protected void init() {
         lotteryView.setScratchImage(BitmapFactory.decodeResource(getResources(), R.drawable.img_scratch));
         lotteryView.setRewardImage(BitmapFactory.decodeResource(getResources(), R.drawable.img_reward));
-        lotteryView.setOnScratchListener(50, new OnScratchListener() {
+        lotteryView.setScratchPercent(10);
+        lotteryView.setScratchSize(50);
+        lotteryView.setOnScratchListener( new OnScratchListener() {
             @Override
             public void OnScratching() {
                 Log.e("OnScratching","OnScratching");

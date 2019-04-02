@@ -1,30 +1,13 @@
-package tw.noel.sung.com.toollist.tool.password_window.util;
+package tw.noel.sung.com.toollist;
 
-import android.app.Activity;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.PopupWindow;
 
-import butterknife.ButterKnife;
+public abstract class BaseSlideWindow extends BaseWindow implements View.OnTouchListener {
 
-
-/**
- * Created by noel on 2018/4/8.
- */
-
-public abstract class BaseWindow extends PopupWindow implements View.OnTouchListener {
-
+    private boolean isLock = false;
     private final int MIN_OFFSET = 8;
-    private LayoutInflater inflater;
-    private View contentView;
-    protected Context context;
-    protected LayoutSizeTool layoutSizeTool;
-    protected int windowWidth;
-    protected int windowHeight;
     //落點 x
     private int oldX;
     //落點 y
@@ -39,37 +22,9 @@ public abstract class BaseWindow extends PopupWindow implements View.OnTouchList
     private int oldTop;
     private int oldBottom;
 
-    private boolean isLock = false;
-
-    public BaseWindow(Context context) {
-        this.context = context;
-        inflater = LayoutInflater.from(context);
-        if (contentView == null) {
-            contentView = inflater.inflate(getContentViewId(), null);
-        }
-        ButterKnife.bind(this, contentView);
-        setContentView(contentView);
+    public BaseSlideWindow(Context context) {
+        super(context);
         contentView.setOnTouchListener(this);
-        layoutSizeTool = new LayoutSizeTool(context);
-        int[] phoneSize = layoutSizeTool.getPhoneSize();
-        windowWidth = phoneSize[0];
-        windowHeight = phoneSize[1];
-        init();
-    }
-
-
-    //----------
-
-    /***
-     *  背景變暗
-     * @param alpha
-     */
-    public void setWindowBackgroundAlpha(Activity activity, float alpha) {
-
-        Window window = activity.getWindow();
-        WindowManager.LayoutParams layoutParams = window.getAttributes();
-        layoutParams.alpha = alpha;
-        window.setAttributes(layoutParams);
     }
 
 
@@ -118,17 +73,4 @@ public abstract class BaseWindow extends PopupWindow implements View.OnTouchList
         }
         return true;
     }
-
-    //----------
-
-    /***
-     *  view id
-     * @return
-     */
-    protected abstract int getContentViewId();
-
-    //----------
-
-    protected abstract void init();
-
 }

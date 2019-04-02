@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 
+import tw.noel.sung.com.toollist.BaseSlideWindow;
 import tw.noel.sung.com.toollist.R;
 
 
@@ -14,7 +15,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tw.noel.sung.com.toollist.tool.password_window.util.views.PasswordLayout;
 
-public class PasswordWindow extends BaseWindow implements PopupWindow.OnDismissListener {
+public class PasswordWindow extends BaseSlideWindow implements PopupWindow.OnDismissListener {
 
     @BindView(R.id.button_close)
     Button buttonClose;

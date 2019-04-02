@@ -1,5 +1,7 @@
 package tw.noel.sung.com.toollist.ui.round_progress_view;
 
+import android.widget.Spinner;
+
 import butterknife.BindView;
 import tw.noel.sung.com.toollist.BasePageFragment;
 /**
@@ -22,5 +24,6 @@ public class RoundProgressViewFragment extends BasePageFragment{
     protected void init() {
         roundProgressView.setProgressDynamically(816.78f,1000);
 //        roundProgressView.setProgress(833.61f,1000);
+
     }
 }

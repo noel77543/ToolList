@@ -1,12 +1,14 @@
 package tw.noel.sung.com.toollist;
 
 import android.content.Context;
+import android.os.Build;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
-public abstract class BaseSlideWindow extends BaseWindow implements View.OnTouchListener {
+public abstract class BaseSlideWindow extends BaseWindow implements View.OnTouchListener, ViewTreeObserver.OnGlobalLayoutListener {
 
-    private boolean isLock = false;
     private final int MIN_OFFSET = 8;
     //落點 x
     private int oldX;
@@ -25,8 +27,26 @@ public abstract class BaseSlideWindow extends BaseWindow implements View.OnTouch
     public BaseSlideWindow(Context context) {
         super(context);
         contentView.setOnTouchListener(this);
+        contentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
 
+    @Override
+    public void onGlobalLayout() {
+        if (Build.VERSION.SDK_INT >= 16) {
+            contentView.getViewTreeObserver()
+                    .removeOnGlobalLayoutListener(this);
+        } else {
+            contentView.getViewTreeObserver()
+                    .removeGlobalOnLayoutListener(this);
+        }
+        //紀錄初始上下左右距離
+        oldLeft = contentView.getLeft();
+        oldRight = contentView.getRight();
+        oldTop = contentView.getTop();
+        oldBottom = contentView.getBottom();
+    }
+
+    //-----------------
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -38,16 +58,6 @@ public abstract class BaseSlideWindow extends BaseWindow implements View.OnTouch
             case MotionEvent.ACTION_DOWN:
                 oldX = x;
                 oldY = y;
-
-                if(!isLock){
-                    isLock = true;
-                    //當初次手指落下 紀錄上下左右距離
-                    oldLeft = contentView.getLeft();
-                    oldRight = contentView.getRight();
-                    oldTop = contentView.getTop();
-                    oldBottom = contentView.getBottom();
-                }
-
                 break;
             //手指移動
             case MotionEvent.ACTION_MOVE:

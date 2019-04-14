@@ -5,18 +5,24 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.hardware.biometrics.BiometricPrompt;
+import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 /**
  * Created by noel on 2019/2/16.
  */
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -38,11 +44,14 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 import tw.noel.sung.com.toollist.adapter.MainExpandableListViewAdapter;
+import tw.noel.sung.com.toollist.tool.biometric.BiometricTool;
+import tw.noel.sung.com.toollist.tool.biometric.KeyHelper;
+import tw.noel.sung.com.toollist.tool.biometric.callback.ZBiometricPromptHandler;
+import tw.noel.sung.com.toollist.tool.biometric.callback.ZFingerprintManagerHandler;
 import tw.noel.sung.com.toollist.tool.password_window.PasswordWindowActivity;
 import tw.noel.sung.com.toollist.tool.qr_code_scan.QRCodeScanActivity;
 import tw.noel.sung.com.toollist.tool.web.WebActivity;
 import tw.noel.sung.com.toollist.ui.UIActivity;
-import tw.noel.sung.com.toollist.ui.dice_view.DiceView;
 
 
 @RuntimePermissions
@@ -92,6 +101,22 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         initExpandableListView();
 
 
+        BiometricTool biometricTool = new BiometricTool(this);
+        biometricTool.startScanFinger(new ZFingerprintManagerHandler(){
+            @Override
+            public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                Log.e("TTT",result.getCryptoObject().getSignature().getAlgorithm());
+
+            }
+        });
+//        biometricTool.startScanFinger(new ZBiometricPromptHandler(){
+//            @Override
+//            public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
+//                super.onAuthenticationSucceeded(result);
+//                Log.e("TTT",result.getCryptoObject().getSignature().getAlgorithm());
+//            }
+//        });
     }
 
     //-------------

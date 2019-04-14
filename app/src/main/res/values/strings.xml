@@ -34,5 +34,13 @@
 
 
 
+    <string name="finger_print_description">請輕觸指紋辨識器</string>
+    <string name="not_set_fingerprint">請設置指紋</string>
+    <string name="not_set_pin_code">請設置PIN密碼</string>
+    <string name="go_to_setting">是否前往設置？</string>
+    <string name="go">前往</string>
+    <string name="not_finger_print">不支援指紋辨識</string>
+    <string name="finger_print">指紋辨識</string>
+    <string name="cancel">取消</string>
 
 </resources>

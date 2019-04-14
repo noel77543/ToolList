@@ -39,7 +39,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-//    implementation (name: 'ZTool_v1.0', ext:"aar")
 
     //ButterKnife
     implementation 'com.jakewharton:butterknife:8.8.1'
@@ -49,12 +48,11 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
     //Gson
     implementation 'com.google.code.gson:gson:2.8.5'
-    //okHttp
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     //permission dispatcher
     implementation 'com.github.hotchemi:permissionsdispatcher:3.1.0'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.1.0'
     //recycler view
     implementation 'com.android.support:recyclerview-v7:28.0.0'
+
 
 }

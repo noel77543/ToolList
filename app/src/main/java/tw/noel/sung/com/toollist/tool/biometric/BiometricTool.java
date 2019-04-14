@@ -1,0 +1,195 @@
+package tw.noel.sung.com.toollist.tool.biometric;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.hardware.biometrics.BiometricPrompt;
+import android.hardware.fingerprint.FingerprintManager;
+import android.os.Build;
+import android.os.CancellationSignal;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
+import android.widget.Toast;
+
+import tw.noel.sung.com.toollist.R;
+import tw.noel.sung.com.toollist.tool.biometric.callback.ZBiometricPromptHandler;
+import tw.noel.sung.com.toollist.tool.biometric.callback.ZFingerprintManagerHandler;
+
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.Executor;
+
+import javax.crypto.NoSuchPaddingException;
+
+/**
+ * Created by noel on 2019/1/21.
+ */
+@RequiresApi(api = Build.VERSION_CODES.M)
+public class BiometricTool implements CancellationSignal.OnCancelListener {
+    /***
+     * 指紋辨識
+     * 在api 23 時 出現
+     * 在api 28 時 歸類於BiometricPrompt類 之生物辨識應用
+     */
+    //生物驗證類 android api 28 以上
+    private BiometricPrompt biometricPrompt;
+//    private BiometricPrompt.AuthenticationCallback biometricAuthenticationCallBack;
+
+    //指紋辨識類 android api 23 - 27
+    private FingerprintManager fingerprintManager;
+//    private FingerprintManager.AuthenticationCallback fingerPrintAuthenticationCallBack;
+
+    private Context context;
+    private Executor executor;
+    private CancellationSignal cancellationSignal;
+    private BiometricHelper biometricHelper;
+    private KeyHelper keyHelper;
+
+    public BiometricTool(Context context) {
+        this.context = context;
+
+        keyHelper = new KeyHelper(context);
+        biometricHelper = new BiometricHelper(context);
+        cancellationSignal = new CancellationSignal();
+        cancellationSignal.setOnCancelListener(this);
+    }
+
+    //--------
+
+    /***
+     * 進行辨識
+     *  android api 23 - 27 之間
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void startScanFinger(ZFingerprintManagerHandler zFingerprintManagerHandler) {
+        try {
+            if (biometricHelper.isCanFingerPrint()) {
+                fingerprintManager = (FingerprintManager) context.getSystemService(Activity.FINGERPRINT_SERVICE);
+                fingerprintManager.authenticate(keyHelper.getFingerprintManagerCompatCryptoObject(), cancellationSignal, 0, zFingerprintManagerHandler, null);
+            } else {
+                Toast.makeText(context, context.getString(R.string.not_finger_print), Toast.LENGTH_SHORT).show();
+            }
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+            Log.e("TTT", "NoSuchPaddingException");
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            Log.e("TTT", "NoSuchAlgorithmException");
+
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+            Log.e("TTT", "KeyStoreException");
+
+        }
+    }
+
+    //----------
+
+    /***
+     * 進行辨識
+     *  android api 28 以上
+     */
+    @RequiresApi(api = Build.VERSION_CODES.P)
+    public void startScanFinger(ZBiometricPromptHandler zBiometricPromptHandler) {
+        try {
+            if (biometricHelper.isCanFingerPrint()) {
+                executor = context.getMainExecutor();
+                biometricPrompt = new BiometricPrompt.Builder(context)
+                        .setTitle(context.getString(R.string.finger_print))
+                        .setDescription(context.getString(R.string.finger_print_description))
+                        .setNegativeButton(context.getString(R.string.cancel), executor, new DialogInterface.OnClickListener() {
+                            //取消指紋辨識
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .build();
+                biometricPrompt.authenticate(keyHelper.getBiometricPromptCryptoObject(), cancellationSignal, executor, zBiometricPromptHandler);
+            } else {
+                Toast.makeText(context, context.getString(R.string.not_finger_print), Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    //----------
+
+    /***
+     * 進行加密
+     */
+    @RequiresApi(api = Build.VERSION_CODES.P)
+    public byte[] sign(BiometricPrompt.CryptoObject cryptoObject) {
+        return keyHelper.signCryptoObject(cryptoObject);
+    }
+
+    //------------
+
+    /***
+     * 進行加密
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public byte[] sign(FingerprintManager.CryptoObject cryptoObject) {
+        return keyHelper.signCryptoObject(cryptoObject);
+    }
+
+
+    //------------
+
+    /***
+     * 便是加密物件
+     * @return
+     */
+    public boolean verify(BiometricPrompt.CryptoObject cryptoObject, byte[] bytes) {
+        return keyHelper.verifyCryptoObject(cryptoObject, bytes);
+    }
+
+    //------------
+
+    /***
+     * 便是加密物件
+     * @return
+     */
+    public boolean verify(FingerprintManager.CryptoObject cryptoObject, byte[] bytes) {
+        return keyHelper.verifyCryptoObject(cryptoObject, bytes);
+    }
+
+    //--------
+
+    /***
+     * 取消
+     * 不論 android api 23 - 27 或者 android api 28 以上 都適用
+     */
+    @Override
+    public void onCancel() {
+
+    }
+
+//    //--------
+//
+//    /***
+//     * 指紋辨識類 android api 23 - 27 call back
+//     * @param fingerPrintAuthenticationCallBack
+//     */
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    public void setFingerPrintAuthenticationCallBack(FingerprintManager.AuthenticationCallback
+//                                                             fingerPrintAuthenticationCallBack) {
+//        this.fingerPrintAuthenticationCallBack = fingerPrintAuthenticationCallBack;
+//    }
+//
+//    //---------
+//
+//    /***
+//     //生物驗證類 android api 28 以上
+//     * @param biometricAuthenticationCallBack
+//     */
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    public void setBiometricAuthenticationCallBack(BiometricPrompt.AuthenticationCallback biometricAuthenticationCallBack) {
+//        this.biometricAuthenticationCallBack = biometricAuthenticationCallBack;
+//    }
+}

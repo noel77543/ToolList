@@ -9,19 +9,15 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.os.CancellationSignal;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.widget.Toast;
 
 import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.tool.biometric.callback.ZBiometricPromptHandler;
 import tw.noel.sung.com.toollist.tool.biometric.callback.ZFingerprintManagerHandler;
 
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
+import java.security.InvalidKeyException;
 import java.util.concurrent.Executor;
 
-import javax.crypto.NoSuchPaddingException;
 
 /**
  * Created by noel on 2019/1/21.
@@ -64,25 +60,16 @@ public class BiometricTool implements CancellationSignal.OnCancelListener {
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void startScanFinger(ZFingerprintManagerHandler zFingerprintManagerHandler) {
+
         try {
             if (biometricHelper.isCanFingerPrint()) {
                 fingerprintManager = (FingerprintManager) context.getSystemService(Activity.FINGERPRINT_SERVICE);
-                fingerprintManager.authenticate(keyHelper.getFingerprintManagerCompatCryptoObject(), cancellationSignal, 0, zFingerprintManagerHandler, null);
+                fingerprintManager.authenticate(keyHelper.getFingerprintManagerCompatCryptoObject(), cancellationSignal, 0, zFingerprintManagerHandler.setPublicKey(keyHelper.getPublicKey()), null);
             } else {
                 Toast.makeText(context, context.getString(R.string.not_finger_print), Toast.LENGTH_SHORT).show();
             }
-        } catch (NoSuchPaddingException e) {
+        } catch (InvalidKeyException  e) {
             e.printStackTrace();
-            Log.e("TTT", "NoSuchPaddingException");
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            Log.e("TTT", "NoSuchAlgorithmException");
-
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-            Log.e("TTT", "KeyStoreException");
-
         }
     }
 
@@ -112,52 +99,33 @@ public class BiometricTool implements CancellationSignal.OnCancelListener {
             } else {
                 Toast.makeText(context, context.getString(R.string.not_finger_print), Toast.LENGTH_SHORT).show();
             }
-        } catch (Exception e) {
+        } catch (InvalidKeyException e) {
             e.printStackTrace();
         }
     }
 
 
-    //----------
+//    //----------
+//
+//    /***
+//     * 進行加密
+//     */
+//    @RequiresApi(api = Build.VERSION_CODES.P)
+//    public byte[] sign(BiometricPrompt.CryptoObject cryptoObject) {
+//        return keyHelper.signCryptoObject(cryptoObject);
+//    }
+//
+//    //------------
+//
+//    /***
+//     * 進行加密
+//     */
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    public byte[] sign(FingerprintManager.CryptoObject cryptoObject) {
+//        return keyHelper.signCryptoObject(cryptoObject);
+//    }
 
-    /***
-     * 進行加密
-     */
-    @RequiresApi(api = Build.VERSION_CODES.P)
-    public byte[] sign(BiometricPrompt.CryptoObject cryptoObject) {
-        return keyHelper.signCryptoObject(cryptoObject);
-    }
 
-    //------------
-
-    /***
-     * 進行加密
-     */
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public byte[] sign(FingerprintManager.CryptoObject cryptoObject) {
-        return keyHelper.signCryptoObject(cryptoObject);
-    }
-
-
-    //------------
-
-    /***
-     * 便是加密物件
-     * @return
-     */
-    public boolean verify(BiometricPrompt.CryptoObject cryptoObject, byte[] bytes) {
-        return keyHelper.verifyCryptoObject(cryptoObject, bytes);
-    }
-
-    //------------
-
-    /***
-     * 便是加密物件
-     * @return
-     */
-    public boolean verify(FingerprintManager.CryptoObject cryptoObject, byte[] bytes) {
-        return keyHelper.verifyCryptoObject(cryptoObject, bytes);
-    }
 
     //--------
 

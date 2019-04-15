@@ -29,8 +29,11 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.security.PublicKey;
+import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,6 +49,7 @@ import permissions.dispatcher.RuntimePermissions;
 import tw.noel.sung.com.toollist.adapter.MainExpandableListViewAdapter;
 import tw.noel.sung.com.toollist.tool.biometric.BiometricTool;
 import tw.noel.sung.com.toollist.tool.biometric.KeyHelper;
+import tw.noel.sung.com.toollist.tool.biometric.VerifyHelper;
 import tw.noel.sung.com.toollist.tool.biometric.callback.ZBiometricPromptHandler;
 import tw.noel.sung.com.toollist.tool.biometric.callback.ZFingerprintManagerHandler;
 import tw.noel.sung.com.toollist.tool.password_window.PasswordWindowActivity;
@@ -91,6 +95,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     public static final int PERMISSION_OPEN_QRCODE_SCANNER = 101;
     private @PermissionActionType
     int permissionActionType;
+    private byte[] bytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +107,18 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
 
 
         BiometricTool biometricTool = new BiometricTool(this);
-        biometricTool.startScanFinger(new ZFingerprintManagerHandler(){
+        biometricTool.startScanFinger(new ZFingerprintManagerHandler() {
             @Override
             public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                Log.e("TTT",result.getCryptoObject().getSignature().getAlgorithm());
+            }
 
+            @Override
+            public void onSignFingerPrint(FingerprintManager.CryptoObject cryptoObject, byte[] sign, PublicKey publicKey) {
+                super.onSignFingerPrint(cryptoObject, sign, publicKey);
+                bytes = sign;
+                VerifyHelper verifyHelper = new VerifyHelper();
+                Log.e("TTT", verifyHelper.verifyCryptoObject(cryptoObject,sign,publicKey) + "");
             }
         });
 //        biometricTool.startScanFinger(new ZBiometricPromptHandler(){

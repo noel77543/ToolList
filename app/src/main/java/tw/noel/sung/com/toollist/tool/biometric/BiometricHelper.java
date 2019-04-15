@@ -28,26 +28,7 @@ public class BiometricHelper {
 
 
     }
-
-    //--------
-
-    /***
-     * SDK版本是否28以上
-     * @return
-     */
-    public boolean isSDKVersionAbove28() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
-    }
-    //----------
-
-    /***
-     * SDK 版本是否在23~27之間
-     */
-    public boolean isSDKVersionBetween23To27() {
-        int version = Build.VERSION.SDK_INT;
-        return version >= Build.VERSION_CODES.M && version <= Build.VERSION_CODES.O_MR1;
-    }
-
+    
     //----------
 
     /***

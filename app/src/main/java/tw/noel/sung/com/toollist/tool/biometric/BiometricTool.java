@@ -31,11 +31,8 @@ public class BiometricTool implements CancellationSignal.OnCancelListener {
      */
     //生物驗證類 android api 28 以上
     private BiometricPrompt biometricPrompt;
-//    private BiometricPrompt.AuthenticationCallback biometricAuthenticationCallBack;
-
     //指紋辨識類 android api 23 - 27
     private FingerprintManager fingerprintManager;
-//    private FingerprintManager.AuthenticationCallback fingerPrintAuthenticationCallBack;
 
     private Context context;
     private Executor executor;
@@ -82,7 +79,7 @@ public class BiometricTool implements CancellationSignal.OnCancelListener {
     @RequiresApi(api = Build.VERSION_CODES.P)
     public void startScanFinger(ZBiometricPromptHandler zBiometricPromptHandler) {
         try {
-            if (biometricHelper.isCanFingerPrint()) {
+            if (biometricHelper.isCanBioMetricAuthentication()) {
                 executor = context.getMainExecutor();
                 biometricPrompt = new BiometricPrompt.Builder(context)
                         .setTitle(context.getString(R.string.finger_print))
@@ -104,29 +101,6 @@ public class BiometricTool implements CancellationSignal.OnCancelListener {
         }
     }
 
-
-//    //----------
-//
-//    /***
-//     * 進行加密
-//     */
-//    @RequiresApi(api = Build.VERSION_CODES.P)
-//    public byte[] sign(BiometricPrompt.CryptoObject cryptoObject) {
-//        return keyHelper.signCryptoObject(cryptoObject);
-//    }
-//
-//    //------------
-//
-//    /***
-//     * 進行加密
-//     */
-//    @RequiresApi(api = Build.VERSION_CODES.M)
-//    public byte[] sign(FingerprintManager.CryptoObject cryptoObject) {
-//        return keyHelper.signCryptoObject(cryptoObject);
-//    }
-
-
-
     //--------
 
     /***
@@ -137,27 +111,4 @@ public class BiometricTool implements CancellationSignal.OnCancelListener {
     public void onCancel() {
 
     }
-
-//    //--------
-//
-//    /***
-//     * 指紋辨識類 android api 23 - 27 call back
-//     * @param fingerPrintAuthenticationCallBack
-//     */
-//    @RequiresApi(api = Build.VERSION_CODES.M)
-//    public void setFingerPrintAuthenticationCallBack(FingerprintManager.AuthenticationCallback
-//                                                             fingerPrintAuthenticationCallBack) {
-//        this.fingerPrintAuthenticationCallBack = fingerPrintAuthenticationCallBack;
-//    }
-//
-//    //---------
-//
-//    /***
-//     //生物驗證類 android api 28 以上
-//     * @param biometricAuthenticationCallBack
-//     */
-//    @RequiresApi(api = Build.VERSION_CODES.O)
-//    public void setBiometricAuthenticationCallBack(BiometricPrompt.AuthenticationCallback biometricAuthenticationCallBack) {
-//        this.biometricAuthenticationCallBack = biometricAuthenticationCallBack;
-//    }
 }

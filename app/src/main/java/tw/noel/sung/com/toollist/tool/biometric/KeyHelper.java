@@ -63,22 +63,6 @@ public class KeyHelper {
         }
     }
 
-//    //------------
-//
-//    /***
-//     *  取得key
-//     * @return
-//     */
-//    private Key getKey() throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
-//        Key secretKey;
-//        //如定義的KeyName不存在則創建一個
-//        if (!keyStore.isKeyEntry(KEY_NAME)) {
-//            createKey();
-//        }
-//        secretKey = keyStore.getKey(KEY_NAME, null);
-//        return secretKey;
-//    }
-
     //---------------
 
     /***
@@ -140,25 +124,4 @@ public class KeyHelper {
     public PrivateKey getPrivateKey(){
         return keyPair.getPrivate();
     }
-
-//    //-------------
-//
-//    /***
-//     *   android api 23 ~ 27
-//     * 以私鑰進行加密CryptoObject物件
-//     */
-//    @RequiresApi(api = Build.VERSION_CODES.M)
-//    public byte[] signCryptoObject(FingerprintManager.CryptoObject cryptoObject) {
-//        try {
-//            PrivateKey privateKey = keyPair.getPrivate();
-//            Signature signature = cryptoObject.getSignature();
-//            signature.initSign(privateKey);
-//            return signature.sign();
-//        } catch (InvalidKeyException | SignatureException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-
-
 }

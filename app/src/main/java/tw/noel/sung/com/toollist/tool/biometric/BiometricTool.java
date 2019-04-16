@@ -9,6 +9,7 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.os.CancellationSignal;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.widget.Toast;
 
 import tw.noel.sung.com.toollist.R;
@@ -23,7 +24,7 @@ import java.util.concurrent.Executor;
  * Created by noel on 2019/1/21.
  */
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class BiometricTool implements CancellationSignal.OnCancelListener {
+public class BiometricTool {
     /***
      * 指紋辨識
      * 在api 23 時 出現
@@ -46,7 +47,6 @@ public class BiometricTool implements CancellationSignal.OnCancelListener {
         keyHelper = new KeyHelper(context);
         biometricHelper = new BiometricHelper(context);
         cancellationSignal = new CancellationSignal();
-        cancellationSignal.setOnCancelListener(this);
     }
 
     //--------
@@ -56,8 +56,14 @@ public class BiometricTool implements CancellationSignal.OnCancelListener {
      *  android api 23 - 27 之間
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public void startScanFinger(ZFingerprintManagerHandler zFingerprintManagerHandler) {
+    public void startScanFinger(final ZFingerprintManagerHandler zFingerprintManagerHandler) {
 
+        cancellationSignal.setOnCancelListener(new CancellationSignal.OnCancelListener() {
+            @Override
+            public void onCancel() {
+                zFingerprintManagerHandler.onCancelScan();
+            }
+        });
         try {
             if (biometricHelper.isCanFingerPrint()) {
                 fingerprintManager = (FingerprintManager) context.getSystemService(Activity.FINGERPRINT_SERVICE);
@@ -65,7 +71,7 @@ public class BiometricTool implements CancellationSignal.OnCancelListener {
             } else {
                 Toast.makeText(context, context.getString(R.string.not_finger_print), Toast.LENGTH_SHORT).show();
             }
-        } catch (InvalidKeyException  e) {
+        } catch (InvalidKeyException e) {
             e.printStackTrace();
         }
     }
@@ -77,7 +83,15 @@ public class BiometricTool implements CancellationSignal.OnCancelListener {
      *  android api 28 以上
      */
     @RequiresApi(api = Build.VERSION_CODES.P)
-    public void startScanFinger(ZBiometricPromptHandler zBiometricPromptHandler) {
+    public void startScanFinger(final ZBiometricPromptHandler zBiometricPromptHandler) {
+
+        cancellationSignal.setOnCancelListener(new CancellationSignal.OnCancelListener() {
+            @Override
+            public void onCancel() {
+                Log.e("TTT","AAA");
+                zBiometricPromptHandler.onCancelScan();
+            }
+        });
         try {
             if (biometricHelper.isCanBioMetricAuthentication()) {
                 executor = context.getMainExecutor();
@@ -85,14 +99,15 @@ public class BiometricTool implements CancellationSignal.OnCancelListener {
                         .setTitle(context.getString(R.string.finger_print))
                         .setDescription(context.getString(R.string.finger_print_description))
                         .setNegativeButton(context.getString(R.string.cancel), executor, new DialogInterface.OnClickListener() {
-                            //取消指紋辨識
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                                zBiometricPromptHandler.onCancelScan();
                             }
                         })
                         .build();
-                biometricPrompt.authenticate(keyHelper.getBiometricPromptCryptoObject(), cancellationSignal, executor, zBiometricPromptHandler);
+                biometricPrompt.authenticate(keyHelper.getBiometricPromptCryptoObject(), cancellationSignal, executor, zBiometricPromptHandler.setPublicKey(keyHelper.getPublicKey()));
+
+
             } else {
                 Toast.makeText(context, context.getString(R.string.not_finger_print), Toast.LENGTH_SHORT).show();
             }
@@ -101,14 +116,12 @@ public class BiometricTool implements CancellationSignal.OnCancelListener {
         }
     }
 
-    //--------
+    //-------------------
 
     /***
-     * 取消
-     * 不論 android api 23 - 27 或者 android api 28 以上 都適用
+     * 停止掃描
      */
-    @Override
-    public void onCancel() {
-
+    public void stopScan(){
+        cancellationSignal.cancel();
     }
 }

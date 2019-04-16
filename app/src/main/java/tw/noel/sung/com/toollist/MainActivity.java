@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.hardware.biometrics.BiometricPrompt;
 import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -43,6 +45,7 @@ import permissions.dispatcher.RuntimePermissions;
 import tw.noel.sung.com.toollist.adapter.MainExpandableListViewAdapter;
 import tw.noel.sung.com.toollist.tool.biometric.BiometricTool;
 import tw.noel.sung.com.toollist.tool.biometric.VerifyHelper;
+import tw.noel.sung.com.toollist.tool.biometric.callback.ZBiometricPromptHandler;
 import tw.noel.sung.com.toollist.tool.biometric.callback.ZFingerprintManagerHandler;
 import tw.noel.sung.com.toollist.tool.password_window.PasswordWindowActivity;
 import tw.noel.sung.com.toollist.tool.qr_code_scan.QRCodeScanActivity;
@@ -77,6 +80,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     //放大倍率
     private final float TEXT_SIZE = 1.5f;
     private MainExpandableListViewAdapter mainExpandableListViewAdapter;
+    private  BiometricTool biometricTool;
 
     @IntDef({PERMISSION_OPEN_QRCODE_SCANNER})
     @Retention(RetentionPolicy.SOURCE)
@@ -89,6 +93,8 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     int permissionActionType;
     private byte[] bytes;
 
+    @BindView(R.id.text_view)
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,28 +104,53 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         initExpandableListView();
 
 
-        BiometricTool biometricTool = new BiometricTool(this);
-        biometricTool.startScanFinger(new ZFingerprintManagerHandler() {
+        biometricTool = new BiometricTool(this);
+//        biometricTool.startScanFinger(new ZFingerprintManagerHandler() {
+//            @Override
+//            public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
+//                super.onAuthenticationSucceeded(result);
+//            }
+//
+//            @Override
+//            public void onSignFingerPrint(FingerprintManager.CryptoObject cryptoObject, byte[] sign, PublicKey publicKey) {
+//                super.onSignFingerPrint(cryptoObject, sign, publicKey);
+//                bytes = sign;
+//                VerifyHelper verifyHelper = new VerifyHelper();
+//                Log.e("TTT", verifyHelper.verifyCryptoObject(cryptoObject,sign,publicKey) + "");
+//            }
+//            @Override
+//            public void onCancelScan() {
+//                super.onCancelScan();
+//                Log.e("TTT","TTT");
+//            }
+//        });
+
+        biometricTool.startScanFinger(new ZBiometricPromptHandler(){
             @Override
-            public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
+            public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
+                Log.e("TTT",result.getCryptoObject().getSignature().getAlgorithm());
             }
 
             @Override
-            public void onSignFingerPrint(FingerprintManager.CryptoObject cryptoObject, byte[] sign, PublicKey publicKey) {
+            public void onSignFingerPrint(BiometricPrompt.CryptoObject cryptoObject, byte[] sign, PublicKey publicKey) {
                 super.onSignFingerPrint(cryptoObject, sign, publicKey);
                 bytes = sign;
                 VerifyHelper verifyHelper = new VerifyHelper();
                 Log.e("TTT", verifyHelper.verifyCryptoObject(cryptoObject,sign,publicKey) + "");
             }
+
+            @Override
+            public void onCancelScan() {
+                super.onCancelScan();
+                Log.e("TTT","TTT");
+            }
         });
-//        biometricTool.startScanFinger(new ZBiometricPromptHandler(){
-//            @Override
-//            public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
-//                super.onAuthenticationSucceeded(result);
-//                Log.e("TTT",result.getCryptoObject().getSignature().getAlgorithm());
-//            }
-//        });
+    }
+
+    @OnClick(R.id.text_view)
+    public void onClicked(){
+        biometricTool.stopScan();
     }
 
     //-------------

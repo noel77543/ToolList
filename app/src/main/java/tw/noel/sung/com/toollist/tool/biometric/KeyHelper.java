@@ -100,6 +100,7 @@ public class KeyHelper {
     /***
      *  取得加密對象
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public FingerprintManager.CryptoObject getFingerprintManagerCompatCryptoObject() throws InvalidKeyException {
         PrivateKey privateKey = keyPair.getPrivate();
         signature.initSign(privateKey);

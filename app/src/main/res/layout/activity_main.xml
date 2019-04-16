@@ -53,4 +53,9 @@
     <!--</tw.noel.sung.com.toollist.ui.dice_view.DiceView>-->
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="test"
+        android:id="@+id/text_view"
+        android:layout_height="wrap_content" />
 </LinearLayout>

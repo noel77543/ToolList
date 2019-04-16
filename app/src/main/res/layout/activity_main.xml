@@ -53,10 +53,4 @@
     <!--</tw.noel.sung.com.toollist.ui.dice_view.DiceView>-->
 
 
-    <tw.noel.sung.com.toollist.ui.auto_text_view.AutoTextView
-        android:layout_width="wrap_content"
-        android:text="1212121121212142142112121214214212121214214214315320hf3wgj12121214214214315320hf3wgj14315320hf3wgj2121214214214315320hf3wgj12121214214214315320hf3wgj14315320hf3wgj4214212121214214214315320hf3wgj12121214214214315320hf3wgj14315320hf3wgj"
-        android:layout_height="wrap_content"
-        app:AutoTextViewMaxWidth="200dp"
-        />
 </LinearLayout>

@@ -18,6 +18,7 @@ import java.lang.annotation.RetentionPolicy;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tw.noel.sung.com.toollist.R;
+import tw.noel.sung.com.toollist.ui.auto_text_view.AutoTextViewFragment;
 import tw.noel.sung.com.toollist.ui.block_pie_view.BlockPieFragment;
 import tw.noel.sung.com.toollist.ui.flower_button.FlowerButtonFragment;
 import tw.noel.sung.com.toollist.ui.link_view.LinkViewFragment;
@@ -39,8 +40,9 @@ public class UIActivity extends FragmentActivity {
     public static final int PAGE_BLOCK_PIE_VIEW = 104;
     public static final int PAGE_ROUND_PROGRESS_VIEW = 105;
     public static final int PAGE_LOTTERY_VIEW = 106;
+    public static final int PAGE_AUTO_TEXT_VIEW = 107;
 
-    @IntDef({PAGE_FLOWER_BUTTON, PAGE_LINK_VIEW, PAGE_SIMPLE_PIE_VIEW, PAGE_BLOCK_PIE_VIEW, PAGE_ROUND_PROGRESS_VIEW, PAGE_LOTTERY_VIEW})
+    @IntDef({PAGE_FLOWER_BUTTON, PAGE_LINK_VIEW, PAGE_SIMPLE_PIE_VIEW, PAGE_BLOCK_PIE_VIEW, PAGE_ROUND_PROGRESS_VIEW, PAGE_LOTTERY_VIEW, PAGE_AUTO_TEXT_VIEW})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Page {
     }
@@ -83,6 +85,9 @@ public class UIActivity extends FragmentActivity {
                 break;
             case PAGE_LOTTERY_VIEW:
                 fragment = new LotteryViewFragment();
+                break;
+            case PAGE_AUTO_TEXT_VIEW:
+                fragment = new AutoTextViewFragment();
                 break;
         }
         if (fragment != null) {

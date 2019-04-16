@@ -1,4 +1,4 @@
-package tw.noel.sung.com.toollist.ui.auto_text_view;
+package tw.noel.sung.com.toollist.ui.auto_text_view.util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -18,11 +18,6 @@ import tw.noel.sung.com.toollist.R;
 public class AutoTextView extends android.support.v7.widget.AppCompatEditText implements View.OnTouchListener {
 
     private String text;
-
-    //限定最大值
-    private final int _DEFAULT_MAX_WIDTH = 100;
-    private int maxWidth;
-
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({_MODE_SCROLLABLE, _MODE_FIX, _MODE_NONE})
@@ -54,12 +49,14 @@ public class AutoTextView extends android.support.v7.widget.AppCompatEditText im
         super(context, attrs, defStyleAttr);
         this.context = context;
         initAttr(attrs, defStyleAttr);
+        setSingleLine(mode!=_MODE_NONE);
+        setFocusable(false);
+        setCursorVisible(false);
     }
     //------------
 
     private void initAttr(AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.AutoTextView, defStyleAttr, 0);
-        maxWidth = (int) typedArray.getDimension(R.styleable.AutoTextView_AutoTextViewMaxWidth, _DEFAULT_MAX_WIDTH);
         mode = typedArray.getInt(R.styleable.AutoTextView_AutoTextViewMode, _MODE_NONE);
         typedArray.recycle();
     }
@@ -80,7 +77,7 @@ public class AutoTextView extends android.support.v7.widget.AppCompatEditText im
             setOnTouchListener(this);
         } else if (mode == _MODE_FIX) {
             text = getText().toString();
-            getPXFromSP(getAutoTextSize());
+            getPXFromSP(getAutoTextSize(getWidth()));
             ViewGroup.LayoutParams params = getLayoutParams();
             if (params.height == ViewGroup.LayoutParams.WRAP_CONTENT) {
                 params.height = (int) height;
@@ -88,9 +85,7 @@ public class AutoTextView extends android.support.v7.widget.AppCompatEditText im
             }
         }
 
-        setSingleLine(true);
-        setFocusable(false);
-        setCursorVisible(false);
+
     }
 
     //--------
@@ -106,8 +101,8 @@ public class AutoTextView extends android.support.v7.widget.AppCompatEditText im
     /***
      * 使文字大小自適應
      */
-    private float getAutoTextSize() {
-        int avaiWidth = maxWidth - getPaddingLeft() - getPaddingRight() - 10;
+    private float getAutoTextSize(int viewWidth) {
+        int avaiWidth = viewWidth - getPaddingLeft() - getPaddingRight() - 10;
 
         if (avaiWidth <= 0) {
             return getTextSize();

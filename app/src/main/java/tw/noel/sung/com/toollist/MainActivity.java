@@ -5,19 +5,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import android.hardware.biometrics.BiometricPrompt;
 import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 /**
  * Created by noel on 2019/2/16.
  */
-import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -29,11 +25,9 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.security.PublicKey;
-import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -48,9 +42,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 import tw.noel.sung.com.toollist.adapter.MainExpandableListViewAdapter;
 import tw.noel.sung.com.toollist.tool.biometric.BiometricTool;
-import tw.noel.sung.com.toollist.tool.biometric.KeyHelper;
 import tw.noel.sung.com.toollist.tool.biometric.VerifyHelper;
-import tw.noel.sung.com.toollist.tool.biometric.callback.ZBiometricPromptHandler;
 import tw.noel.sung.com.toollist.tool.biometric.callback.ZFingerprintManagerHandler;
 import tw.noel.sung.com.toollist.tool.password_window.PasswordWindowActivity;
 import tw.noel.sung.com.toollist.tool.qr_code_scan.QRCodeScanActivity;
@@ -168,7 +160,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         childrenUI.add("4. BlockPieView");
         childrenUI.add("5. RoundProgressView");
         childrenUI.add("6. LotteryView");
-
+        childrenUI.add("7. AutoTextView");
 
         ArrayList<String> childrenTool = new ArrayList<>();
         childrenTool.add("1. QRCode Scanner");
@@ -259,8 +251,13 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
                 case 4:
                     intent.putExtra(KEY_PAGE, UIActivity.PAGE_ROUND_PROGRESS_VIEW);
                     break;
+                //LotteryView
                 case 5:
                     intent.putExtra(KEY_PAGE, UIActivity.PAGE_LOTTERY_VIEW);
+                    break;
+                //AutoTextView
+                case 6:
+                    intent.putExtra(KEY_PAGE, UIActivity.PAGE_AUTO_TEXT_VIEW);
                     break;
             }
             intent.putExtra(KEY_TITLE, (String) parent.getExpandableListAdapter().getChild(groupPosition, childPosition));

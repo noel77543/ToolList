@@ -47,7 +47,6 @@
     </declare-styleable>
 
     <declare-styleable name="AutoTextView">
-        <attr name="AutoTextViewMaxWidth" format="reference|dimension" />
         <attr name="AutoTextViewMode">
             <enum name="scrollable" value="0" />
             <enum name="fix" value="1" />

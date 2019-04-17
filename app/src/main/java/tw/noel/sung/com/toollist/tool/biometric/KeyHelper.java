@@ -19,21 +19,17 @@ import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
-import java.security.SignatureException;
 import java.security.cert.CertificateException;
 import java.security.spec.ECGenParameterSpec;
 
 
-
+/**
+ * Created by noel on 2019/4/15.
+ */
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class KeyHelper {
 
     private static final String KEYSTORE_NAME = "AndroidKeyStore";
-    private static final String KEY_ALGORITHM = KeyProperties.KEY_ALGORITHM_AES;
-    private static final String BLOCK_MODE = KeyProperties.BLOCK_MODE_CBC;
-    private static final String ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7;
-    private static final String TRANSFORMATION = KEY_ALGORITHM + "/" + BLOCK_MODE + "/" + ENCRYPTION_PADDING;
-
     private final static String KEY_NAME = KeyHelper.class.getSimpleName();
     /***
      *  與後台交互需要進行非對稱加密

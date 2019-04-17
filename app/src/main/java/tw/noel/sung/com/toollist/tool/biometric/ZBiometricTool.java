@@ -24,7 +24,7 @@ import java.util.concurrent.Executor;
  * Created by noel on 2019/1/21.
  */
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class BiometricTool {
+public class ZBiometricTool {
     /***
      * 指紋辨識
      * 在api 23 時 出現
@@ -38,10 +38,11 @@ public class BiometricTool {
     private Context context;
     private Executor executor;
     private CancellationSignal cancellationSignal;
+
     private BiometricHelper biometricHelper;
     private KeyHelper keyHelper;
 
-    public BiometricTool(Context context) {
+    public ZBiometricTool(Context context) {
         this.context = context;
 
         keyHelper = new KeyHelper(context);
@@ -57,13 +58,6 @@ public class BiometricTool {
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void startScanFinger(final ZFingerprintManagerHandler zFingerprintManagerHandler) {
-
-        cancellationSignal.setOnCancelListener(new CancellationSignal.OnCancelListener() {
-            @Override
-            public void onCancel() {
-                zFingerprintManagerHandler.onCancelScan();
-            }
-        });
         try {
             if (biometricHelper.isCanFingerPrint()) {
                 fingerprintManager = (FingerprintManager) context.getSystemService(Activity.FINGERPRINT_SERVICE);
@@ -85,13 +79,6 @@ public class BiometricTool {
     @RequiresApi(api = Build.VERSION_CODES.P)
     public void startScanFinger(final ZBiometricPromptHandler zBiometricPromptHandler) {
 
-        cancellationSignal.setOnCancelListener(new CancellationSignal.OnCancelListener() {
-            @Override
-            public void onCancel() {
-                Log.e("TTT","AAA");
-                zBiometricPromptHandler.onCancelScan();
-            }
-        });
         try {
             if (biometricHelper.isCanBioMetricAuthentication()) {
                 executor = context.getMainExecutor();

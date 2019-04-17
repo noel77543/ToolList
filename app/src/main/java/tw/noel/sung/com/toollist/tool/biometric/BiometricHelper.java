@@ -7,13 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+import android.widget.Toast;
 
 import tw.noel.sung.com.toollist.R;
 
 /**
- * Created by noel on 2019/1/21.
+ * Created by noel on 2019/4/7.
  */
-public class BiometricHelper {
+public class BiometricHelper implements DialogInterface.OnClickListener {
 
 
     private FingerprintManagerCompat fingerprintManagerCompat;
@@ -25,10 +26,8 @@ public class BiometricHelper {
         this.context = context;
         fingerprintManagerCompat = FingerprintManagerCompat.from(context);
         keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-
-
     }
-    
+
     //----------
 
     /***
@@ -90,14 +89,25 @@ public class BiometricHelper {
         new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(context.getString(R.string.go_to_setting))
+                //取消
+                .setNegativeButton(context.getString(R.string.cancel), this)
                 //是
-                .setPositiveButton(context.getString(R.string.go), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        context.startActivity(new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS));
-                    }
-                })
+                .setPositiveButton(context.getString(R.string.go), this)
                 .show();
     }
 
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+
+        switch (which) {
+            //是
+            case DialogInterface.BUTTON_POSITIVE:
+                context.startActivity(new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS));
+                break;
+            //取消
+            case DialogInterface.BUTTON_NEGATIVE:
+                Toast.makeText(context, context.getString(R.string.not_finger_print), Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
 }

@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.hardware.biometrics.BiometricPrompt;
-import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
 import android.os.Bundle;
 /**
@@ -43,10 +42,9 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 import tw.noel.sung.com.toollist.adapter.MainExpandableListViewAdapter;
-import tw.noel.sung.com.toollist.tool.biometric.BiometricTool;
+import tw.noel.sung.com.toollist.tool.biometric.ZBiometricTool;
 import tw.noel.sung.com.toollist.tool.biometric.VerifyHelper;
 import tw.noel.sung.com.toollist.tool.biometric.callback.ZBiometricPromptHandler;
-import tw.noel.sung.com.toollist.tool.biometric.callback.ZFingerprintManagerHandler;
 import tw.noel.sung.com.toollist.tool.password_window.PasswordWindowActivity;
 import tw.noel.sung.com.toollist.tool.qr_code_scan.QRCodeScanActivity;
 import tw.noel.sung.com.toollist.tool.web.WebActivity;
@@ -80,7 +78,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     //放大倍率
     private final float TEXT_SIZE = 1.5f;
     private MainExpandableListViewAdapter mainExpandableListViewAdapter;
-    private  BiometricTool biometricTool;
+    private ZBiometricTool ZBiometricTool;
 
     @IntDef({PERMISSION_OPEN_QRCODE_SCANNER})
     @Retention(RetentionPolicy.SOURCE)
@@ -104,8 +102,8 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         initExpandableListView();
 
 
-        biometricTool = new BiometricTool(this);
-//        biometricTool.startScanFinger(new ZFingerprintManagerHandler() {
+        ZBiometricTool = new ZBiometricTool(this);
+//        ZBiometricTool.startScanFinger(new ZFingerprintManagerHandler() {
 //            @Override
 //            public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
 //                super.onAuthenticationSucceeded(result);
@@ -125,7 +123,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
 //            }
 //        });
 
-        biometricTool.startScanFinger(new ZBiometricPromptHandler(){
+        ZBiometricTool.startScanFinger(new ZBiometricPromptHandler(){
             @Override
             public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
@@ -150,7 +148,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
 
     @OnClick(R.id.text_view)
     public void onClicked(){
-        biometricTool.stopScan();
+        ZBiometricTool.stopScan();
     }
 
     //-------------

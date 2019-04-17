@@ -1,10 +1,14 @@
 package tw.noel.sung.com.toollist.tool.biometric.callback;
 
 import android.hardware.biometrics.BiometricPrompt;
+
 import java.security.PublicKey;
 import java.security.SignatureException;
 
-public class ZBiometricPromptHandler extends BiometricPrompt.AuthenticationCallback{
+/**
+ * Created by noel on 2019/4/16.
+ */
+public class ZBiometricPromptHandler extends BiometricPrompt.AuthenticationCallback {
 
     private PublicKey publicKey;
 
@@ -12,13 +16,14 @@ public class ZBiometricPromptHandler extends BiometricPrompt.AuthenticationCallb
         this.publicKey = publicKey;
         return this;
     }
+
     @Override
     public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
         super.onAuthenticationSucceeded(result);
 
         try {
             BiometricPrompt.CryptoObject cryptoObject = result.getCryptoObject();
-            onSignFingerPrint(cryptoObject, cryptoObject.getSignature().sign(),publicKey);
+            onSignFingerPrint(cryptoObject, cryptoObject.getSignature().sign(), publicKey);
         } catch (SignatureException e) {
             e.printStackTrace();
         }
@@ -35,10 +40,21 @@ public class ZBiometricPromptHandler extends BiometricPrompt.AuthenticationCallb
     }
 
     //-------------------
+
     /***
      * 當取消
      */
-    public void onCancelScan(){
+    public void onCancelScan() {
 
+    }
+    //-------------------
+
+    @Override
+    public void onAuthenticationError(int errorCode, CharSequence errString) {
+        super.onAuthenticationError(errorCode, errString);
+        //取消掃描
+        if (errorCode == BiometricPrompt.BIOMETRIC_ERROR_USER_CANCELED) {
+            onCancelScan();
+        }
     }
 }

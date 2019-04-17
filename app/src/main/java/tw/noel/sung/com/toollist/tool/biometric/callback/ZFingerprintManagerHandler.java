@@ -7,7 +7,9 @@ import android.support.annotation.RequiresApi;
 import java.security.PublicKey;
 import java.security.SignatureException;
 
-
+/**
+ * Created by noel on 2019/4/16.
+ */
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class ZFingerprintManagerHandler extends FingerprintManager.AuthenticationCallback {
 
@@ -32,8 +34,6 @@ public class ZFingerprintManagerHandler extends FingerprintManager.Authenticatio
         } catch (SignatureException e) {
             e.printStackTrace();
         }
-
-
     }
 
     //----------------
@@ -52,5 +52,15 @@ public class ZFingerprintManagerHandler extends FingerprintManager.Authenticatio
      */
     public void onCancelScan(){
 
+    }
+    //-----------
+
+    @Override
+    public void onAuthenticationError(int errorCode, CharSequence errString) {
+        super.onAuthenticationError(errorCode, errString);
+        //取消掃描
+        if(errorCode == FingerprintManager.FINGERPRINT_ERROR_USER_CANCELED){
+            onCancelScan();
+        }
     }
 }

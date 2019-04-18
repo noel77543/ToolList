@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.hardware.biometrics.BiometricPrompt;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,12 +13,14 @@ import android.os.Bundle;
  * Created by noel on 2019/2/16.
  */
 import android.provider.Settings;
+import android.security.keystore.KeyProperties;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -27,7 +30,9 @@ import android.widget.Toast;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.security.KeyFactory;
 import java.security.PublicKey;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -89,10 +94,9 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     public static final int PERMISSION_OPEN_QRCODE_SCANNER = 101;
     private @PermissionActionType
     int permissionActionType;
-    private byte[] bytes;
 
-    @BindView(R.id.text_view)
-    TextView textView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +104,9 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         ButterKnife.bind(this);
         initTitleAnimation();
         initExpandableListView();
+
+        final SharedPreferences   sharedPreferences = getSharedPreferences("default", MODE_PRIVATE);
+        final  SharedPreferences.Editor  editor = sharedPreferences.edit();
 
 
         ZBiometricTool = new ZBiometricTool(this);
@@ -123,32 +130,35 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
 //            }
 //        });
 
-        ZBiometricTool.startScanFinger(new ZBiometricPromptHandler(){
+//        ZBiometricTool.removeKey();
+        ZBiometricTool.startScanFinger(new ZBiometricPromptHandler(
+//                null,
+                sharedPreferences.getString("lockString",""),
+//                null
+                sharedPreferences.getString("keyString","")
+        ) {
+
             @Override
-            public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
-                super.onAuthenticationSucceeded(result);
-                Log.e("TTT",result.getCryptoObject().getSignature().getAlgorithm());
+            public void onSignedFingerPrint(String lockString, String keyString) {
+                super.onSignedFingerPrint(lockString, keyString);
+                Log.e("lockString",lockString+"");
+                Log.e("keyString",keyString+"");
+
+                editor.putString("lockString",lockString).commit();
+                editor.putString("keyString",keyString).commit();
             }
 
             @Override
-            public void onSignFingerPrint(BiometricPrompt.CryptoObject cryptoObject, byte[] sign, PublicKey publicKey) {
-                super.onSignFingerPrint(cryptoObject, sign, publicKey);
-                bytes = sign;
-                VerifyHelper verifyHelper = new VerifyHelper();
-                Log.e("TTT", verifyHelper.verifyCryptoObject(cryptoObject,sign,publicKey) + "");
+            public void onVerifiedFingerPrint(boolean isSuccess) {
+                super.onVerifiedFingerPrint(isSuccess);
+                Log.e("onVerifiedFingerPrint",isSuccess+"");
             }
 
             @Override
             public void onCancelScan() {
                 super.onCancelScan();
-                Log.e("TTT","TTT");
             }
         });
-    }
-
-    @OnClick(R.id.text_view)
-    public void onClicked(){
-        ZBiometricTool.stopScan();
     }
 
     //-------------

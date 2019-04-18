@@ -7,6 +7,8 @@ import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
+
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -19,6 +21,7 @@ import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
+import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.security.spec.ECGenParameterSpec;
 
@@ -30,7 +33,7 @@ import java.security.spec.ECGenParameterSpec;
 public class KeyHelper {
 
     private static final String KEYSTORE_NAME = "AndroidKeyStore";
-    private final static String KEY_NAME = KeyHelper.class.getSimpleName();
+    private final static String KEY_NAME =KeyHelper.class.getSimpleName();
     /***
      *  與後台交互需要進行非對稱加密
      *  即創建一處成雙成對的公鑰、私鑰
@@ -43,37 +46,57 @@ public class KeyHelper {
     private Context context;
     private Signature signature;
 
+
     public KeyHelper(Context context) {
         this.context = context;
         try {
             signature = Signature.getInstance("SHA256withECDSA");
             keyPairGenerator = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_EC, KEYSTORE_NAME);
             keyStore = KeyStore.getInstance(KEYSTORE_NAME);
-            keyStore.load(null);
+
             //如定義的KeyName不存在則創建一個
-//            if (!keyStore.isKeyEntry(KEY_NAME)) {
-            createKey();
-//            }
-        } catch (IOException | CertificateException | NoSuchAlgorithmException | NoSuchProviderException | KeyStoreException e) {
+            if (!isKeyPairCreated()) {
+                keyPairGenerator.initialize(new KeyGenParameterSpec.Builder(KEY_NAME,
+                        KeyProperties.PURPOSE_SIGN)
+                        .setDigests(KeyProperties.DIGEST_SHA256)
+                        .setAlgorithmParameterSpec(new ECGenParameterSpec("secp256r1"))
+                        .setUserAuthenticationRequired(false)
+                        .build());
+                keyPair = keyPairGenerator.generateKeyPair();
+            }
+            //反之直接取用
+            else {
+                try {
+                    KeyStore.Entry entry = keyStore.getEntry(KEY_NAME, null);
+                    keyPair = new KeyPair(keyStore.getCertificate(KEY_NAME).getPublicKey(), ((KeyStore.PrivateKeyEntry) entry).getPrivateKey());
+                } catch (UnrecoverableEntryException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException | CertificateException | NoSuchAlgorithmException | NoSuchProviderException | KeyStoreException | InvalidAlgorithmParameterException e) {
             e.printStackTrace();
         }
     }
-
     //---------------
 
     /***
-     *  創建Key & KeyPair
+     *  鑰匙對是否已經建立
+     * @return
      */
-    private void createKey() {
+    public boolean isKeyPairCreated() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
+        keyStore.load(null);
+        return keyStore.isKeyEntry(KEY_NAME);
+    }
+
+    //----------------
+
+    /***
+     *  清除要使串
+     */
+    public void removeKey() {
         try {
-            keyPairGenerator.initialize(new KeyGenParameterSpec.Builder(KEY_NAME,
-                    KeyProperties.PURPOSE_SIGN)
-                    .setDigests(KeyProperties.DIGEST_SHA256)
-                    .setAlgorithmParameterSpec(new ECGenParameterSpec("secp256r1"))
-                    .setUserAuthenticationRequired(false)
-                    .build());
-            keyPair = keyPairGenerator.generateKeyPair();
-        } catch (InvalidAlgorithmParameterException e) {
+            keyStore.deleteEntry(KEYSTORE_NAME);
+        } catch (KeyStoreException e) {
             e.printStackTrace();
         }
     }
@@ -109,7 +132,7 @@ public class KeyHelper {
      * 取得公鑰
      * @return
      */
-    public PublicKey getPublicKey(){
+    public PublicKey getPublicKey() {
         return keyPair.getPublic();
     }
     //----------------
@@ -118,7 +141,8 @@ public class KeyHelper {
      * 取得私鑰
      * @return
      */
-    public PrivateKey getPrivateKey(){
+    public PrivateKey getPrivateKey() {
         return keyPair.getPrivate();
     }
+
 }

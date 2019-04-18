@@ -92,7 +92,7 @@ public class ZBiometricTool {
                             }
                         })
                         .build();
-                biometricPrompt.authenticate(keyHelper.getBiometricPromptCryptoObject(), cancellationSignal, executor, zBiometricPromptHandler.setPublicKey(keyHelper.getPublicKey()));
+                biometricPrompt.authenticate(keyHelper.getBiometricPromptCryptoObject(), cancellationSignal, executor, zBiometricPromptHandler.setKeyHelper(keyHelper));
 
 
             } else {
@@ -102,13 +102,12 @@ public class ZBiometricTool {
             e.printStackTrace();
         }
     }
-
-    //-------------------
+    //------------------
 
     /***
-     * 停止掃描
+     * 清除鑰匙串
      */
-    public void stopScan(){
-        cancellationSignal.cancel();
+    public void removeKey(){
+        keyHelper.removeKey();
     }
 }

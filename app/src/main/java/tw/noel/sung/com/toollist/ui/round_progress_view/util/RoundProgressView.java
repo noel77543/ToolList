@@ -225,7 +225,6 @@ public class RoundProgressView extends android.support.v7.widget.AppCompatImageV
         path.close();
 
         backgroundPaint.setStyle(Paint.Style.FILL);
-        backgroundPaint.setColor(progressCircleColor);
         backgroundCanvas.drawPath(path, backgroundPaint);
     }
 

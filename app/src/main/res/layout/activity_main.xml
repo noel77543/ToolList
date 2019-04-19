@@ -23,6 +23,12 @@
         android:childDivider="@android:color/transparent"
         android:groupIndicator="@null" />
 
+
+    <tw.noel.sung.com.toollist.ui.multiple_section_progress_view.MultipleSectionProgressView
+        android:layout_width="match_parent"
+        android:id="@+id/multiple_section_progress_view"
+        android:layout_height="30dp" />
+
     <!--<tw.noel.sung.com.toollist.ui.dice_view.DiceView-->
         <!--android:id="@+id/dice_view"-->
         <!--android:layout_height="100dp"-->

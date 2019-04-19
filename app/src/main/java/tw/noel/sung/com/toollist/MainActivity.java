@@ -4,24 +4,18 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-
-import android.content.SharedPreferences;
-import android.hardware.biometrics.BiometricPrompt;
 import android.net.Uri;
 import android.os.Bundle;
 /**
  * Created by noel on 2019/2/16.
  */
 import android.provider.Settings;
-import android.security.keystore.KeyProperties;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -30,16 +24,12 @@ import android.widget.Toast;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.security.KeyFactory;
-import java.security.PublicKey;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -47,13 +37,11 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 import tw.noel.sung.com.toollist.adapter.MainExpandableListViewAdapter;
-import tw.noel.sung.com.toollist.tool.biometric.ZBiometricTool;
-import tw.noel.sung.com.toollist.tool.biometric.VerifyHelper;
-import tw.noel.sung.com.toollist.tool.biometric.callback.ZBiometricPromptHandler;
 import tw.noel.sung.com.toollist.tool.password_window.PasswordWindowActivity;
 import tw.noel.sung.com.toollist.tool.qr_code_scan.QRCodeScanActivity;
 import tw.noel.sung.com.toollist.tool.web.WebActivity;
 import tw.noel.sung.com.toollist.ui.UIActivity;
+import tw.noel.sung.com.toollist.ui.multiple_section_progress_view.MultipleSectionProgressView;
 
 
 @RuntimePermissions
@@ -63,6 +51,8 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     TextView textViewTitle;
     @BindView(R.id.expandable_list_view)
     ExpandableListView expandableListView;
+    @BindView(R.id.multiple_section_progress_view)
+    MultipleSectionProgressView multipleSectionProgressView;
 //    @BindView(R.id.dice_view)
 //    DiceView diceView;
 
@@ -83,7 +73,6 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     //放大倍率
     private final float TEXT_SIZE = 1.5f;
     private MainExpandableListViewAdapter mainExpandableListViewAdapter;
-    private ZBiometricTool ZBiometricTool;
 
     @IntDef({PERMISSION_OPEN_QRCODE_SCANNER})
     @Retention(RetentionPolicy.SOURCE)
@@ -104,61 +93,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         ButterKnife.bind(this);
         initTitleAnimation();
         initExpandableListView();
-
-        final SharedPreferences   sharedPreferences = getSharedPreferences("default", MODE_PRIVATE);
-        final  SharedPreferences.Editor  editor = sharedPreferences.edit();
-
-
-        ZBiometricTool = new ZBiometricTool(this);
-//        ZBiometricTool.startScanFinger(new ZFingerprintManagerHandler() {
-//            @Override
-//            public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
-//                super.onAuthenticationSucceeded(result);
-//            }
-//
-//            @Override
-//            public void onSignFingerPrint(FingerprintManager.CryptoObject cryptoObject, byte[] sign, PublicKey publicKey) {
-//                super.onSignFingerPrint(cryptoObject, sign, publicKey);
-//                bytes = sign;
-//                VerifyHelper verifyHelper = new VerifyHelper();
-//                Log.e("TTT", verifyHelper.verifyCryptoObject(cryptoObject,sign,publicKey) + "");
-//            }
-//            @Override
-//            public void onCancelScan() {
-//                super.onCancelScan();
-//                Log.e("TTT","TTT");
-//            }
-//        });
-
-//        ZBiometricTool.removeKey();
-        ZBiometricTool.startScanFinger(new ZBiometricPromptHandler(
-//                null,
-                sharedPreferences.getString("lockString",""),
-//                null
-                sharedPreferences.getString("keyString","")
-        ) {
-
-            @Override
-            public void onSignedFingerPrint(String lockString, String keyString) {
-                super.onSignedFingerPrint(lockString, keyString);
-                Log.e("lockString",lockString+"");
-                Log.e("keyString",keyString+"");
-
-                editor.putString("lockString",lockString).commit();
-                editor.putString("keyString",keyString).commit();
-            }
-
-            @Override
-            public void onVerifiedFingerPrint(boolean isSuccess) {
-                super.onVerifiedFingerPrint(isSuccess);
-                Log.e("onVerifiedFingerPrint",isSuccess+"");
-            }
-
-            @Override
-            public void onCancelScan() {
-                super.onCancelScan();
-            }
-        });
+        multipleSectionProgressView.setSections(new float[]{60},new int[]{R.color.colorAccent},new int[]{R.color.colorPrimary,R.color.colorPrimaryDark},100).draw();
     }
 
     //-------------

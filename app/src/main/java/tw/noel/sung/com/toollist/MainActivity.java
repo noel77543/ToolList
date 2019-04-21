@@ -51,8 +51,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     TextView textViewTitle;
     @BindView(R.id.expandable_list_view)
     ExpandableListView expandableListView;
-    @BindView(R.id.multiple_section_progress_view)
-    MultipleSectionProgressView multipleSectionProgressView;
+
 //    @BindView(R.id.dice_view)
 //    DiceView diceView;
 
@@ -92,12 +91,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         ButterKnife.bind(this);
         initTitleAnimation();
         initExpandableListView();
-        multipleSectionProgressView
-                .setAnimationTime(1000)
-                .setValue(100, 100)
-                .setSections(new float[]{60}, new int[]{R.color.colorAccent})
-                .setColors(R.color.colorPrimaryDark, R.color.colorAccent)
-                .draw();
+
     }
 
     //-------------
@@ -139,6 +133,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         childrenUI.add("5. RoundProgressView");
         childrenUI.add("6. LotteryView");
         childrenUI.add("7. AutoTextView");
+        childrenUI.add("8. MultipleSectionProgressView");
 
         ArrayList<String> childrenTool = new ArrayList<>();
         childrenTool.add("1. QRCode Scanner");
@@ -236,6 +231,10 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
                 //AutoTextView
                 case 6:
                     intent.putExtra(KEY_PAGE, UIActivity.PAGE_AUTO_TEXT_VIEW);
+                    break;
+                //MultipleSectionProgressView
+                case 7:
+                    intent.putExtra(KEY_PAGE, UIActivity.PAGE_MULTIPLES_SECTION_PROGRESS_VIEW);
                     break;
             }
             intent.putExtra(KEY_TITLE, (String) parent.getExpandableListAdapter().getChild(groupPosition, childPosition));

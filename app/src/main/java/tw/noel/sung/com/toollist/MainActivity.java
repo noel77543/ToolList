@@ -85,7 +85,6 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
     int permissionActionType;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +92,12 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         ButterKnife.bind(this);
         initTitleAnimation();
         initExpandableListView();
-        multipleSectionProgressView.setSections(new float[]{60},new int[]{R.color.colorAccent},new int[]{R.color.colorPrimary,R.color.colorPrimaryDark},100).draw();
+        multipleSectionProgressView
+                .setAnimationTime(1000)
+                .setValue(100, 100)
+                .setSections(new float[]{60}, new int[]{R.color.colorAccent})
+                .setColors(R.color.colorPrimaryDark, R.color.colorAccent)
+                .draw();
     }
 
     //-------------

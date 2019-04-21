@@ -25,7 +25,7 @@
 
 
     <tw.noel.sung.com.toollist.ui.multiple_section_progress_view.MultipleSectionProgressView
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:id="@+id/multiple_section_progress_view"
         android:layout_height="30dp" />
 

@@ -6,4 +6,10 @@
 
     <color name="password_button">#ffffff</color>
     <color name="password_bg">#d3e3e6ed</color>
+
+
+    <color name="multiple_section_progress_view_start">#fed87e</color>
+    <color name="multiple_section_progress_view_section">#f5d88a</color>
+    <color name="multiple_section_progress_view_end">#d6614b</color>
+
 </resources>

@@ -20,7 +20,7 @@ public class MultipleSectionProgressViewFragment extends BasePageFragment {
         multipleSectionProgressView
                 .setAnimationTime(1000)
                 .setValue(100, 100)
-                .setSections(new float[]{60}, new int[]{R.color.colorAccent,android.R.color.holo_red_dark})
+                .setSections(R.color.multiple_section_progress_view_start,R.color.multiple_section_progress_view_end, new int[]{R.color.multiple_section_progress_view_section},new float[]{60})
                 .draw(new LinearInterpolator());
     }
 }

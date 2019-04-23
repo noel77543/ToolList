@@ -9,7 +9,10 @@
 
 
     <color name="multiple_section_progress_view_start">#fed87e</color>
-    <color name="multiple_section_progress_view_section">#f5d88a</color>
+    <color name="multiple_section_progress_view_section">#0033ff</color>
+    <color name="multiple_section_progress_view_section2">#ff0d00</color>
+
     <color name="multiple_section_progress_view_end">#d6614b</color>
 
+    <color name="s">#56000000</color>
 </resources>

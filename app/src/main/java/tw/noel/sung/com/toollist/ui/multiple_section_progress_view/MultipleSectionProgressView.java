@@ -17,6 +17,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ViewTreeObserver;
 
 import tw.noel.sung.com.toollist.R;
@@ -30,7 +31,7 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
     private final float DEFAULT_TARGET_VALUE = 0;
     private float targetValue;
     //預設線條顏色
-    private final int DEFAULT_STROKE_COLOR = android.R.color.transparent;
+    private final int DEFAULT_STROKE_COLOR = android.R.color.black;
     private int strokeColor;
     //預設動畫時間
     private final int DEFAULT_ANIMATION_TIME = 3000;
@@ -42,11 +43,14 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
     private final float DEFAULT_STROKE_WIDTH = 0;
     private float strokeWidth;
 
-
     //當前遞增的數值
     private float currentValue;
+    //section的所有漸變色
     private int[] sectionColors;
+    //section
     private float[] sections;
+    //漸變色的起始位置
+    private float[] positions;
     private int viewWidth;
     private int viewHeight;
     private Context context;
@@ -59,7 +63,8 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
     private Paint backgroundPaint;
     private Canvas backgroundCanvas;
     private Bitmap backgroundBitmap;
-
+    //陰影色
+    private final int SHADOW_COLOR = Color.parseColor("#8F000000");
 
     public MultipleSectionProgressView(Context context) {
         this(context, null);
@@ -140,7 +145,7 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
      */
     public MultipleSectionProgressView setValue(float maxValue, float targetValue) {
         this.maxValue = maxValue;
-        this.targetValue = targetValue;
+        this.targetValue = targetValue > maxValue ? maxValue : targetValue;
         return this;
     }
 
@@ -151,14 +156,30 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
      * @param sections
      */
     public MultipleSectionProgressView setSections(int startColor, int endColor, int[] sectionColors, float[] sections) {
-        this.sections = sections;
-        this.sectionColors = new int[sectionColors.length + 2];
+        if (sectionColors.length == sections.length) {
+            this.sections = sections;
+            //陣列長度為 所有section+ 起始 + 最終
+            this.sectionColors = new int[sections.length + 2];
+            //陣列長度為
+            this.positions = new float[sections.length + 2];
 
-        this.sectionColors[0] = getResources().getColor(startColor);
-        for (int i = 0; i < sectionColors.length; i++) {
-            this.sectionColors[i + 1] = getResources().getColor(sectionColors[i]);
+            //設置起始色的漸變起始點為0
+            this.positions[0] = 0f;
+            //加入漸變起始色
+            this.sectionColors[0] = getResources().getColor(startColor);
+
+            //加入所有section的漸變色
+            for (int i = 0; i < sectionColors.length; i++) {
+                //設置漸變色
+                this.sectionColors[i + 1] = getResources().getColor(sectionColors[i]);
+                this.positions[i + 1] = sections[i] / maxValue - 0.02f;
+            }
+
+            //設置最終色的漸變起始點為1
+            this.positions[this.positions.length - 1] = this.positions[this.positions.length - 2] + 0.13f;
+            //加入漸變最終色
+            this.sectionColors[this.sectionColors.length - 1] = getResources().getColor(endColor);
         }
-        this.sectionColors[this.sectionColors.length - 1] = getResources().getColor(endColor);
         return this;
     }
 
@@ -232,19 +253,22 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
                         }
                         float part = (sections[i] / maxValue) * viewWidth;
                         rectF = new RectF(margin, margin, part - margin, viewHeight - margin);
-                        foregroundCanvas.drawRoundRect(rectF, viewHeight / 2, viewHeight / 2, foregroundPaint);
+                        foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
                     }
                 }
 
+                for (int i = 0; i < positions.length; i++) {
+                    Log.e("TTT", "" + positions[i]);
+                }
                 //漸層設置
-                LinearGradient linearGradient = new LinearGradient(0, 0, (sections[sections.length - 1] / maxValue) * viewWidth + viewWidth / 2, 0, sectionColors, null, LinearGradient.TileMode.CLAMP);
+                LinearGradient linearGradient = new LinearGradient(0, 0, viewWidth, 0, sectionColors, positions, LinearGradient.TileMode.CLAMP);
                 backgroundPaint.setShader(linearGradient);
             }
 
             //畫出最後尾部
             foregroundPaint.setColor(strokeColor);
             rectF = new RectF(margin, margin, viewWidth - margin, viewHeight - margin);
-            foregroundCanvas.drawRoundRect(rectF, viewHeight / 2, viewHeight / 2, foregroundPaint);
+            foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
             isInitial = true;
         }
         //繪製內部
@@ -268,7 +292,7 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
 
 
             rectF.set(innerMargin, innerMargin, currentValue - innerMargin, viewHeight - innerMargin);
-            backgroundCanvas.drawRoundRect(rectF, 2 * viewHeight, 2 * viewHeight, backgroundPaint);
+            backgroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, backgroundPaint);
         }
     }
 }

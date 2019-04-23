@@ -17,10 +17,14 @@ public class MultipleSectionProgressViewFragment extends BasePageFragment {
 
     @Override
     protected void init() {
+        int startColor = R.color.multiple_section_progress_view_start;
+        int endColor = R.color.multiple_section_progress_view_end;
+        int[] sectionColors = new int[]{R.color.multiple_section_progress_view_section,R.color.multiple_section_progress_view_section2};
+        float[] sections = new float[]{60,80};
         multipleSectionProgressView
                 .setAnimationTime(1000)
-                .setValue(100, 100)
-                .setSections(R.color.multiple_section_progress_view_start,R.color.multiple_section_progress_view_end, new int[]{R.color.multiple_section_progress_view_section},new float[]{60})
+                .setValue(100, 60)
+                .setSections(startColor,endColor,sectionColors,sections)
                 .draw(new LinearInterpolator());
     }
 }

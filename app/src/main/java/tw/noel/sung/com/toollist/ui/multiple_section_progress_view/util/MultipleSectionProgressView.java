@@ -54,8 +54,6 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
     private int viewHeight;
     private Context context;
     private RectF rectF;
-    //是否開始繪製
-    private boolean isDrawing = false;
     //是否完成區間繪製
     private boolean isInitial = false;
     private Paint foregroundPaint;
@@ -157,8 +155,6 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
             this.positions[this.positions.length - 1] = this.positions[this.positions.length - 2] + 0.1f;
             //加入漸變最終色
             this.sectionColors[this.sectionColors.length - 1] = getResources().getColor(endColor);
-            isDrawing = true;
-            invalidate();
         }
         return this;
     }
@@ -225,8 +221,6 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
         }
         margin = (strokeWidth / 2);
 
-        //繪製外部
-        if (isDrawing) {
 
             foregroundPaint.setStrokeWidth(strokeWidth);
             foregroundBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
@@ -262,7 +256,6 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
                 //完成區間繪製
                 isInitial = true;
             }
-        }
     }
 
     //--------

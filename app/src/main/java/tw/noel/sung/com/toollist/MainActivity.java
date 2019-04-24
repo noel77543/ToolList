@@ -41,7 +41,6 @@ import tw.noel.sung.com.toollist.tool.password_window.PasswordWindowActivity;
 import tw.noel.sung.com.toollist.tool.qr_code_scan.QRCodeScanActivity;
 import tw.noel.sung.com.toollist.tool.web.WebActivity;
 import tw.noel.sung.com.toollist.ui.UIActivity;
-import tw.noel.sung.com.toollist.ui.multiple_section_progress_view.MultipleSectionProgressView;
 
 
 @RuntimePermissions

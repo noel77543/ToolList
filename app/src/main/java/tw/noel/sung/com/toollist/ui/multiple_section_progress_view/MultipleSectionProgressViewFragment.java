@@ -8,6 +8,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tw.noel.sung.com.toollist.BasePageFragment;
 import tw.noel.sung.com.toollist.R;
+import tw.noel.sung.com.toollist.ui.multiple_section_progress_view.util.MultipleSectionProgressView;
 
 public class MultipleSectionProgressViewFragment extends BasePageFragment {
     @BindView(R.id.multiple_section_progress_view)

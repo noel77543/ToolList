@@ -23,7 +23,6 @@ import tw.noel.sung.com.toollist.ui.block_pie_view.BlockPieFragment;
 import tw.noel.sung.com.toollist.ui.flower_button.FlowerButtonFragment;
 import tw.noel.sung.com.toollist.ui.link_view.LinkViewFragment;
 import tw.noel.sung.com.toollist.ui.loterry_view.LotteryViewFragment;
-import tw.noel.sung.com.toollist.ui.multiple_section_progress_view.MultipleSectionProgressView;
 import tw.noel.sung.com.toollist.ui.multiple_section_progress_view.MultipleSectionProgressViewFragment;
 import tw.noel.sung.com.toollist.ui.simple_pie_view.SimplePieViewFragment;
 import tw.noel.sung.com.toollist.ui.round_progress_view.RoundProgressViewFragment;

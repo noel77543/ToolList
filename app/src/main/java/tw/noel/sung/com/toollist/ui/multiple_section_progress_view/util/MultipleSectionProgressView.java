@@ -1,4 +1,4 @@
-package tw.noel.sung.com.toollist.ui.multiple_section_progress_view;
+package tw.noel.sung.com.toollist.ui.multiple_section_progress_view.util;
 
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
@@ -12,7 +12,6 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;

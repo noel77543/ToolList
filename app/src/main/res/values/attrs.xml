@@ -61,7 +61,6 @@
         <attr name="multipleSectionProgressViewAnimationTime" format="reference|integer"/>
         <attr name="multipleSectionProgressViewMaxValue" format="reference|float"/>
         <attr name="multipleSectionProgressViewTargetValue" format="reference|float"/>
-        <attr name="multipleSectionProgressViewStrokeColor" format="reference|color"/>
     </declare-styleable>
 
 

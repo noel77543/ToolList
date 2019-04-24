@@ -30,9 +30,7 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
     //預設起始值
     private final float DEFAULT_TARGET_VALUE = 0;
     private float targetValue;
-    //預設線條顏色
-    private final int DEFAULT_STROKE_COLOR = android.R.color.black;
-    private int strokeColor;
+
     //預設動畫時間
     private final int DEFAULT_ANIMATION_TIME = 3000;
     private int animationTime;
@@ -63,8 +61,7 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
     private Paint backgroundPaint;
     private Canvas backgroundCanvas;
     private Bitmap backgroundBitmap;
-    //陰影色
-    private final int SHADOW_COLOR = Color.parseColor("#8F000000");
+
 
     public MultipleSectionProgressView(Context context) {
         this(context, null);
@@ -87,7 +84,6 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
         maxValue = typedArray.getFloat(R.styleable.MultipleSectionProgressView_multipleSectionProgressViewMaxValue, DEFAULT_MAX_VALUE);
         targetValue = typedArray.getFloat(R.styleable.MultipleSectionProgressView_multipleSectionProgressViewTargetValue, DEFAULT_TARGET_VALUE);
         animationTime = typedArray.getInteger(R.styleable.MultipleSectionProgressView_multipleSectionProgressViewAnimationTime, DEFAULT_ANIMATION_TIME);
-        strokeColor = typedArray.getColor(R.styleable.MultipleSectionProgressView_multipleSectionProgressViewStrokeColor, getResources().getColor(DEFAULT_STROKE_COLOR));
         innerMargin = typedArray.getDimension(R.styleable.MultipleSectionProgressView_multipleSectionProgressViewInnerMargin, DEFAULT_INNER_MARGIN);
         strokeWidth = typedArray.getDimension(R.styleable.MultipleSectionProgressView_multipleSectionProgressViewStrokeWidth, DEFAULT_STROKE_WIDTH);
         typedArray.recycle();
@@ -98,7 +94,6 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
         getViewTreeObserver().addOnGlobalLayoutListener(this);
         foregroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         foregroundPaint.setStyle(Paint.Style.STROKE);
-        foregroundPaint.setColor(strokeColor);
         backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         backgroundPaint.setStyle(Paint.Style.FILL);
     }
@@ -172,11 +167,12 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
             for (int i = 0; i < sectionColors.length; i++) {
                 //設置漸變色
                 this.sectionColors[i + 1] = getResources().getColor(sectionColors[i]);
-                this.positions[i + 1] = sections[i] / maxValue - 0.02f;
+                //設置漸變起始點
+                this.positions[i + 1] = (sections[i] / maxValue);
             }
 
             //設置最終色的漸變起始點為1
-            this.positions[this.positions.length - 1] = this.positions[this.positions.length - 2] + 0.13f;
+            this.positions[this.positions.length - 1] = this.positions[this.positions.length - 2] + 0.1f;
             //加入漸變最終色
             this.sectionColors[this.sectionColors.length - 1] = getResources().getColor(endColor);
         }
@@ -243,30 +239,25 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
         float margin = (strokeWidth / 2);
         //繪製外部
         if (!isInitial) {
-            if (sections != null) {
+
+            if (sections != null && sectionColors != null) {
+                //漸層設置
+                LinearGradient linearGradient = new LinearGradient(0, 0, viewWidth, 0, sectionColors, positions, LinearGradient.TileMode.CLAMP);
+                backgroundPaint.setShader(linearGradient);
+                LinearGradient linearGradient2 = new LinearGradient(0, 0, viewWidth, 0, sectionColors, null, LinearGradient.TileMode.CLAMP);
+                foregroundPaint.setShader(linearGradient2);
+
                 //畫出所有section
                 for (int i = 0; i < sections.length; i++) {
                     //section 不得超過最大值
                     if (sections[i] < maxValue) {
-                        if (sectionColors != null && sectionColors[i] != 0) {
-                            foregroundPaint.setColor(sectionColors[i]);
-                        }
                         float part = (sections[i] / maxValue) * viewWidth;
                         rectF = new RectF(margin, margin, part - margin, viewHeight - margin);
                         foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
                     }
                 }
-
-                for (int i = 0; i < positions.length; i++) {
-                    Log.e("TTT", "" + positions[i]);
-                }
-                //漸層設置
-                LinearGradient linearGradient = new LinearGradient(0, 0, viewWidth, 0, sectionColors, positions, LinearGradient.TileMode.CLAMP);
-                backgroundPaint.setShader(linearGradient);
             }
 
-            //畫出最後尾部
-            foregroundPaint.setColor(strokeColor);
             rectF = new RectF(margin, margin, viewWidth - margin, viewHeight - margin);
             foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
             isInitial = true;
@@ -276,21 +267,6 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
 
             float innerMargin = this.innerMargin + margin;
             backgroundCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-
-
-//            RectF roundRectFStart = new RectF(0, 0, viewHeight, viewHeight);
-//            path.addArc(roundRectFStart, 90, 180);
-//
-//            RectF roundRectFEnd = new RectF(viewWidth-viewHeight, 0, viewHeight, viewHeight);
-//            path.addArc(roundRectFEnd, 270, 180);
-
-
-//            rectF.set(innerMargin, innerMargin, currentValue - innerMargin, viewHeight - innerMargin);
-//            path.addRoundRect(rectF,  2 * viewHeight, 2 * viewHeight,Path.Direction.CCW);
-//            path.close();
-//            backgroundCanvas.drawPath(path, backgroundPaint);
-
-
             rectF.set(innerMargin, innerMargin, currentValue - innerMargin, viewHeight - innerMargin);
             backgroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, backgroundPaint);
         }

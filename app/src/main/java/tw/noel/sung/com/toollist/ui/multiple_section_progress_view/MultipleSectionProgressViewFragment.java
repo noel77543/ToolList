@@ -1,21 +1,26 @@
 package tw.noel.sung.com.toollist.ui.multiple_section_progress_view;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import tw.noel.sung.com.toollist.BasePageFragment;
 import tw.noel.sung.com.toollist.R;
+import tw.noel.sung.com.toollist.ui.multiple_section_progress_view.adapter.ItemAdapter;
+import tw.noel.sung.com.toollist.ui.multiple_section_progress_view.model.ModelItem;
 import tw.noel.sung.com.toollist.ui.multiple_section_progress_view.util.MultipleSectionProgressView;
 
 public class MultipleSectionProgressViewFragment extends BasePageFragment {
-    @BindView(R.id.multiple_section_progress_view)
-    MultipleSectionProgressView multipleSectionProgressView;
-    @BindView(R.id.button)
-    Button button;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
 
+    private ItemAdapter itemAdapter;
     @Override
     protected int getContentView() {
         return R.layout.fragment_multiple_section_progress_view;
@@ -23,25 +28,26 @@ public class MultipleSectionProgressViewFragment extends BasePageFragment {
 
     @Override
     protected void init() {
+        itemAdapter = new ItemAdapter(uiActivity);
+        recyclerView.setLayoutManager(new LinearLayoutManager(uiActivity,LinearLayoutManager.HORIZONTAL,false));
+        recyclerView.setAdapter(itemAdapter);
 
-
+        itemAdapter.setData(getData());
     }
-
     //-------------
 
-
-    @OnClick(R.id.button)
-    public void onClicked(View view){
-        int startColor = R.color.multiple_section_progress_view_start;
-        int endColor = R.color.multiple_section_progress_view_end;
-        int[] sectionColors = new int[]{R.color.multiple_section_progress_view_section};
-        float[] sections = new float[]{5000};
-
-        multipleSectionProgressView
-                .setAnimationTime(2000)
-                .setValue(10000, 10000)
-                .setSections(startColor, endColor, sectionColors, sections)
-                .draw(new AccelerateInterpolator());
+    private ArrayList<ModelItem> getData() {
+        ArrayList<ModelItem> modelItems = new ArrayList<>();
+        modelItems.add(new ModelItem(new float[]{500,600},new int[]{android.R.color.holo_red_dark,android.R.color.holo_blue_light},1000,800));
+        modelItems.add(new ModelItem(new float[]{500,600,800},new int[]{android.R.color.holo_red_dark,android.R.color.holo_blue_light,android.R.color.holo_green_light},2000,1200));
+        modelItems.add(new ModelItem(new float[]{200,400,600,800},new int[]{android.R.color.holo_red_dark,android.R.color.holo_blue_light,android.R.color.holo_green_light,android.R.color.holo_orange_light},3000,2000));
+        modelItems.add(new ModelItem(new float[]{20},new int[]{android.R.color.holo_red_dark},100,60));
+        modelItems.add(new ModelItem(new float[]{500,600},new int[]{android.R.color.holo_red_dark,android.R.color.holo_blue_light},1000,800));
+        modelItems.add(new ModelItem(new float[]{500,600},new int[]{android.R.color.holo_red_dark,android.R.color.holo_blue_light},1000,900));
+        modelItems.add(new ModelItem(new float[]{500,600},new int[]{android.R.color.holo_red_dark,android.R.color.holo_blue_light},1000,300));
+        modelItems.add(new ModelItem(new float[]{500,600},new int[]{android.R.color.holo_red_dark,android.R.color.holo_blue_light},1000,500));
+        modelItems.add(new ModelItem(new float[]{500},new int[]{android.R.color.holo_red_dark},1000,550));
+        return modelItems;
     }
 
 }

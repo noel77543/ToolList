@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <tw.noel.sung.com.toollist.ui.multiple_section_progress_view.util.MultipleSectionProgressView
+        android:id="@+id/multiple_section_progress_view"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginStart="35dp" />
+</LinearLayout>

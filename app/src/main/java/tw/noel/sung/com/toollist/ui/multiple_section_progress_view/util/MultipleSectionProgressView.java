@@ -23,7 +23,7 @@ import android.view.ViewTreeObserver;
 
 import tw.noel.sung.com.toollist.R;
 
-public class MultipleSectionProgressView extends android.support.v7.widget.AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener, ValueAnimator.AnimatorUpdateListener {
+public class MultipleSectionProgressView extends android.support.v7.widget.AppCompatImageView implements ValueAnimator.AnimatorUpdateListener {
 
     //預設最大值
     private final float DEFAULT_MAX_VALUE = 100;
@@ -67,7 +67,7 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
 
     //色調調節器
     private ColorMatrix colorMatrix;
-
+    private float margin;
 
     public MultipleSectionProgressView(Context context) {
         this(context, null);
@@ -97,38 +97,12 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
     //--------
 
     private void init() {
-        getViewTreeObserver().addOnGlobalLayoutListener(this);
         colorMatrix = new ColorMatrix();
 
         foregroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         foregroundPaint.setStyle(Paint.Style.STROKE);
         backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         backgroundPaint.setStyle(Paint.Style.FILL);
-    }
-
-    //----------
-
-    @Override
-    public void onGlobalLayout() {
-        if (Build.VERSION.SDK_INT >= 16) {
-            getViewTreeObserver()
-                    .removeOnGlobalLayoutListener(this);
-        } else {
-            getViewTreeObserver()
-                    .removeGlobalOnLayoutListener(this);
-        }
-        viewWidth = getWidth();
-        viewHeight = getHeight();
-        if (strokeWidth == DEFAULT_STROKE_WIDTH) {
-            strokeWidth = viewHeight * 0.03f;
-        }
-        foregroundPaint.setStrokeWidth(strokeWidth);
-        foregroundBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
-        foregroundCanvas = new Canvas(foregroundBitmap);
-        backgroundBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
-        backgroundCanvas = new Canvas(backgroundBitmap);
-        setImageBitmap(foregroundBitmap);
-        setBackground(new BitmapDrawable(backgroundBitmap));
     }
 
     //--------
@@ -226,7 +200,6 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
         valueAnimator.setInterpolator(timeInterpolator);
         valueAnimator.addUpdateListener(this);
         valueAnimator.start();
-
     }
     //-----------
 
@@ -239,6 +212,58 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
         currentValue = (((float) animation.getAnimatedValue() / maxValue) * viewWidth);
         invalidate();
     }
+    //-----------
+
+    @SuppressLint("DrawAllocation")
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        viewWidth = getWidth();
+        viewHeight = getHeight();
+        if (strokeWidth == DEFAULT_STROKE_WIDTH) {
+            strokeWidth = viewHeight * 0.03f;
+        }
+        margin = (strokeWidth / 2);
+
+        //繪製外部
+        if (isDrawing) {
+
+            foregroundPaint.setStrokeWidth(strokeWidth);
+            foregroundBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
+            foregroundCanvas = new Canvas(foregroundBitmap);
+            backgroundBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
+            backgroundCanvas = new Canvas(backgroundBitmap);
+            setImageBitmap(foregroundBitmap);
+            setBackground(new BitmapDrawable(backgroundBitmap));
+
+
+            if (!isInitial) {
+                if (sections != null && sectionColors != null) {
+                    //漸層設置
+                    backgroundPaint.setShader(new LinearGradient(0, 0, viewWidth, 0, sectionColors, positions, LinearGradient.TileMode.CLAMP));
+                    foregroundPaint.setShader(new LinearGradient(0, 0, viewWidth, 0, sectionColors, null, LinearGradient.TileMode.CLAMP));
+                    colorMatrix.setRotate(0, 25);
+
+                    foregroundPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+                    //畫出所有section
+                    for (int i = 0; i < sections.length; i++) {
+                        //section 不得超過最大值
+                        if (sections[i] < maxValue) {
+                            float part = (sections[i] / maxValue) * viewWidth;
+                            rectF = new RectF(margin, margin, part - margin, viewHeight - margin);
+
+                            foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
+                        }
+                    }
+                }
+
+                rectF = new RectF(margin, margin, viewWidth - margin, viewHeight - margin);
+                foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
+                //完成區間繪製
+                isInitial = true;
+            }
+        }
+    }
 
     //--------
 
@@ -247,42 +272,10 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        float margin = (strokeWidth / 2);
-        //繪製外部
-        if (isDrawing) {
-
-            if (!isInitial) {
-                if (sections != null && sectionColors != null) {
-                    //漸層設置
-                    backgroundPaint.setShader(new LinearGradient(0, 0, viewWidth, 0, sectionColors, positions, LinearGradient.TileMode.CLAMP));
-                    foregroundPaint.setShader(new LinearGradient(0, 0, viewWidth, 0, sectionColors, null, LinearGradient.TileMode.CLAMP));
-                    colorMatrix.setRotate(0, 55);
-                    foregroundPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-                    //畫出所有section
-                    for (int i = 0; i < sections.length; i++) {
-                        //section 不得超過最大值
-                        if (sections[i] < maxValue) {
-                            float part = (sections[i] / maxValue) * viewWidth;
-                            rectF = new RectF(margin, margin, part - margin, viewHeight - margin);
-                            foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
-                        }
-                    }
-                }
-
-                rectF = new RectF(margin, margin, viewWidth - margin, viewHeight - margin);
-                foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
-
-                Log.e("TTT", "TTT");
-                //完成區間繪製
-                isInitial = true;
-            }
-
-            //繪製內部
-            float innerMargin = this.innerMargin + margin;
-            backgroundCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            rectF.set(innerMargin, innerMargin, currentValue - innerMargin, viewHeight - innerMargin);
-            backgroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, backgroundPaint);
-
-        }
+        //繪製內部
+        float innerMargin = this.innerMargin + margin;
+        backgroundCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+        rectF.set(innerMargin, innerMargin, currentValue - innerMargin, viewHeight - innerMargin);
+        backgroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, backgroundPaint);
     }
 }

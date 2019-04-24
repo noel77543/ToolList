@@ -8,6 +8,8 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -53,7 +55,9 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
     private int viewHeight;
     private Context context;
     private RectF rectF;
-    //是否繪製完成區間
+    //是否開始繪製
+    private boolean isDrawing = false;
+    //是否完成區間繪製
     private boolean isInitial = false;
     private Paint foregroundPaint;
     private Canvas foregroundCanvas;
@@ -61,6 +65,9 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
     private Paint backgroundPaint;
     private Canvas backgroundCanvas;
     private Bitmap backgroundBitmap;
+
+    //色調調節器
+    private ColorMatrix colorMatrix;
 
 
     public MultipleSectionProgressView(Context context) {
@@ -92,6 +99,8 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
 
     private void init() {
         getViewTreeObserver().addOnGlobalLayoutListener(this);
+        colorMatrix = new ColorMatrix();
+
         foregroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         foregroundPaint.setStyle(Paint.Style.STROKE);
         backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -175,6 +184,8 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
             this.positions[this.positions.length - 1] = this.positions[this.positions.length - 2] + 0.1f;
             //加入漸變最終色
             this.sectionColors[this.sectionColors.length - 1] = getResources().getColor(endColor);
+            isDrawing = true;
+            invalidate();
         }
         return this;
     }
@@ -216,6 +227,7 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
         valueAnimator.setInterpolator(timeInterpolator);
         valueAnimator.addUpdateListener(this);
         valueAnimator.start();
+
     }
     //-----------
 
@@ -238,37 +250,40 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
 
         float margin = (strokeWidth / 2);
         //繪製外部
-        if (!isInitial) {
+        if (isDrawing) {
 
-            if (sections != null && sectionColors != null) {
-                //漸層設置
-                LinearGradient linearGradient = new LinearGradient(0, 0, viewWidth, 0, sectionColors, positions, LinearGradient.TileMode.CLAMP);
-                backgroundPaint.setShader(linearGradient);
-                LinearGradient linearGradient2 = new LinearGradient(0, 0, viewWidth, 0, sectionColors, null, LinearGradient.TileMode.CLAMP);
-                foregroundPaint.setShader(linearGradient2);
-
-                //畫出所有section
-                for (int i = 0; i < sections.length; i++) {
-                    //section 不得超過最大值
-                    if (sections[i] < maxValue) {
-                        float part = (sections[i] / maxValue) * viewWidth;
-                        rectF = new RectF(margin, margin, part - margin, viewHeight - margin);
-                        foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
+            if (!isInitial) {
+                if (sections != null && sectionColors != null) {
+                    //漸層設置
+                    backgroundPaint.setShader(new LinearGradient(0, 0, viewWidth, 0, sectionColors, positions, LinearGradient.TileMode.CLAMP));
+                    foregroundPaint.setShader(new LinearGradient(0, 0, viewWidth, 0, sectionColors, null, LinearGradient.TileMode.CLAMP));
+                    colorMatrix.setRotate(0, 55);
+                    foregroundPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+                    //畫出所有section
+                    for (int i = 0; i < sections.length; i++) {
+                        //section 不得超過最大值
+                        if (sections[i] < maxValue) {
+                            float part = (sections[i] / maxValue) * viewWidth;
+                            rectF = new RectF(margin, margin, part - margin, viewHeight - margin);
+                            foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
+                        }
                     }
                 }
+
+                rectF = new RectF(margin, margin, viewWidth - margin, viewHeight - margin);
+                foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
+
+                Log.e("TTT", "TTT");
+                //完成區間繪製
+                isInitial = true;
             }
 
-            rectF = new RectF(margin, margin, viewWidth - margin, viewHeight - margin);
-            foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
-            isInitial = true;
-        }
-        //繪製內部
-        else {
-
+            //繪製內部
             float innerMargin = this.innerMargin + margin;
             backgroundCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             rectF.set(innerMargin, innerMargin, currentValue - innerMargin, viewHeight - innerMargin);
             backgroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, backgroundPaint);
+
         }
     }
 }

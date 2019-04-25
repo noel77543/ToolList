@@ -67,6 +67,8 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
     private ColorMatrix colorMatrix;
     private float margin;
 
+    private ValueAnimator valueAnimator;
+
     public MultipleSectionProgressView(Context context) {
         this(context, null);
     }
@@ -189,13 +191,15 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
      * 帶入加速器 並開始繪製
      */
     public void draw(TimeInterpolator timeInterpolator) {
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, targetValue);
-        //設置時長
-        valueAnimator.setDuration(animationTime);
-        //設置加速器
-        valueAnimator.setInterpolator(timeInterpolator);
-        valueAnimator.addUpdateListener(this);
-        valueAnimator.start();
+        if (valueAnimator == null) {
+            valueAnimator = ValueAnimator.ofFloat(0, targetValue);
+            //設置時長
+            valueAnimator.setDuration(animationTime);
+            //設置加速器
+            valueAnimator.setInterpolator(timeInterpolator);
+            valueAnimator.addUpdateListener(this);
+            valueAnimator.start();
+        }
     }
     //-----------
 
@@ -222,40 +226,40 @@ public class MultipleSectionProgressView extends android.support.v7.widget.AppCo
         margin = (strokeWidth / 2);
 
 
-            foregroundPaint.setStrokeWidth(strokeWidth);
-            foregroundBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
-            foregroundCanvas = new Canvas(foregroundBitmap);
-            backgroundBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
-            backgroundCanvas = new Canvas(backgroundBitmap);
-            setImageBitmap(foregroundBitmap);
-            setBackground(new BitmapDrawable(backgroundBitmap));
+        foregroundPaint.setStrokeWidth(strokeWidth);
+        foregroundBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
+        foregroundCanvas = new Canvas(foregroundBitmap);
+        backgroundBitmap = Bitmap.createBitmap(viewWidth, viewHeight, Bitmap.Config.ARGB_8888);
+        backgroundCanvas = new Canvas(backgroundBitmap);
+        setImageBitmap(foregroundBitmap);
+        setBackground(new BitmapDrawable(backgroundBitmap));
 
 
-            if (!isInitial) {
-                if (sections != null && sectionColors != null) {
-                    //漸層設置
-                    backgroundPaint.setShader(new LinearGradient(0, 0, viewWidth, 0, sectionColors, positions, LinearGradient.TileMode.CLAMP));
-                    foregroundPaint.setShader(new LinearGradient(0, 0, viewWidth, 0, sectionColors, null, LinearGradient.TileMode.CLAMP));
-                    colorMatrix.setRotate(0, 25);
+        if (!isInitial) {
+            if (sections != null && sectionColors != null) {
+                //漸層設置
+                backgroundPaint.setShader(new LinearGradient(0, 0, viewWidth, 0, sectionColors, positions, LinearGradient.TileMode.CLAMP));
+                foregroundPaint.setShader(new LinearGradient(0, 0, viewWidth, 0, sectionColors, null, LinearGradient.TileMode.CLAMP));
+                colorMatrix.setRotate(0, 25);
 
-                    foregroundPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-                    //畫出所有section
-                    for (int i = 0; i < sections.length; i++) {
-                        //section 不得超過最大值
-                        if (sections[i] < maxValue) {
-                            float part = (sections[i] / maxValue) * viewWidth;
-                            rectF = new RectF(margin, margin, part - margin, viewHeight - margin);
+                foregroundPaint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+                //畫出所有section
+                for (int i = 0; i < sections.length; i++) {
+                    //section 不得超過最大值
+                    if (sections[i] < maxValue) {
+                        float part = (sections[i] / maxValue) * viewWidth;
+                        rectF = new RectF(margin, margin, part - margin, viewHeight - margin);
 
-                            foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
-                        }
+                        foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
                     }
                 }
-
-                rectF = new RectF(margin, margin, viewWidth - margin, viewHeight - margin);
-                foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
-                //完成區間繪製
-                isInitial = true;
             }
+
+            rectF = new RectF(margin, margin, viewWidth - margin, viewHeight - margin);
+            foregroundCanvas.drawRoundRect(rectF, viewHeight, viewHeight, foregroundPaint);
+            //完成區間繪製
+            isInitial = true;
+        }
     }
 
     //--------

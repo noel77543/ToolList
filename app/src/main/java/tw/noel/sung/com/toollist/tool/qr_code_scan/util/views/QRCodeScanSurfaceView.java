@@ -43,7 +43,7 @@ public class QRCodeScanSurfaceView extends RelativeLayout implements View.OnClic
         addView(customSurfaceView);
         addView(coverLayout);
 
-        coverLayout.setOnCoverButtonClickListener(this);
+        coverLayout.setOnCoverFlashButtonClickListener(this);
     }
 
     //--------
@@ -91,7 +91,7 @@ public class QRCodeScanSurfaceView extends RelativeLayout implements View.OnClic
             parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
             status = context.getString(R.string.close);
         }
-        coverLayout.setCoverButtonText(status);
+        coverLayout.setCoverFlashButtonText(status);
         isFlushLightOn = !isFlushLightOn;
         customSurfaceView.getCamera().setParameters(parameters);
 

@@ -1,9 +1,6 @@
 package tw.noel.sung.com.toollist.tool.qr_code_scan.util.views.cover;
 
 import android.content.Context;
-/**
- * Created by noel on 2019/2/16.
- */
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;

@@ -1,9 +1,6 @@
 package tw.noel.sung.com.toollist.tool.qr_code_scan.util.views.cover;
 
 import android.graphics.Canvas;
-/**
- * Created by noel on 2019/2/16.
- */
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -28,7 +25,7 @@ public class CoverDrawable extends Drawable {
         path = new Path();
         paint = new Paint();
 
-        path.addRect(0, 0, CustomSurfaceView.RANGE, CustomSurfaceView.RANGE, Path.Direction.CW);
+        path.addRect(0, 0, CustomSurfaceView.range, CustomSurfaceView.range, Path.Direction.CW);
     }
 
     //-------

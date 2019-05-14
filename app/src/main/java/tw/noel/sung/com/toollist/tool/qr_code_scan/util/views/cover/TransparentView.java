@@ -45,7 +45,7 @@ public class TransparentView extends android.support.v7.widget.AppCompatImageVie
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        lineLength = (int) (CustomSurfaceView.RANGE * 0.09);
+        lineLength = (int) (CustomSurfaceView.range * 0.09);
         drawAngle(canvas);
     }
 
@@ -69,19 +69,19 @@ public class TransparentView extends android.support.v7.widget.AppCompatImageVie
 
 
         //左下角
-        path.moveTo(offset, CustomSurfaceView.RANGE - lineLength);
-        path.lineTo(offset, CustomSurfaceView.RANGE - offset);
-        path.lineTo(lineLength, CustomSurfaceView.RANGE - offset);
+        path.moveTo(offset, CustomSurfaceView.range - lineLength);
+        path.lineTo(offset, CustomSurfaceView.range - offset);
+        path.lineTo(lineLength, CustomSurfaceView.range - offset);
 
         //右下角
-        path.moveTo(CustomSurfaceView.RANGE - lineLength, CustomSurfaceView.RANGE - offset);
-        path.lineTo(CustomSurfaceView.RANGE - offset, CustomSurfaceView.RANGE - offset);
-        path.lineTo(CustomSurfaceView.RANGE - offset, CustomSurfaceView.RANGE - lineLength);
+        path.moveTo(CustomSurfaceView.range - lineLength, CustomSurfaceView.range - offset);
+        path.lineTo(CustomSurfaceView.range - offset, CustomSurfaceView.range - offset);
+        path.lineTo(CustomSurfaceView.range - offset, CustomSurfaceView.range - lineLength);
 
         //右上角
-        path.moveTo(CustomSurfaceView.RANGE - offset, lineLength);
-        path.lineTo(CustomSurfaceView.RANGE - offset, offset);
-        path.lineTo(CustomSurfaceView.RANGE - lineLength, offset);
+        path.moveTo(CustomSurfaceView.range - offset, lineLength);
+        path.lineTo(CustomSurfaceView.range - offset, offset);
+        path.lineTo(CustomSurfaceView.range - lineLength, offset);
 
         canvas.drawPath(path, paint);
     }

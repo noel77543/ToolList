@@ -5,6 +5,7 @@
     <!--掃描器 閃光燈開關-->
     <string name="open">開</string>
     <string name="close">關</string>
+    <string name="qr_code_photo">照片</string>
 
     <string name="header_ui">UI</string>
     <string name="header_tool">Tool</string>

@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -90,7 +91,6 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         ButterKnife.bind(this);
         initTitleAnimation();
         initExpandableListView();
-
     }
 
     //-------------

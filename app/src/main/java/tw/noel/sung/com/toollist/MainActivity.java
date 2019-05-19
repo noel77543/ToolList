@@ -133,6 +133,7 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
         childrenUI.add("6. LotteryView");
         childrenUI.add("7. AutoTextView");
         childrenUI.add("8. MultipleSectionProgressView");
+        childrenUI.add("9. RockerView");
 
         ArrayList<String> childrenTool = new ArrayList<>();
         childrenTool.add("1. QRCode Scanner");
@@ -235,6 +236,11 @@ public class MainActivity extends FragmentActivity implements Runnable, Expandab
                 case 7:
                     intent.putExtra(KEY_PAGE, UIActivity.PAGE_MULTIPLES_SECTION_PROGRESS_VIEW);
                     break;
+                //RockerVIew
+                case 8:
+                    intent.putExtra(KEY_PAGE, UIActivity.PAGE_ROCKER_VIEW);
+                    break;
+
             }
             intent.putExtra(KEY_TITLE, (String) parent.getExpandableListAdapter().getChild(groupPosition, childPosition));
             startActivity(intent);

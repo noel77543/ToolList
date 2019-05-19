@@ -74,9 +74,7 @@ public class LinkView extends android.support.v7.widget.AppCompatImageView imple
     private Context context;
 
     public LinkView(Context context) {
-        super(context);
-        this.context = context;
-        init();
+        this(context,null);
     }
 
     public LinkView(Context context, @Nullable AttributeSet attrs) {

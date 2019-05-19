@@ -24,6 +24,7 @@ import tw.noel.sung.com.toollist.ui.flower_button.FlowerButtonFragment;
 import tw.noel.sung.com.toollist.ui.link_view.LinkViewFragment;
 import tw.noel.sung.com.toollist.ui.loterry_view.LotteryViewFragment;
 import tw.noel.sung.com.toollist.ui.multiple_section_progress_view.MultipleSectionProgressViewFragment;
+import tw.noel.sung.com.toollist.ui.rocker_view.RockerViewFragment;
 import tw.noel.sung.com.toollist.ui.simple_pie_view.SimplePieViewFragment;
 import tw.noel.sung.com.toollist.ui.round_progress_view.RoundProgressViewFragment;
 
@@ -43,8 +44,9 @@ public class UIActivity extends FragmentActivity {
     public static final int PAGE_LOTTERY_VIEW = 106;
     public static final int PAGE_AUTO_TEXT_VIEW = 107;
     public static final int PAGE_MULTIPLES_SECTION_PROGRESS_VIEW = 108;
+    public static final int PAGE_ROCKER_VIEW = 109;
 
-    @IntDef({PAGE_FLOWER_BUTTON, PAGE_LINK_VIEW, PAGE_SIMPLE_PIE_VIEW, PAGE_BLOCK_PIE_VIEW, PAGE_ROUND_PROGRESS_VIEW, PAGE_LOTTERY_VIEW, PAGE_AUTO_TEXT_VIEW,PAGE_MULTIPLES_SECTION_PROGRESS_VIEW})
+    @IntDef({PAGE_FLOWER_BUTTON, PAGE_LINK_VIEW, PAGE_SIMPLE_PIE_VIEW, PAGE_BLOCK_PIE_VIEW, PAGE_ROUND_PROGRESS_VIEW, PAGE_LOTTERY_VIEW, PAGE_AUTO_TEXT_VIEW, PAGE_MULTIPLES_SECTION_PROGRESS_VIEW, PAGE_ROCKER_VIEW})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Page {
     }
@@ -93,6 +95,9 @@ public class UIActivity extends FragmentActivity {
                 break;
             case PAGE_MULTIPLES_SECTION_PROGRESS_VIEW:
                 fragment = new MultipleSectionProgressViewFragment();
+                break;
+            case PAGE_ROCKER_VIEW:
+                fragment = new RockerViewFragment();
                 break;
         }
         if (fragment != null) {

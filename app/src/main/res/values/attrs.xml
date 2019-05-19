@@ -41,8 +41,8 @@
     </declare-styleable>
 
     <declare-styleable name="LotteryView">
-        <attr name="lotteryViewScratchSize" format="reference|dimension"/>
-        <attr name="lotteryViewScratchPercent" format="reference|integer"/>
+        <attr name="lotteryViewScratchSize" format="reference|dimension" />
+        <attr name="lotteryViewScratchPercent" format="reference|integer" />
 
     </declare-styleable>
 
@@ -56,12 +56,19 @@
     </declare-styleable>
 
     <declare-styleable name="MultipleSectionProgressView">
-        <attr name="multipleSectionProgressViewStrokeWidth" format="reference|dimension"/>
-        <attr name="multipleSectionProgressViewInnerMargin" format="reference|dimension"/>
-        <attr name="multipleSectionProgressViewAnimationTime" format="reference|integer"/>
-        <attr name="multipleSectionProgressViewMaxValue" format="reference|float"/>
-        <attr name="multipleSectionProgressViewTargetValue" format="reference|float"/>
+        <attr name="multipleSectionProgressViewStrokeWidth" format="reference|dimension" />
+        <attr name="multipleSectionProgressViewInnerMargin" format="reference|dimension" />
+        <attr name="multipleSectionProgressViewAnimationTime" format="reference|integer" />
+        <attr name="multipleSectionProgressViewMaxValue" format="reference|float" />
+        <attr name="multipleSectionProgressViewTargetValue" format="reference|float" />
     </declare-styleable>
 
+    <declare-styleable name="RockerView">
+        <attr name="rockerViewInnerCircleRadius" format="reference|dimension" />
+        <attr name="rockerViewInnerCircleLineColor" format="reference|color" />
+        <attr name="rockerViewInnerCircleColor" format="reference|color" />
+        <attr name="rockerViewOuterCircleLineColor" format="reference|color" />
+        <attr name="rockerViewOuterCircleColor" format="reference|color" />
 
+    </declare-styleable>
 </resources>

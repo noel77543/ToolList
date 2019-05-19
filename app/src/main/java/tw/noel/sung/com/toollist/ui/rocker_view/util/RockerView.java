@@ -46,10 +46,7 @@ public class RockerView extends android.support.v7.widget.AppCompatImageView imp
     private int innerCircleLineColor;
     private int innerCircleColor;
 
-    //目前內圓的X值
-    private float currentInnerCenterX;
-    //目前內圓的Y值
-    private float currentInnerCenterY;
+
 
 
     public RockerView(Context context) {
@@ -117,9 +114,6 @@ public class RockerView extends android.support.v7.widget.AppCompatImageView imp
         canvasInner = new Canvas(bitmapInner);
         setImageBitmap(bitmapInner);
         drawInnerCircle(radiusOuter, radiusOuter);
-
-        currentInnerCenterX = radiusOuter;
-        currentInnerCenterY = radiusOuter;
     }
     //-------------
 
@@ -167,16 +161,12 @@ public class RockerView extends android.support.v7.widget.AppCompatImageView imp
                 break;
             case MotionEvent.ACTION_MOVE:
 
-                if (getDistanceOfCenter(currentInnerCenterX, currentInnerCenterY) < radiusOuter - radiusInner) {
-                    currentInnerCenterX = x;
-                    currentInnerCenterY = y;
-                    drawInnerCircle(currentInnerCenterX, currentInnerCenterY);
+                if (getDistanceOfCenter(x, y) < radiusOuter - radiusInner) {
+                    drawInnerCircle(x, y);
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 drawInnerCircle(radiusOuter, radiusOuter);
-                currentInnerCenterX = radiusOuter;
-                currentInnerCenterY = radiusOuter;
                 break;
         }
         return true;

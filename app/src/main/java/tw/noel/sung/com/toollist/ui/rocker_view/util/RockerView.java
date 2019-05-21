@@ -212,6 +212,9 @@ public class RockerView extends android.support.v7.widget.AppCompatImageView imp
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                if (onSwipeListener != null) {
+                    onSwipeListener.onStartSwipe();
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 //觸摸點為內圓圓心 該點距離應小於外圓半徑-內圓半徑
@@ -219,17 +222,17 @@ public class RockerView extends android.support.v7.widget.AppCompatImageView imp
                     drawInnerCircle(x, y);
 
 
-//                    if (onSwipeListener != null) {
-
-                    Log.e("TTT", getSwipeEvent(getAngleOfCenter(x, y)) + "");
-
-
-//                        onSwipeListener.onSwipe();
-//                    }
+                    if (onSwipeListener != null) {
+                        double angle = getAngleOfCenter(x, y);
+                        onSwipeListener.onSwiping(getSwipeEvent(angle), angle);
+                    }
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 drawInnerCircle(radiusOuter, radiusOuter);
+                if (onSwipeListener != null) {
+                    onSwipeListener.onSwiped();
+                }
                 break;
         }
         return true;

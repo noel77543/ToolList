@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -16,12 +17,49 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import tw.noel.sung.com.toollist.R;
+import tw.noel.sung.com.toollist.ui.rocker_view.util.implement.OnSwipeListener;
 
 public class RockerView extends android.support.v7.widget.AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener, View.OnTouchListener {
-    private Context context;
-    private final int LINE_WIDTH = 5;
 
+    //東邊
+    public static final int SWIPE_EVENT_EAST = 30;
+    //東北
+    public static final int SWIPE_EVENT_EAST_NORTH = 31;
+    //北
+    public static final int SWIPE_EVENT_NORTH = 32;
+    //西北
+    public static final int SWIPE_EVENT_WEST_NORTH = 33;
+    //西
+    public static final int SWIPE_EVENT_WEST = 34;
+    //西南
+    public static final int SWIPE_EVENT_WEST_SOUTH = 35;
+    //南
+    public static final int SWIPE_EVENT_SOUTH = 36;
+    //東南
+    public static final int SWIPE_EVENT_EAST_SOUTH = 37;
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({SWIPE_EVENT_EAST, SWIPE_EVENT_EAST_NORTH, SWIPE_EVENT_NORTH, SWIPE_EVENT_WEST_NORTH,
+            SWIPE_EVENT_WEST, SWIPE_EVENT_WEST_SOUTH, SWIPE_EVENT_SOUTH, SWIPE_EVENT_EAST_SOUTH})
+    public @interface SwipeEvent {
+    }
+
+
+    private final int[] SWIPE_EVENTS = {SWIPE_EVENT_SOUTH, SWIPE_EVENT_EAST_SOUTH, SWIPE_EVENT_EAST,
+            SWIPE_EVENT_EAST_NORTH, SWIPE_EVENT_NORTH, SWIPE_EVENT_WEST_NORTH, SWIPE_EVENT_WEST, SWIPE_EVENT_WEST_SOUTH};
+
+    private final int LINE_WIDTH = 5;
+    //一個圓的角度
+    private final double _CIRCLE = 360;
+    //切分八個相位
+    private final double _INTERVAL_ANGLE = _CIRCLE / 8;
+
+    private OnSwipeListener onSwipeListener;
+    private Context context;
     // 外圓
     private Canvas canvasOuter;
     private Bitmap bitmapOuter;
@@ -47,6 +85,22 @@ public class RockerView extends android.support.v7.widget.AppCompatImageView imp
     private int innerCircleColor;
 
 
+    /***
+     *  概念：
+     *                180
+     *
+     *                 |
+     *                 |
+     *                 |
+     *                 |
+     *  270  ----------|----------  90
+     *                 |
+     *                 |
+     *                 |
+     *                 |
+     *
+     *                 0
+     */
 
 
     public RockerView(Context context) {
@@ -160,9 +214,18 @@ public class RockerView extends android.support.v7.widget.AppCompatImageView imp
             case MotionEvent.ACTION_DOWN:
                 break;
             case MotionEvent.ACTION_MOVE:
-
+                //觸摸點為內圓圓心 該點距離應小於外圓半徑-內圓半徑
                 if (getDistanceOfCenter(x, y) < radiusOuter - radiusInner) {
                     drawInnerCircle(x, y);
+
+
+//                    if (onSwipeListener != null) {
+
+                    Log.e("TTT", getSwipeEvent(getAngleOfCenter(x, y)) + "");
+
+
+//                        onSwipeListener.onSwipe();
+//                    }
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -175,10 +238,51 @@ public class RockerView extends android.support.v7.widget.AppCompatImageView imp
     //------------
 
     /***
-     *  取得與圓心的距離
+     * 取得與圓心的距離
      * @return
      */
     private double getDistanceOfCenter(float x, float y) {
         return Math.sqrt(Math.pow((y - radiusOuter), 2) + Math.pow((x - radiusOuter), 2));
     }
+
+    //-------------
+
+    /***
+     * 取得觸摸點與圓心的夾角
+     */
+    private double getAngleOfCenter(float x, float y) {
+
+        if ((x > radiusOuter)) {
+            return (Math.atan2(x - radiusOuter, y - radiusOuter) * 180 / Math.PI);
+        }
+        return 360 - (Math.atan2(radiusOuter - x, radiusOuter - y) * 180 / Math.PI);
+    }
+
+    //------------
+
+    /***
+     * 取得事件
+     */
+    private @SwipeEvent
+    int getSwipeEvent(double angle) {
+
+        for (int i = 0; i < SWIPE_EVENTS.length; i++) {
+            if (angle < i * _INTERVAL_ANGLE) {
+                return SWIPE_EVENTS[i];
+            }
+        }
+        return SWIPE_EVENTS[0];
+    }
+
+
+    //------------
+
+    /***
+     *  拖動方向監聽
+     * @param onSwipeListener
+     */
+    public void setOnSwipeListener(OnSwipeListener onSwipeListener) {
+        this.onSwipeListener = onSwipeListener;
+    }
+
 }

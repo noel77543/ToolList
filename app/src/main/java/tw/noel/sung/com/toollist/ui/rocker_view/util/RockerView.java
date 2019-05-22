@@ -49,7 +49,7 @@ public class RockerView extends android.support.v7.widget.AppCompatImageView imp
     }
 
 
-    private final int[] SWIPE_EVENTS = {SWIPE_EVENT_SOUTH, SWIPE_EVENT_EAST_SOUTH, SWIPE_EVENT_EAST,
+    private final int[] _SWIPE_EVENTS = {SWIPE_EVENT_SOUTH, SWIPE_EVENT_EAST_SOUTH, SWIPE_EVENT_EAST,
             SWIPE_EVENT_EAST_NORTH, SWIPE_EVENT_NORTH, SWIPE_EVENT_WEST_NORTH, SWIPE_EVENT_WEST, SWIPE_EVENT_WEST_SOUTH};
 
     private final int LINE_WIDTH = 5;
@@ -255,10 +255,8 @@ public class RockerView extends android.support.v7.widget.AppCompatImageView imp
      */
     private double getAngleOfCenter(float x, float y) {
 
-        if ((x > radiusOuter)) {
-            return (Math.atan2(x - radiusOuter, y - radiusOuter) * 180 / Math.PI);
-        }
-        return 360 - (Math.atan2(radiusOuter - x, radiusOuter - y) * 180 / Math.PI);
+        double angle = (Math.atan2(x - radiusOuter, y - radiusOuter) * _CIRCLE / 2 / Math.PI);
+        return angle < 0 ? angle + _CIRCLE : angle;
     }
 
     //------------
@@ -269,12 +267,12 @@ public class RockerView extends android.support.v7.widget.AppCompatImageView imp
     private @SwipeEvent
     int getSwipeEvent(double angle) {
 
-        for (int i = 0; i < SWIPE_EVENTS.length; i++) {
+        for (int i = 0; i < _SWIPE_EVENTS.length; i++) {
             if (angle < i * _INTERVAL_ANGLE) {
-                return SWIPE_EVENTS[i];
+                return _SWIPE_EVENTS[i];
             }
         }
-        return SWIPE_EVENTS[0];
+        return _SWIPE_EVENTS[0];
     }
 
 

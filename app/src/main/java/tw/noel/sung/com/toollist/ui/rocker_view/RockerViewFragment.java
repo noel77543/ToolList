@@ -1,5 +1,6 @@
 package tw.noel.sung.com.toollist.ui.rocker_view;
 
+import android.util.Log;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -35,6 +36,7 @@ public class RockerViewFragment extends BasePageFragment implements OnSwipeListe
     @Override
     public void onSwiping(int event, double angle) {
         textView.setText(angle + "");
+        Log.e("event = ", "" + event);
     }
 
     @Override

@@ -227,15 +227,7 @@ public class CoverLayout extends RelativeLayout implements ViewTreeObserver.OnGl
     public void setOnCoverFlashButtonClickListener(OnClickListener onClickCloseListener) {
         coverFlashButton.setOnCoverFlashButtonClickListener(onClickCloseListener);
     }
-    //-------
 
-    /***
-     * 更改按鈕圖示
-     * @param imgRes
-     */
-    public void setCoverFlashButtonImage(int imgRes) {
-        coverFlashButton.setBackground(getResources().getDrawable(imgRes));
-    }
 
 
     //----------

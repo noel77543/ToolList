@@ -1,9 +1,7 @@
 package tw.noel.sung.com.toollist.tool.qr_code_scan.util.views;
 
 import android.content.Context;
-/**
- * Created by noel on 2019/2/16.
- */
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.util.AttributeSet;
 import android.view.View;
@@ -16,20 +14,24 @@ import tw.noel.sung.com.toollist.tool.qr_code_scan.util.views.cover.CoverLayout;
 import tw.noel.sung.com.toollist.tool.qr_code_scan.util.views.surfaceview.CustomSurfaceView;
 
 
-public class QRCodeScanSurfaceView extends RelativeLayout implements View.OnClickListener {
+/**
+ * Created by noel on 2019/2/18.
+ */
+public class QRCodeScanView extends RelativeLayout implements View.OnClickListener {
 
     private Context context;
     private CustomSurfaceView customSurfaceView;
     private CoverLayout coverLayout;
     //手電筒是否開啟
     private boolean isFlushLightOn = false;
+
     //----------
 
-    public QRCodeScanSurfaceView(Context context, AttributeSet attrs) {
+    public QRCodeScanView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public QRCodeScanSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public QRCodeScanView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
         init();
@@ -74,24 +76,45 @@ public class QRCodeScanSurfaceView extends RelativeLayout implements View.OnClic
     public void setTitle(String title) {
         coverLayout.setTitle(title);
     }
+
+    //-------
+
+    /***
+     * 設置內文
+     */
+    public void setContent(String content) {
+        coverLayout.setContent(content);
+    }
+
+
+    //-------
+
+    /***
+     * 顯示 / 隱藏 右上角『照片』
+     */
+    public void setPhotoButtonVisibility(int visibility) {
+        coverLayout.setPhotoButtonVisibility(visibility);
+    }
+
+
     //-------
 
     @Override
     public void onClick(View v) {
         Camera.Parameters parameters = customSurfaceView.getCamera().getParameters();
 
-        String status;
+        String text;
         //開燈
         if (!isFlushLightOn) {
             parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-            status = context.getString(R.string.open);
+            text = context.getString(R.string.open);
         }
         //關燈
         else {
             parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-            status = context.getString(R.string.close);
+            text = context.getString(R.string.close);
         }
-        coverLayout.setCoverFlashButtonText(status);
+        coverLayout.setCoverFlashButtonText(text);
         isFlushLightOn = !isFlushLightOn;
         customSurfaceView.getCamera().setParameters(parameters);
 
@@ -103,7 +126,7 @@ public class QRCodeScanSurfaceView extends RelativeLayout implements View.OnClic
      * 釋放資源
      */
 
-    public void release(){
+    public void release() {
         customSurfaceView.release();
     }
 
@@ -115,5 +138,44 @@ public class QRCodeScanSurfaceView extends RelativeLayout implements View.OnClic
      */
     public void setOnQRCodeScanListener(OnQRCodeScanListener onQRCodeScanListener) {
         customSurfaceView.setOnQRCodeScanListener(onQRCodeScanListener);
+    }
+
+
+    //------
+
+    /***
+     * 右上角照片按鈕監聽
+     */
+    public void setOnPhotoButtonClickListener(OnClickListener onClickListener) {
+        coverLayout.setOnPhotoButtonClickListener(onClickListener);
+    }
+
+    //------
+
+    /***
+     * 停止preview
+     */
+    public void startPreView() {
+        customSurfaceView.startPreView();
+    }
+
+
+    //------
+
+    /***
+     * 繼續preview
+     */
+    public void stopPreView() {
+        customSurfaceView.stopPreView();
+    }
+
+    //------
+
+    /***
+     * 解析bitmap
+     * @param bitmap
+     */
+    public void parseQRCodeResult(Bitmap bitmap) {
+        customSurfaceView.parseQRCodeResult(bitmap);
     }
 }

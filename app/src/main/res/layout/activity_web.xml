@@ -44,8 +44,8 @@
             android:contentDescription="@string/app_name" />
     </RelativeLayout>
 
-    <tw.noel.sung.com.toollist.tool.web.util.CustomWebView
-        android:id="@+id/web_view"
+    <tw.noel.sung.com.toollist.tool.web.util.CustomWebLayout
+        android:id="@+id/custom_web_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

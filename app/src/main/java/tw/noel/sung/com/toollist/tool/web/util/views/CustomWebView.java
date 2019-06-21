@@ -1,44 +1,47 @@
-package tw.noel.sung.com.toollist.tool.web.util;
+package tw.noel.sung.com.toollist.tool.web.util.views;
 
 import android.content.Context;
-/**
- * Created by noel on 2018/6/20.
- */
 import android.os.Build;
 import android.util.AttributeSet;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import tw.noel.sung.com.toollist.R;
-
-
+import tw.noel.sung.com.toollist.tool.web.util.client.CustomWebChromeClient;
+import tw.noel.sung.com.toollist.tool.web.util.client.CustomWebViewClient;
 
 public class CustomWebView extends WebView {
+
     private Context context;
-    protected WebSettings webSettings;
+    private CustomWebViewClient customWebViewClient;
+    private CustomWebChromeClient customWebChromeClient;
+    private WebSettings webSettings;
 
     public CustomWebView(Context context) {
-        super(context);
-        this.context = context;
-        init();
+        this(context, null);
     }
-    //----------
 
     public CustomWebView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        this.context = context;
-        init();
+        this(context, attrs, 0);
     }
-    //----------
 
     public CustomWebView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
+        initSetting();
         init();
     }
 
     //----------
     private void init() {
+        customWebViewClient = new CustomWebViewClient(context);
+        customWebChromeClient = new CustomWebChromeClient();
+        setWebViewClient(customWebViewClient);
+        setWebChromeClient(customWebChromeClient);
+    }
+
+    //---------
+
+    private void initSetting() {
         webSettings = getSettings();
         webSettings.setDomStorageEnabled(true);
         webSettings.setAllowFileAccess(true);
@@ -47,26 +50,16 @@ public class CustomWebView extends WebView {
         }
         webSettings.setJavaScriptEnabled(true);
         webSettings.setBuiltInZoomControls(false);
-
     }
     //---------
 
-    /**
-     * 載入訊息
-     *
-     * @param pageName 前往的頁面名稱
-     *                 todo  step1:
+    /***
+     *  設置網頁載入進度監聽
      */
-    public void setLoadingMessage(String pageName) {
-        setWebViewClient(new CustomWebViewClient(context, String.format(context.getString(R.string.web_view_loading_message), pageName)));
+    public void setOnWebLoadingListener(CustomWebChromeClient.OnWebLoadingListener onWebLoadingListener) {
+        customWebChromeClient.setOnWebLoadingListener(onWebLoadingListener);
     }
-    //---------
 
-    /**
-     * load url
-     * todo  step2:
-     */
-    public void open(String url) {
-        loadUrl(url);
-    }
+
+
 }

@@ -18,10 +18,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tw.noel.sung.com.toollist.R;
-import tw.noel.sung.com.toollist.tool.web.util.CustomWebView;
+import tw.noel.sung.com.toollist.tool.web.util.CustomWebLayout;
 import tw.noel.sung.com.toollist.tool.web.util.toolbox.ToolBoxPopupWindow;
 
-public class WebActivity extends FragmentActivity implements ToolBoxPopupWindow.OnToolBoxSelectListener{
+public class WebActivity extends FragmentActivity implements ToolBoxPopupWindow.OnToolBoxSelectListener {
 
     @BindView(R.id.image_view_tool)
     ImageView imageViewTool;
@@ -29,11 +29,11 @@ public class WebActivity extends FragmentActivity implements ToolBoxPopupWindow.
     Button buttonBack;
     @BindView(R.id.text_view_title)
     TextView textViewTitle;
-    @BindView(R.id.web_view)
-    CustomWebView webView;
+    @BindView(R.id.custom_web_layout)
+    CustomWebLayout customWebLayout;
 
     private ToolBoxPopupWindow toolBoxPopupWindow;
-    private  String _TEST_URL = "https://github.com/noel77543";
+    private String _TEST_URL = "https://github.com/noel77543";
     private final String _PAGE = "Like & Share Thx !  ^_^";
 
     @Override
@@ -45,7 +45,6 @@ public class WebActivity extends FragmentActivity implements ToolBoxPopupWindow.
     }
 
 
-
     //-------
 
     /***
@@ -55,13 +54,12 @@ public class WebActivity extends FragmentActivity implements ToolBoxPopupWindow.
         Intent data = getIntent();
 
 
-        toolBoxPopupWindow = new ToolBoxPopupWindow(this, ToolBoxPopupWindow.TOOL_BOX_TYPE_WEB);
+        toolBoxPopupWindow = new ToolBoxPopupWindow(this);
         toolBoxPopupWindow.setOnToolBoxSelectedListener(this);
 
         imageViewTool.setImageResource(R.drawable.ic_menu);
         textViewTitle.setText(_PAGE);
-        webView.setLoadingMessage(_PAGE);
-        webView.open(_TEST_URL);
+        customWebLayout.open(_TEST_URL);
     }
 
     //----------
@@ -70,8 +68,7 @@ public class WebActivity extends FragmentActivity implements ToolBoxPopupWindow.
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.button_back:
-                back();
-
+                customWebLayout.back();
                 break;
             case R.id.image_view_tool:
                 toolBoxPopupWindow.showAtLocation(imageViewTool, Gravity.TOP | Gravity.END, 0, 0);
@@ -83,20 +80,7 @@ public class WebActivity extends FragmentActivity implements ToolBoxPopupWindow.
     //---------
     @Override
     public void onBackPressed() {
-        back();
-    }
-
-    //-----------
-
-    /***
-     *  返回
-     */
-    private void back() {
-        if (webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            finish();
-        }
+        customWebLayout.back();
     }
 
 
@@ -108,12 +92,12 @@ public class WebActivity extends FragmentActivity implements ToolBoxPopupWindow.
         switch (position) {
             //重新整理
             case 0:
-                webView.open(_TEST_URL);
+                customWebLayout.open(_TEST_URL);
                 break;
             //複製連結
             case 1:
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("text label", webView.getUrl());
+                ClipData clip = ClipData.newPlainText("text label", customWebLayout.getCurrentWebUrl());
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(this, getString(R.string.web_tool_toast_copy), Toast.LENGTH_SHORT).show();
                 break;
@@ -122,7 +106,7 @@ public class WebActivity extends FragmentActivity implements ToolBoxPopupWindow.
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, _PAGE);
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, webView.getUrl());
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, customWebLayout.getCurrentWebUrl());
                 startActivity(Intent.createChooser(sharingIntent, getString(R.string.web_tool_box_share)));
                 break;
             //以其他應用開啟
@@ -130,7 +114,7 @@ public class WebActivity extends FragmentActivity implements ToolBoxPopupWindow.
                 Intent openIntent = new Intent();
                 openIntent.setAction(Intent.ACTION_VIEW);
                 openIntent.addCategory(Intent.CATEGORY_BROWSABLE);
-                if (! _TEST_URL.substring(0, 4).equalsIgnoreCase("http")) {
+                if (!_TEST_URL.substring(0, 4).equalsIgnoreCase("http")) {
                     _TEST_URL = "https:" + _TEST_URL;
                 }
                 openIntent.setData(Uri.parse(_TEST_URL));

@@ -1,4 +1,4 @@
-package tw.noel.sung.com.toollist.tool.web.util;
+package tw.noel.sung.com.toollist.tool.web.util.client;
 
 import android.app.AlertDialog;
 /**
@@ -14,19 +14,15 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import tw.noel.sung.com.toollist.R;
-import tw.noel.sung.com.toollist.tool.web.util.dialog.LoadingDialog;
 
 
 
 public class CustomWebViewClient extends WebViewClient {
 
     private Context context;
-    private LoadingDialog loadingDialog;
 
-    public CustomWebViewClient(Context context, String loadingMessage) {
+    public CustomWebViewClient(Context context) {
         this.context = context;
-        loadingDialog = new LoadingDialog(context);
-        loadingDialog.setLoadingMessage(loadingMessage);
     }
 
     //-----------
@@ -40,14 +36,12 @@ public class CustomWebViewClient extends WebViewClient {
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         super.onPageStarted(view, url, favicon);
-        loadingDialog.showLoadingDialog();
     }
     //-----------
 
     @Override
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
-        loadingDialog.dismiss();
     }
     //-----------
 

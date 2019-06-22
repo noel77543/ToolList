@@ -1,5 +1,6 @@
 package tw.noel.sung.com.toollist.ui.link_view.util;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -26,8 +28,7 @@ import tw.noel.sung.com.toollist.ui.link_view.util.model.LinkPoint;
 /**
  * Created by noel on 2018/4/24.
  */
-
-public class LinkView extends android.support.v7.widget.AppCompatImageView implements  View.OnTouchListener, ViewTreeObserver.OnGlobalLayoutListener {
+public class LinkView extends android.support.v7.widget.AppCompatImageView implements View.OnTouchListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     private int lineColor;
     private int pointOuterColor;
@@ -41,13 +42,14 @@ public class LinkView extends android.support.v7.widget.AppCompatImageView imple
     private final String DEFAULT_POINT_INNER_COLOR = "#000000";
     //預設  3 x 3
     private final int DEFAULT_POINT_COUNT = 3;
-
+    //是否震動  預設不震動
+    private boolean vibrateEnable;
     //所有點
     private ArrayList<LinkPoint> points;
     //觸發的點
     private ArrayList<LinkPoint> linkPoints;
     private int linked = 0;
-
+    private Vibrator vibrator;
     //預設寬度100px
     private int viewWidth = 100;
     //預設高度100px
@@ -70,11 +72,11 @@ public class LinkView extends android.support.v7.widget.AppCompatImageView imple
     //用來裝設定的密碼
     private StringBuilder stringBuilder;
     private OnDrawLineFinishedListener onDrawLineFinishedListener;
-
     private Context context;
 
+
     public LinkView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public LinkView(Context context, @Nullable AttributeSet attrs) {
@@ -99,7 +101,8 @@ public class LinkView extends android.support.v7.widget.AppCompatImageView imple
         lineColor = typedArray.getColor(R.styleable.LinkView_linkViewLineColor, Color.parseColor(DEFAULT_LINE_COLOR));
         pointOuterColor = typedArray.getColor(R.styleable.LinkView_linkViewPointOuterColor, Color.parseColor(DEFAULT_POINT_OUTER_COLOR));
         pointInnerColor = typedArray.getColor(R.styleable.LinkView_linkViewPointInnerColor, Color.parseColor(DEFAULT_POINT_INNER_COLOR));
-        pointCount = typedArray.getInteger(R.styleable.LinkView_linkViewPointCount,DEFAULT_POINT_COUNT);
+        pointCount = typedArray.getInteger(R.styleable.LinkView_linkViewPointCount, DEFAULT_POINT_COUNT);
+        vibrateEnable = typedArray.getBoolean(R.styleable.LinkView_linkViewVibrate, false);
         typedArray.recycle();
     }
 
@@ -116,8 +119,21 @@ public class LinkView extends android.support.v7.widget.AppCompatImageView imple
         paint = new Paint();
         paint.setAntiAlias(true);
 
+        initVibrator();
         getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
+
+    //------------
+
+    /***
+     *  振動器初始化
+     */
+    private void initVibrator() {
+        if (vibrateEnable) {
+            vibrator = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
+        }
+    }
+
 
     //----------
 
@@ -160,8 +176,8 @@ public class LinkView extends android.support.v7.widget.AppCompatImageView imple
 
 
         //畫點並且 將點位加入Arraylist中
-        for (int x = (OUTER_POINT_RADIUS); x <= viewWidth - (OUTER_POINT_RADIUS); x += (viewWidth / (pointCount - 1)) - (OUTER_POINT_RADIUS)) {
-            for (int y = (OUTER_POINT_RADIUS); y <= viewHeight - (OUTER_POINT_RADIUS); y += (viewHeight / (pointCount - 1)) - (OUTER_POINT_RADIUS)) {
+        for (int y = (OUTER_POINT_RADIUS); y <= viewHeight - (OUTER_POINT_RADIUS); y += (viewHeight / (pointCount - 1)) - (OUTER_POINT_RADIUS)) {
+            for (int x = (OUTER_POINT_RADIUS); x <= viewWidth - (OUTER_POINT_RADIUS); x += (viewWidth / (pointCount - 1)) - (OUTER_POINT_RADIUS)) {
                 points.add(new LinkPoint(x, y));
                 paint.setColor(pointOuterColor);
                 canvasBackGround.drawCircle(x, y, (float) OUTER_POINT_RADIUS, paint);
@@ -171,40 +187,6 @@ public class LinkView extends android.support.v7.widget.AppCompatImageView imple
         }
     }
 
-
-    //--------------
-
-    /***
-     *  畫線
-     */
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            //手指下去時 如果是點位 則開始畫線 不是則return true 不讓事件下去下層
-            case MotionEvent.ACTION_DOWN:
-                if (linkPoints.size() > 0) {
-                    clearCanvas(canvasBackGround);
-                    //每次落下 先清空
-                    linkPoints.clear();
-                    points.clear();
-                    linked = 0;
-                    path.reset();
-
-                    addPoints();
-                    invalidate();
-                }
-
-                //滑動時 如果是點位 進行畫線
-            case MotionEvent.ACTION_MOVE:
-                checkPoint((int) event.getX(), (int) event.getY());
-                break;
-            //抬起時確認是否正確
-            case MotionEvent.ACTION_UP:
-                drawFinished();
-                break;
-        }
-        return true;
-    }
     //-------------------
 
     /***
@@ -222,9 +204,11 @@ public class LinkView extends android.support.v7.widget.AppCompatImageView imple
                 stringBuilder.append(i + "");
                 //add進ArrayList<LinkPoint> 以便判斷是否已經滑過該點
                 linkPoints.add(points.get(i));
-
+                if (vibrateEnable && vibrator != null) {
+                    vibrator.vibrate(50);
+                }
             }
-            //其實概念很簡單 每一次都是兩個點彼此連線而已
+            //每一次都是兩個點彼此連線
             if (linkPoints.size() > 1 && linkPoints.size() > linked) {
                 paint.setColor(lineColor);
                 path.moveTo(linkPoints.get(linked).getPointX(), linkPoints.get(linked).getPointY());
@@ -269,6 +253,40 @@ public class LinkView extends android.support.v7.widget.AppCompatImageView imple
             stringBuilder.delete(0, stringBuilder.length());
         }
     }
+    //--------------
+
+    /***
+     *  畫線
+     */
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            //手指下去時 如果是點位 則開始畫線 不是則return true 不讓事件下去下層
+            case MotionEvent.ACTION_DOWN:
+                if (linkPoints.size() > 0) {
+                    clearCanvas(canvasBackGround);
+                    //每次落下 先清空
+                    linkPoints.clear();
+                    points.clear();
+                    linked = 0;
+                    path.reset();
+
+                    addPoints();
+                    invalidate();
+                }
+
+                //滑動時 如果是點位 進行畫線
+            case MotionEvent.ACTION_MOVE:
+                checkPoint((int) event.getX(), (int) event.getY());
+                break;
+            //抬起時確認是否正確
+            case MotionEvent.ACTION_UP:
+                drawFinished();
+                break;
+        }
+        return true;
+    }
+
 
     //---------------
 
@@ -278,5 +296,15 @@ public class LinkView extends android.support.v7.widget.AppCompatImageView imple
      */
     public void setOnDrawLineFinishedListener(OnDrawLineFinishedListener onDrawLineFinishedListener) {
         this.onDrawLineFinishedListener = onDrawLineFinishedListener;
+    }
+
+    //----------
+
+    /***
+     *  啟動振動器
+     */
+    public void setVibrateEnable(boolean vibrateEnable) {
+        this.vibrateEnable = vibrateEnable;
+        initVibrator();
     }
 }

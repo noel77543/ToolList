@@ -1,5 +1,7 @@
 package tw.noel.sung.com.toollist.ui.link_view;
 
+import android.widget.Toast;
+
 import butterknife.BindView;
 import tw.noel.sung.com.toollist.BasePageFragment;
 /**
@@ -33,6 +35,6 @@ public class LinkViewFragment extends BasePageFragment implements OnDrawLineFini
      */
     @Override
     public void onDrawLineFinished(String password) {
-
+        Toast.makeText(uiActivity, password, Toast.LENGTH_SHORT).show();
     }
 }

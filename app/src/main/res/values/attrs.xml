@@ -11,6 +11,7 @@
         <attr name="linkViewLineColor" format="reference|color" />
         <attr name="linkViewPointCount" format="reference|integer" />
         <attr name="linkViewPointInnerColor" format="reference|color" />
+        <attr name="linkViewVibrate" format="reference|boolean" />
     </declare-styleable>
 
     <declare-styleable name="BlockPieView">

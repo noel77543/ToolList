@@ -46,8 +46,6 @@ dependencies {
     //Zxing
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
-    //Gson
-    implementation 'com.google.code.gson:gson:2.8.5'
     //permission dispatcher
     implementation 'com.github.hotchemi:permissionsdispatcher:3.1.0'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.1.0'

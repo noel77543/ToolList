@@ -1,20 +1,17 @@
 package tw.noel.sung.com.toollist.ui.multiple_section_progress_view;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.widget.Button;
+
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import tw.noel.sung.com.toollist.BasePageFragment;
 import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.ui.multiple_section_progress_view.adapter.ItemAdapter;
 import tw.noel.sung.com.toollist.ui.multiple_section_progress_view.model.ModelItem;
-import tw.noel.sung.com.toollist.ui.multiple_section_progress_view.util.MultipleSectionProgressView;
 
 public class MultipleSectionProgressViewFragment extends BasePageFragment {
     @BindView(R.id.recycler_view)

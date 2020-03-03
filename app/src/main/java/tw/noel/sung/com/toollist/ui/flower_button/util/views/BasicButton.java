@@ -7,7 +7,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 
-public class BasicButton extends android.support.v7.widget.AppCompatButton {
+import androidx.appcompat.widget.AppCompatButton;
+
+public class BasicButton extends AppCompatButton {
 
 
     public BasicButton(Context context) {

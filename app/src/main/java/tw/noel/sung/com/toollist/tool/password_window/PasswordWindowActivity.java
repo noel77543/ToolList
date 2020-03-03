@@ -1,12 +1,13 @@
 package tw.noel.sung.com.toollist.tool.password_window;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.fragment.app.FragmentActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

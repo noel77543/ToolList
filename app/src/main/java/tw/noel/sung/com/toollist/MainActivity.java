@@ -10,19 +10,18 @@ import android.os.Bundle;
  * Created by noel on 2019/2/16.
  */
 import android.provider.Settings;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ExpandableListView;
 
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -44,9 +43,6 @@ import tw.noel.sung.com.toollist.tool.password_window.PasswordWindowActivity;
 import tw.noel.sung.com.toollist.tool.qr_code_scan.QRCodeScanActivity;
 import tw.noel.sung.com.toollist.tool.web.WebActivity;
 import tw.noel.sung.com.toollist.ui.UIActivity;
-import tw.noel.sung.com.ztool.connect.z_update_checker.ZUpdateChecker;
-import tw.noel.sung.com.ztool.connect.z_update_checker.util.ZUpdateHandler;
-import tw.noel.sung.com.ztool.tool.ZCheckFormatTool;
 
 
 @RuntimePermissions

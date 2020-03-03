@@ -9,13 +9,14 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.support.annotation.IntDef;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -23,7 +24,7 @@ import java.lang.annotation.RetentionPolicy;
 import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.ui.rocker_view.util.implement.OnSwipeListener;
 
-public class RockerView extends android.support.v7.widget.AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener, View.OnTouchListener {
+public class RockerView extends AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener, View.OnTouchListener {
 
     //東邊
     public static final int SWIPE_EVENT_EAST = 30;

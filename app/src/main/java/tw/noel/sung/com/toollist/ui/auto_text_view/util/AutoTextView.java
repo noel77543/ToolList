@@ -2,20 +2,23 @@ package tw.noel.sung.com.toollist.ui.auto_text_view.util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.IntDef;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.IntDef;
+import androidx.appcompat.widget.AppCompatEditText;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import tw.noel.sung.com.toollist.R;
 
 
-public class AutoTextView extends android.support.v7.widget.AppCompatEditText implements View.OnTouchListener {
+public class AutoTextView extends AppCompatEditText implements View.OnTouchListener {
 
     private String text;
 

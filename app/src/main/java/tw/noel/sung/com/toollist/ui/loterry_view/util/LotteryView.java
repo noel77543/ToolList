@@ -14,15 +14,17 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+
 import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.ui.loterry_view.util.implement.OnScratchListener;
 
-public class LotteryView extends android.support.v7.widget.AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener {
+public class LotteryView extends AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener {
 
     //預設刮刮樂線條寬度
     private final int DEFAULT_SCRATCH_SIZE = 3;

@@ -1,13 +1,8 @@
 package tw.noel.sung.com.toollist.ui.auto_text_view;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import tw.noel.sung.com.toollist.BasePageFragment;
 import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.ui.auto_text_view.util.AutoTextView;

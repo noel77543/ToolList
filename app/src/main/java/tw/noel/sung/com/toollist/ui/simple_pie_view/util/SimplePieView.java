@@ -14,13 +14,15 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.animation.AccelerateInterpolator;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+
 import tw.noel.sung.com.toollist.R;
 
-public class SimplePieView extends android.support.v7.widget.AppCompatImageView implements ValueAnimator.AnimatorUpdateListener {
+public class SimplePieView extends AppCompatImageView implements ValueAnimator.AnimatorUpdateListener {
 
     //預設進度條寬度
     private final int DEFAULT_PROGRESS_WIDTH = 100;
@@ -201,7 +203,7 @@ public class SimplePieView extends android.support.v7.widget.AppCompatImageView 
     /***
      * 繪製當前進度
      */
-    private void drawCurrent(Canvas canvas){
+    private void drawCurrent(Canvas canvas) {
         //設置繪圖框架
         int left = progressWidth / 2 + getPaddingLeft();
         int right = left + 2 * radius;

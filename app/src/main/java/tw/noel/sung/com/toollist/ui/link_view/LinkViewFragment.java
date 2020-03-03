@@ -3,13 +3,13 @@ package tw.noel.sung.com.toollist.ui.link_view;
 import android.widget.Toast;
 
 import butterknife.BindView;
+import tw.noel.sung.com.library_ui_linkview.link_view.LinkView;
+import tw.noel.sung.com.library_ui_linkview.link_view.implement.OnDrawLineFinishedListener;
 import tw.noel.sung.com.toollist.BasePageFragment;
 /**
  * Created by noel on 2019/2/16.
  */
 import tw.noel.sung.com.toollist.R;
-import tw.noel.sung.com.toollist.ui.link_view.util.LinkView;
-import tw.noel.sung.com.toollist.ui.link_view.util.implement.OnDrawLineFinishedListener;
 
 public class LinkViewFragment extends BasePageFragment implements OnDrawLineFinishedListener {
     @BindView(R.id.link_view)

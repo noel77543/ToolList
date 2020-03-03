@@ -10,9 +10,11 @@ import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 
+import androidx.appcompat.widget.AppCompatImageView;
+
 import tw.noel.sung.com.toollist.tool.qr_code_scan.util.views.surfaceview.CustomSurfaceView;
 
-public class TransparentView extends android.support.v7.widget.AppCompatImageView {
+public class TransparentView extends AppCompatImageView {
 
 
     private int lineLength;

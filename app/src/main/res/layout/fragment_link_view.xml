@@ -5,7 +5,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center">
 
-    <tw.noel.sung.com.toollist.ui.link_view.util.LinkView
+<!--    <tw.noel.sung.com.toollist.ui.link_view.util.LinkView-->
+<!--        android:id="@+id/link_view"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="200dp"-->
+<!--        app:linkViewVibrate="true"-->
+<!--        app:linkViewPointOuterColor="@android:color/darker_gray"-->
+<!--        app:linkViewPointInnerColor="@android:color/black"-->
+<!--        />-->
+
+
+    <tw.noel.sung.com.library_ui_linkview.link_view.LinkView
         android:id="@+id/link_view"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -13,4 +23,5 @@
         app:linkViewPointOuterColor="@android:color/darker_gray"
         app:linkViewPointInnerColor="@android:color/black"
         />
+
 </LinearLayout>

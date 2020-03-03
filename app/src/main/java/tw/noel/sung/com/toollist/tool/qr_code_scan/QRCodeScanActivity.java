@@ -6,12 +6,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -72,7 +73,6 @@ public class QRCodeScanActivity extends FragmentActivity implements OnQRCodeScan
 
     @Override
     public void onClick(View v) {
-        Log.e("T", "T");
         QRCodeScanActivityPermissionsDispatcher.OnPermissionAllowedWithPermissionCheck(this);
     }
     //---------------
@@ -110,6 +110,7 @@ public class QRCodeScanActivity extends FragmentActivity implements OnQRCodeScan
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             //相簿
             if (requestCode == REQUEST_ALBUM) {

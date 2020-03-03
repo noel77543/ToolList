@@ -2,8 +2,9 @@ package tw.noel.sung.com.toollist.tool.db.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.support.annotation.IntDef;
 
+
+import androidx.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

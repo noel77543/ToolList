@@ -1,13 +1,14 @@
 package tw.noel.sung.com.toollist.tool.password_window.util.views;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
 
 
 public class PasswordLayout extends LinearLayout implements TextWatcher, View.OnFocusChangeListener {

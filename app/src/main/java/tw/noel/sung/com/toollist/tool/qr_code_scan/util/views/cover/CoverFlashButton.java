@@ -2,7 +2,9 @@ package tw.noel.sung.com.toollist.tool.qr_code_scan.util.views.cover;
 
 import android.content.Context;
 
-public class CoverFlashButton extends android.support.v7.widget.AppCompatButton {
+import androidx.appcompat.widget.AppCompatButton;
+
+public class CoverFlashButton extends AppCompatButton {
 
 
     private Context context;

@@ -15,15 +15,12 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.ViewTreeObserver;
-
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import tw.noel.sung.com.toollist.R;
 
-public class MultipleSectionProgressView extends android.support.v7.widget.AppCompatImageView implements ValueAnimator.AnimatorUpdateListener {
+public class MultipleSectionProgressView extends AppCompatImageView implements ValueAnimator.AnimatorUpdateListener {
 
     //預設最大值
     private final float DEFAULT_MAX_VALUE = 100;

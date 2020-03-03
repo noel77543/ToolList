@@ -13,18 +13,20 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import tw.noel.sung.com.toollist.R;
 
-public class RoundProgressView extends android.support.v7.widget.AppCompatImageView implements ValueAnimator.AnimatorUpdateListener, ViewTreeObserver.OnGlobalLayoutListener {
+public class RoundProgressView extends AppCompatImageView implements ValueAnimator.AnimatorUpdateListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     //預設- 動畫時間
     private final int DEFAULT_ANIMATION_TIME = 3000;

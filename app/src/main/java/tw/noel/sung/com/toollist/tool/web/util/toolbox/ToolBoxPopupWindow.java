@@ -6,19 +6,14 @@ import android.content.Context;
  */
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.IntDef;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.Arrays;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Arrays;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import tw.noel.sung.com.toollist.BaseWindow;
 import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.tool.web.util.toolbox.adapter.ToolBoxAdapter;

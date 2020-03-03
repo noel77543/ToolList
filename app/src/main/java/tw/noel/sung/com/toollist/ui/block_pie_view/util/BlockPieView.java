@@ -15,18 +15,20 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import java.util.List;
 
 import tw.noel.sung.com.toollist.R;
 
 
-public class BlockPieView extends android.support.v7.widget.AppCompatImageView implements ValueAnimator.AnimatorUpdateListener, Animator.AnimatorListener {
+public class BlockPieView extends AppCompatImageView implements ValueAnimator.AnimatorUpdateListener, Animator.AnimatorListener {
 
     //圓形
     private final int _CIRCLE = 360;

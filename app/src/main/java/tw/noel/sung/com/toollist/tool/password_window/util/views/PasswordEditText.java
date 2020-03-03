@@ -8,11 +8,13 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.appcompat.widget.AppCompatEditText;
+
 import tw.noel.sung.com.toollist.R;
 import tw.noel.sung.com.toollist.tool.password_window.util.CustomPasswordTransformationMethod;
 
 
-public class PasswordEditText extends android.support.v7.widget.AppCompatEditText implements View.OnTouchListener {
+public class PasswordEditText extends AppCompatEditText implements View.OnTouchListener {
     public static final int _STRING_LENGTH = 1;
     private final int TEXT_SIZE = 18;
     private Context context;

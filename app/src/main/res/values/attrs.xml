@@ -41,11 +41,6 @@
         <attr name="roundProgressViewProgressCircleColor" format="reference|color" />
     </declare-styleable>
 
-    <declare-styleable name="LotteryView">
-        <attr name="lotteryViewScratchSize" format="reference|dimension" />
-        <attr name="lotteryViewScratchPercent" format="reference|integer" />
-
-    </declare-styleable>
 
     <declare-styleable name="AutoTextView">
         <attr name="AutoTextViewMode">

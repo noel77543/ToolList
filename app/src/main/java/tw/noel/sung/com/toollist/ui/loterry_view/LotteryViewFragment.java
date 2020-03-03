@@ -8,10 +8,11 @@ import butterknife.BindView;
 /**
  * Created by noel on 2019/3/24.
  */
+import tw.noel.sung.com.library_ui_lotteryview.lottery_view.LotteryView;
+import tw.noel.sung.com.library_ui_lotteryview.lottery_view.implement.OnScratchListener;
 import tw.noel.sung.com.toollist.BasePageFragment;
 import tw.noel.sung.com.toollist.R;
-import tw.noel.sung.com.toollist.ui.loterry_view.util.LotteryView;
-import tw.noel.sung.com.toollist.ui.loterry_view.util.implement.OnScratchListener;
+
 
 
 public class LotteryViewFragment extends BasePageFragment implements OnScratchListener {

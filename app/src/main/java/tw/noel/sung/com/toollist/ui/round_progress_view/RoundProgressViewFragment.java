@@ -3,12 +3,12 @@ package tw.noel.sung.com.toollist.ui.round_progress_view;
 import android.widget.Spinner;
 
 import butterknife.BindView;
+import tw.noel.sung.com.library_ui_roundprogressview.round_progress_view.RoundProgressView;
 import tw.noel.sung.com.toollist.BasePageFragment;
 /**
  * Created by noel on 2019/2/24.
  */
 import tw.noel.sung.com.toollist.R;
-import tw.noel.sung.com.toollist.ui.round_progress_view.util.RoundProgressView;
 
 public class RoundProgressViewFragment extends BasePageFragment{
 

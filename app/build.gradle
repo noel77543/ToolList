@@ -63,5 +63,6 @@ dependencies {
     implementation 'com.github.noel77543:Library_UI_LotteryView:v1.0'
     //noel_BlockPieView
     implementation 'com.github.noel77543:Library_UI_BlockPieView:v1.0'
-
+    //noel_RoundProgressView
+    implementation 'com.github.noel77543:Library_UI_RoundProgressView:v1.0'
 }

@@ -1,12 +1,12 @@
 package tw.noel.sung.com.toollist.ui.block_pie_view;
 
 import butterknife.BindView;
+import tw.noel.sung.com.library_ui_blockpieview.block_pie_view.BlockPieView;
 import tw.noel.sung.com.toollist.BasePageFragment;
 /**
  * Created by noel on 2019/2/16.
  */
 import tw.noel.sung.com.toollist.R;
-import tw.noel.sung.com.toollist.ui.block_pie_view.util.BlockPieView;
 
 public class BlockPieFragment extends BasePageFragment {
     @BindView(R.id.block_pie_view)
